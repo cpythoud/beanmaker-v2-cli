@@ -6,7 +6,12 @@ import picocli.CommandLine.Option;
 @Command(name = "init", description = "Initialize a new project")
 public class InitCommand implements Runnable {
 
-    @Option(names = { "-n", "--name" }, defaultValue =  "unnamed project", paramLabel = "<name>", description = "project name")
+    @Option(
+            names = { "-n", "--name" },
+            defaultValue =  "unnamed",
+            paramLabel = "<name>",
+            description = "project name (default: ${DEFAULT-VALUE})"
+    )
     String name;
 
     @Option(names = "--description", paramLabel = "<description>", description = "short description of the project")
@@ -18,7 +23,12 @@ public class InitCommand implements Runnable {
     @Option(names = "--default-package", required = true, paramLabel = "<package name>", description = "default package for generated beans")
     String defaultPackage;
 
-    @Option(names = "--gen-source-dir", defaultValue = "src/main/java", paramLabel = "<path to source dir>", description = "set where to save generated source files")
+    @Option(
+            names = "--gen-source-dir",
+            defaultValue = "src/main/java",
+            paramLabel = "<path to source dir>",
+            description = "set where to save generated source files (default: ${DEFAULT-VALUE})"
+    )
     String genSourceDir;
 
 
