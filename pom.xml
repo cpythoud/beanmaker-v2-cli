@@ -100,7 +100,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>org.beanmaker.v2.cli.CheckSum</mainClass>
+                    <mainClass>org.beanmaker.v2.cli.BeanmakerCommand</mainClass>
                     <!--<arguments>
                         <argument>src/test/resources/workdir</argument>
                     </arguments>-->
@@ -121,7 +121,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.beanmaker.v2.cli.CheckSum</mainClass>
+                            <mainClass>org.beanmaker.v2.cli.BeanmakerCommand</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
