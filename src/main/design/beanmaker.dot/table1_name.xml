@@ -1,0 +1,39 @@
+<table>
+    <name>table-name</name>
+    <package>com.java.package</package>
+    <bean>BeanClassName</bean>
+    <!-- showing only fields with non default configuration -->
+    <fields>
+        <field>
+            <sql-name>id_customer</sql-name>
+            <java-type>long</java-type>
+            <java-name>idCustomer</java-name>
+            <required>true</required>
+            <unique>false</unique>
+            <bean-class>Customer</bean-class>
+        </field>
+        <field>
+            <sql-name>number</sql-name>
+            <java-type>String</java-type>
+            <java-name>number</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>printed_date</sql-name>
+            <java-type>Date</java-type>
+            <java-name>printedDate</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <database-table>items</database-table>
+            <java-type>Item</java-type>
+            <java-name>items</java-name>
+            <id-field>id_invoice</id-field>
+            <list-only>true</list-only>
+        </relationship>
+    </relationships>
+</table>

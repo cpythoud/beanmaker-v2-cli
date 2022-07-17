@@ -1,0 +1,14 @@
+1.0.0-SNAPSHOT - Tentative
+--------------------------
+
+User Dir might contain:
+
+./beanmaker
+./beanmaker/config.xml
+
+Working directory must contain:
+
+beanmaker.xml  =  project config
+.beanmaker/    =  contains per table config files (table_name.xml files)
+
+beanmaker init

@@ -1,0 +1,8 @@
+<project>
+    <name>Project Name</name>
+    <description>Optional Description</description>
+    <database>db1</database>
+    <default-package>com.company.software</default-package>
+    <gen-source-dir>src/main/java</gen-source-dir>
+    <config-filename-style>standard</config-filename-style>  <!-- bean, standard, must-specify -->
+</project>
