@@ -1,7 +1,11 @@
 package org.beanmaker.v2.cli;
 
+import picocli.CommandLine;
+
 public enum ReturnCode {
-    SUCCESS(0), SYSTEM_ERROR(1), USER_ERROR(2);
+    SUCCESS(CommandLine.ExitCode.OK),
+    SYSTEM_ERROR(CommandLine.ExitCode.SOFTWARE),
+    USER_ERROR(CommandLine.ExitCode.USAGE);
 
     ReturnCode(int exitCode) {
         this.exitCode = exitCode;
