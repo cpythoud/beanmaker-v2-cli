@@ -3,8 +3,10 @@ package org.beanmaker.v2.cli;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.util.concurrent.Callable;
+
 @Command(name = "project", description = "Manage project parameters")
-class ProjectCommand implements Runnable {
+class ProjectCommand implements Callable<Integer> {
 
     @Option(names = { "-n", "--name" }, paramLabel = "<name>", description = "change project name")
     String name;
@@ -23,8 +25,9 @@ class ProjectCommand implements Runnable {
 
 
     @Override
-    public void run() {
-        // TODO: implement sub-command here ;-)
+    public Integer call() {
+        // TODO: implement subcommand here ;-)
+        return ReturnCode.SUCCESS.code();
     }
 
 }

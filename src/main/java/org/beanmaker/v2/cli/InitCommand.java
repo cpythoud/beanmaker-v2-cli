@@ -3,8 +3,10 @@ package org.beanmaker.v2.cli;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.util.concurrent.Callable;
+
 @Command(name = "init", description = "Initialize a new project")
-public class InitCommand implements Runnable {
+public class InitCommand implements Callable<Integer> {
 
     @Option(
             names = { "-n", "--name" },
@@ -31,10 +33,10 @@ public class InitCommand implements Runnable {
     )
     String genSourceDir;
 
-
     @Override
-    public void run() {
-        // TODO: implement sub-command here ;-)
+    public Integer call() {
+        // TODO: implement subcommand here ;-)
+        return ReturnCode.SUCCESS.code();
     }
 
 }
