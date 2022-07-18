@@ -7,7 +7,7 @@ import picocli.CommandLine.Command;
         name = "beanmaker",
         version = "BeanMaker CLI 1.0",
         mixinStandardHelpOptions = true,
-        subcommands = { InitCommand.class, ProjectCommand.class, CommandLine.HelpCommand.class }
+        subcommands = { DatabaseCommand.class, InitCommand.class, ProjectCommand.class, CommandLine.HelpCommand.class }
 )
 public class BeanmakerCommand {
 

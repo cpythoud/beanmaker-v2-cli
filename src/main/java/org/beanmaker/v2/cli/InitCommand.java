@@ -6,7 +6,7 @@ import picocli.CommandLine.Option;
 import java.util.concurrent.Callable;
 
 @Command(name = "init", description = "Initialize a new project")
-public class InitCommand implements Callable<Integer> {
+class InitCommand implements Callable<Integer> {
 
     @Option(
             names = { "-n", "--name" },
