@@ -1,4 +1,7 @@
-<table>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
     <name>table-name</name>
     <package>com.java.package</package>
     <bean>BeanClassName</bean>
@@ -36,4 +39,20 @@
             <list-only>true</list-only>
         </relationship>
     </relationships>
+    <extra-fields>
+        <field>
+            <java-type>MyType</java-type>
+            <java-name>myTypeObject</java-name>
+            <initialisation>new MyType(OtherType.CONSTANT)</initialisation>
+            <final/>
+            <import>com.company.software.MyType</import>
+            <import>com.company.software.OtherType</import>
+        </field>
+        <field>
+            <java-type>OtherType</java-type>
+            <java-name>otherTypeObject</java-name>
+            <initialisation>new OtherType()</initialisation>
+            <final/>
+        </field>
+    </extra-fields>
 </table>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://schema.beanmaker.org/beanmaker-assets"
+           xmlns="https://schema.beanmaker.org/beanmaker-assets"
+           elementFormDefault="qualified"
+>
+    <xs:element name="beanmaker">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ssh" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="host" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="code" type="xs:string"/>
+                                        <xs:element name="server" type="xs:string"/>
+                                        <xs:element name="port" type="server-port" minOccurs="0"/>
+                                        <xs:element name="user" type="xs:string"/>
+                                        <xs:element name="auth">
+                                            <xs:complexType>
+                                                <xs:choice>
+                                                    <xs:element name="password" type="asset-password"/>
+                                                    <xs:element name="key">
+                                                        <xs:complexType>
+                                                            <xs:all>
+                                                                <xs:element name="file" type="xs:string"/>
+                                                                <xs:element name="password" type="asset-password"/>
+                                                            </xs:all>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:choice>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:all>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="databases">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="database" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="code" type="xs:string"/>
+                                        <xs:element name="type" type="xs:string"/>
+                                        <xs:element name="server" type="xs:string"/>
+                                        <xs:element name="port" type="server-port"/>
+                                        <xs:element name="user" type="xs:string"/>
+                                        <xs:element name="password" type="asset-password"/>
+                                        <xs:element name="ssh" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:attribute name="code" type="xs:string"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:all>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="asset-password">
+        <xs:choice>
+            <xs:element name="cleartext" type="xs:string"/>
+            <xs:element name="encrypted" type="xs:string"/>
+            <xs:element name="interactive">
+                <xs:complexType/>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+    <xs:simpleType name="server-port">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="65535"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

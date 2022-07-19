@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<beanmaker>
+<beanmaker xmlns="https://schema.beanmaker.org/beanmaker-assets"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-assets ../resources/beanmaker-assets.xsd"
+>
     <ssh>
         <host>
             <code>remote1</code>
             <server>remote.server.org</server>
             <user>remuser</user>
-            <password>
-                <encrypted>ajsfoafjoajgfajg</encrypted>
-            </password>
+            <auth>
+                <password>
+                    <encrypted>ajsfoafjoajgfajg</encrypted>
+                </password>
+            </auth>
         </host>
         <host>
             <code>remote2</code>
             <server>remote.server.org</server>
             <user>remuser</user>
-            <key>
-                <file>/path/to/file</file>
-                <password>
-                    <interactive/>
-                </password>
-            </key>
+            <auth>
+                <key>
+                    <file>/path/to/file</file>
+                    <password>
+                        <interactive/>
+                    </password>
+                </key>
+            </auth>
         </host>
     </ssh>
     <databases>

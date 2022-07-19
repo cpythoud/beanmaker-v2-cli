@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://schema.beanmaker.org/beanmaker-table"
+           xmlns="https://schema.beanmaker.org/beanmaker-table"
+           elementFormDefault="qualified"
+>
+    <xs:element name="table">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="package" type="xs:string"/>
+                <xs:element name="bean" type="xs:string"/>
+                <xs:element name="fields" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="field" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="sql-name" type="xs:string"/>
+                                        <xs:element name="java-type" type="xs:string"/>
+                                        <xs:element name="java-name" type="xs:string"/>
+                                        <xs:element name="required" type="xs:boolean"/>
+                                        <xs:element name="unique" type="xs:boolean"/>
+                                        <xs:element name="bean-class" type="xs:string" minOccurs="0"/>
+                                    </xs:all>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="relationships" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="relationship" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="database-table" type="xs:string"/>
+                                        <xs:element name="java-type" type="xs:string"/>
+                                        <xs:element name="java-name" type="xs:string"/>
+                                        <xs:element name="id-field" type="xs:string"/>
+                                        <xs:element name="list-only" type="xs:boolean"/>
+                                    </xs:all>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="extra-fields" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="field" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="java-type" type="xs:string"/>
+                                        <xs:element name="java-name" type="xs:string"/>
+                                        <xs:element name="initialisation" type="xs:string"/>
+                                        <xs:element name="final">
+                                            <xs:complexType/>
+                                        </xs:element>
+                                        <xs:element name="import" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

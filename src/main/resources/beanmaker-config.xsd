@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://schema.beanmaker.org/beanmaker-config"
+           xmlns="https://schema.beanmaker.org/beanmaker-config"
+           elementFormDefault="qualified"
+>
+    <xs:element name="project">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="description" type="xs:string" minOccurs="0"/>
+                <xs:element name="database" type="xs:string"/>
+                <xs:element name="default-package" type="xs:string"/>
+                <xs:element name="gen-source-dir" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
