@@ -11,6 +11,9 @@ import picocli.CommandLine.Command;
 )
 public class BeanmakerCommand {
 
+    static final String ASSETS_CONFIG_FILE = "beanmaker-assets.xml";
+    static final String PROJECT_CONFIG_FILE = "beanmaker.xml";
+
     public static void main(String[] args) {
         int exitCode = new CommandLine(new BeanmakerCommand()).execute(args);
         System.exit(exitCode);

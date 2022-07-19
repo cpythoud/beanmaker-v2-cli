@@ -26,7 +26,16 @@ class ProjectCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        // TODO: implement subcommand here ;-)
+        // TODO: vérifier si beanmaker.xml existe dans le répertoire, si non = erreur, il faut d'abord utiliser la commande init pour créer le fichier
+
+        // TODO: charger la configuration en mémoire
+
+        // TODO: parcourir les options :
+        //   TODO: si aucune option passée, notifier et quitter (0)
+        //   TODO: pour chaque option, effectuer le changement de configuration si la valeur est différente de la valeur actuelle (noter l'existence d'une différence)
+        //   TODO: s'il y a des différences, enregistrer le nouveau fichier beanmaker.xml, signaler qu'il a été mis à jour et quitter
+        //   TODO: si pas de différence dans les options, notifier la chose et quitter
+
         return ReturnCode.SUCCESS.code();
     }
 

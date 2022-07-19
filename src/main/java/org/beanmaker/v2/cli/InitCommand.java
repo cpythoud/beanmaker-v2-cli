@@ -3,7 +3,14 @@ package org.beanmaker.v2.cli;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import java.util.concurrent.Callable;
+
+import static org.beanmaker.v2.cli.BeanmakerCommand.PROJECT_CONFIG_FILE;
 
 @Command(name = "init", description = "Initialize a new project")
 class InitCommand implements Callable<Integer> {
@@ -34,9 +41,39 @@ class InitCommand implements Callable<Integer> {
     String genSourceDir;
 
     @Override
-    public Integer call() {
-        // TODO: implement subcommand here ;-)
+    public Integer call() throws IOException {
+        var configFile = Path.of(PROJECT_CONFIG_FILE);
+        if (Files.exists(configFile)) {
+            // TODO: introduce ANSI stuff
+            System.err.println(PROJECT_CONFIG_FILE + " already exists. Please use 'project' command to modify it.");
+            return ReturnCode.USER_ERROR.code();
+        }
+
+        Files.writeString(configFile, createIntialConfig());
+
         return ReturnCode.SUCCESS.code();
+    }
+
+    private String createIntialConfig() {
+        // TODO: verify parameters? i.e., database code
+
+        var config = new StringBuilder();  // * The configuration is so simple, we don't bother with an XML library for now
+        config.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n")
+                .append("<project>\n");
+
+        addProperty(config, "name", name);
+        if (description != null)
+            addProperty(config, "description", description);
+        addProperty(config, "database", database);
+        addProperty(config, "default-package", defaultPackage);
+        addProperty(config, "gen-source-dir", genSourceDir);
+
+        config.append("</project>\n");
+        return config.toString();
+    }
+
+    private void addProperty(StringBuilder config, String name, String value) {
+        config.append("    <").append(name).append(">").append(value).append("</").append(name).append(">\n");
     }
 
 }
