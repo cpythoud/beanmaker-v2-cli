@@ -1,9 +1,14 @@
 package org.beanmaker.v2.cli;
 
+import org.jcodegen.html.xmlbase.ValueXMLAttribute;
+import org.jcodegen.html.xmlbase.XMLElement;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import java.io.IOException;
+
+import java.nio.charset.StandardCharsets;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +19,9 @@ import static org.beanmaker.v2.cli.BeanmakerCommand.PROJECT_CONFIG_FILE;
 
 @Command(name = "init", description = "Initialize a new project")
 class InitCommand implements Callable<Integer> {
+
+    // TODO: move to appropriate place where it can be referenced by all configuration generating classes
+    private static final String XML_PRELUDE = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 
     @Option(
             names = { "-n", "--name" },
@@ -49,31 +57,48 @@ class InitCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
         }
 
-        Files.writeString(configFile, createIntialConfig());
+        Files.writeString(configFile, createIntialConfig(), StandardCharsets.UTF_8);
 
         return ReturnCode.SUCCESS.code();
     }
 
-    private String createIntialConfig() {
+    private String createIntialConfig() { // ! I refuse to waste my time with the W3C DOM 'tools'
         // TODO: verify parameters? i.e., database code
 
-        var config = new StringBuilder();  // * The configuration is so simple, we don't bother with an XML library for now
-        config.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n")
-                .append("<project>\n");
-
-        addProperty(config, "name", name);
+        var root = getRootElement("project", "config");
+        root.addChild(getElement("name", name));
         if (description != null)
-            addProperty(config, "description", description);
-        addProperty(config, "database", database);
-        addProperty(config, "default-package", defaultPackage);
-        addProperty(config, "gen-source-dir", genSourceDir);
+            root.addChild(getElement("description", description));
+        root.addChild(getElement("database", database));
+        root.addChild(getElement("default-package", defaultPackage));
+        root.addChild(getElement("gen-source-dir", genSourceDir));
 
-        config.append("</project>\n");
-        return config.toString();
+        return XML_PRELUDE + root;
     }
 
-    private void addProperty(StringBuilder config, String name, String value) {
-        config.append("    <").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    // TODO: move function to the appropriate place where it can be called by other configuration generating classes
+    private XMLElement getRootElement(String name, String schemaReference) {
+        var element = new XMLElement(name);
+        element.addAttribute(new ValueXMLAttribute(
+                "xmlns",
+                "https://schema.beanmaker.org/beanmaker-" + schemaReference
+        ));
+        element.addAttribute(new ValueXMLAttribute(
+                "xmlns:xsi",
+                "http://www.w3.org/2001/XMLSchema-instance"
+        ));
+        element.addAttribute(new ValueXMLAttribute(
+                "xsi:schemaLocation",
+                "https://schema.beanmaker.org/beanmaker-" + schemaReference + " beanmaker-" + schemaReference + ".xsd"
+        ));
+        return element;
+    }
+
+    // TODO: move function to the appropriate place where it can be called by other configuration generating classes
+    private XMLElement getElement(String name, String value) {
+        var element = new XMLElement(name, value);
+        element.setOnOneLine(true);
+        return element;
     }
 
 }
