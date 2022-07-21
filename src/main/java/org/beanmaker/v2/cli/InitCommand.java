@@ -1,27 +1,20 @@
 package org.beanmaker.v2.cli;
 
-import org.jcodegen.html.xmlbase.ValueXMLAttribute;
-import org.jcodegen.html.xmlbase.XMLElement;
+import org.xml.sax.SAXException;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import javax.xml.xpath.XPathExpressionException;
+
 import java.io.IOException;
-
-import java.nio.charset.StandardCharsets;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import java.util.concurrent.Callable;
 
-import static org.beanmaker.v2.cli.BeanmakerCommand.PROJECT_CONFIG_FILE;
-
 @Command(name = "init", description = "Initialize a new project")
 class InitCommand implements Callable<Integer> {
-
-    // TODO: move to appropriate place where it can be referenced by all configuration generating classes
-    private static final String XML_PRELUDE = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 
     @Option(
             names = { "-n", "--name" },
@@ -49,56 +42,25 @@ class InitCommand implements Callable<Integer> {
     String genSourceDir;
 
     @Override
-    public Integer call() throws IOException {
-        var configFile = Path.of(PROJECT_CONFIG_FILE);
-        if (Files.exists(configFile)) {
+    public Integer call() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+        var projectData = new ProjectData();
+        if (projectData.hasConfigFile()) {
             // TODO: introduce ANSI stuff
-            System.err.println(PROJECT_CONFIG_FILE + " already exists. Please use 'project' command to modify it.");
+            System.err.println(projectData.getConfigFilename() + " already exists. Please use 'project' command to modify it.");
             return ReturnCode.USER_ERROR.code();
         }
 
-        Files.writeString(configFile, createIntialConfig(), StandardCharsets.UTF_8);
-
-        return ReturnCode.SUCCESS.code();
-    }
-
-    private String createIntialConfig() { // ! I refuse to waste my time with the W3C DOM 'tools'
         // TODO: verify parameters? i.e., database code
-
-        var root = getRootElement("project", "config");
-        root.addChild(getElement("name", name));
+        projectData.setName(name);
         if (description != null)
-            root.addChild(getElement("description", description));
-        root.addChild(getElement("database", database));
-        root.addChild(getElement("default-package", defaultPackage));
-        root.addChild(getElement("gen-source-dir", genSourceDir));
+            projectData.setDescription(description);
+        projectData.setDatabase(database);
+        projectData.setDefaultPackage(defaultPackage);
+        projectData.setGenSourceDir(genSourceDir);
 
-        return XML_PRELUDE + root;
-    }
-
-    // TODO: move function to the appropriate place where it can be called by other configuration generating classes
-    private XMLElement getRootElement(String name, String schemaReference) {
-        var element = new XMLElement(name);
-        element.addAttribute(new ValueXMLAttribute(
-                "xmlns",
-                "https://schema.beanmaker.org/beanmaker-" + schemaReference
-        ));
-        element.addAttribute(new ValueXMLAttribute(
-                "xmlns:xsi",
-                "http://www.w3.org/2001/XMLSchema-instance"
-        ));
-        element.addAttribute(new ValueXMLAttribute(
-                "xsi:schemaLocation",
-                "https://schema.beanmaker.org/beanmaker-" + schemaReference + " beanmaker-" + schemaReference + ".xsd"
-        ));
-        return element;
-    }
-
-    // TODO: move function to the appropriate place where it can be called by other configuration generating classes
-    private XMLElement getElement(String name, String value) {
-        var element = new XMLElement(name, value);
-        element.setOnOneLine(true);
-        return element;
+        projectData.writeConfigFile();
+        System.err.println("Configuration file created successfully.");
+        return ReturnCode.SUCCESS.code();
     }
 
 }
