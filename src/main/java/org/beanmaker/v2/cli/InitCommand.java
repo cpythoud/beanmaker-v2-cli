@@ -43,10 +43,12 @@ class InitCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+        var out = Console.INSTANCE;
         var projectData = new ProjectData();
         if (projectData.hasConfigFile()) {
-            // TODO: introduce ANSI stuff
-            System.err.println(projectData.getConfigFilename() + " already exists. Please use 'project' command to modify it.");
+            out.print(Status.ERROR, projectData.getConfigFilename() + " already exists. Please use ", true)
+                    .print(Status.ERROR, "project", Console.COMMAND_STYLE)
+                    .println(Status.ERROR, " command to modify it.");
             return ReturnCode.USER_ERROR.code();
         }
 
@@ -59,7 +61,7 @@ class InitCommand implements Callable<Integer> {
         projectData.setGenSourceDir(genSourceDir);
 
         projectData.writeConfigFile();
-        System.err.println("Configuration file created successfully.");
+        out.println(Status.OK, "Configuration file created successfully.");
         return ReturnCode.SUCCESS.code();
     }
 

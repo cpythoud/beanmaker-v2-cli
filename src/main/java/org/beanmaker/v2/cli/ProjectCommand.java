@@ -36,17 +36,21 @@ class ProjectCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws ParserConfigurationException, IOException, SAXException, URISyntaxException, XPathExpressionException {
+        var out = Console.INSTANCE;
         var projectData = new ProjectData();
 
         if (!projectData.hasConfigFile()) {
-            // TODO: introduce ANSI stuff
-            System.err.println(projectData.getConfigFilename() + " does not exist. Please use 'init' command to create it. Or you might be in the wrong directory.");
+            out.print(Status.ERROR, projectData.getConfigFilename() + " does not exist. Please use ", true)
+                    .print(Status.ERROR, "init", Console.COMMAND_STYLE)
+                    .println(Status.ERROR, " command to create it. Or you might be in the wrong directory.");
             return ReturnCode.USER_ERROR.code();
         }
 
         // * No option passed, notify and exit
         if (name == null && description == null && database == null && defaultPackage == null && genSourceDir == null) {
-            System.err.println("Notice: no option has been provided. Configuration unchanged. To see the configuration use the 'show' command.");
+            out.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
+                    .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
+                    .println(Status.NOTICE, " command.");
             return ReturnCode.SUCCESS.code();
         }
 
@@ -65,13 +69,15 @@ class ProjectCommand implements Callable<Integer> {
 
         // * If options do not change configuration, notify and exit
         if (!configChanged) {
-            System.err.println("Notice: no difference with previous config. Configuration file was not modified. To see the configuration use the 'show' command.");
+            out.print(Status.NOTICE, "no difference with previous config. Configuration file was not modified. To see the configuration use the ", true)
+                    .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
+                    .println(Status.NOTICE, " command.");
             return ReturnCode.SUCCESS.code();
         }
 
         // * Write new configuration to file
         projectData.writeConfigFile();
-        System.err.println("Configuration file changed successfully.");
+        out.println(Status.OK, "Configuration file changed successfully.");
         return ReturnCode.SUCCESS.code();
     }
 

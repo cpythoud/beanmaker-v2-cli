@@ -3,6 +3,8 @@ package org.beanmaker.v2.cli;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
+import picocli.jansi.graalvm.AnsiConsole;
+
 @Command(
         name = "beanmaker",
         version = "BeanMaker CLI 1.0",
@@ -12,7 +14,10 @@ import picocli.CommandLine.Command;
 public class BeanmakerCommand {
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new BeanmakerCommand()).execute(args);
+        int exitCode;
+        try (AnsiConsole ansi = AnsiConsole.windowsInstall()) {
+            exitCode = new CommandLine(new BeanmakerCommand()).execute(args);
+        }
         System.exit(exitCode);
     }
 
