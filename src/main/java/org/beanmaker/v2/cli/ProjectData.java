@@ -2,8 +2,6 @@ package org.beanmaker.v2.cli;
 
 import org.beanmaker.v2.util.Strings;
 
-import org.jcodegen.html.xmlbase.XMLElement;
-
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,7 +21,7 @@ class ProjectData extends ConfigData {
     private String genSourceDir;
 
     ProjectData() throws IOException, SAXException, ParserConfigurationException, XPathExpressionException {
-        super(PROJECT_CONFIG_FILE);
+        super(PROJECT_CONFIG_FILE, PROJECT_SCHEMA_FILE, false, false);
 
         if (hasConfigFile()) {
             name = getStringValue("/project/name/text()");
@@ -117,21 +115,15 @@ class ProjectData extends ConfigData {
     }
 
     void writeConfigFile() throws IOException {
-        var root = getRootElement("project", "config");
-        root.addChild(getElement("name", name));
+        var root = createRootElement("project", "config");
+        root.addChild(createXMLElement("name", name));
         if (description != null)
-            root.addChild(getElement("description", description));
-        root.addChild(getElement("database", database));
-        root.addChild(getElement("default-package", defaultPackage));
-        root.addChild(getElement("gen-source-dir", genSourceDir));
+            root.addChild(createXMLElement("description", description));
+        root.addChild(createXMLElement("database", database));
+        root.addChild(createXMLElement("default-package", defaultPackage));
+        root.addChild(createXMLElement("gen-source-dir", genSourceDir));
 
         writeConfig(root.toString());
-    }
-
-    private XMLElement getElement(String name, String value) {
-        var element = new XMLElement(name, value);
-        element.setOnOneLine(true);
-        return element;
     }
 
 }

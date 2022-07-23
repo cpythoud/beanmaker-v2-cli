@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<beanmaker xmlns="https://schema.beanmaker.org/beanmaker-assets"
+<assets xmlns="https://schema.beanmaker.org/beanmaker-assets"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-assets ../resources/beanmaker-assets.xsd"
 >
@@ -34,6 +34,7 @@
             <type>mysql</type>
             <server>localhost</server>
             <port>3306</port>
+            <database>dbtest</database>
             <user>dbuser</user>
             <password>
                 <cleartext>abracadabra</cleartext>
@@ -44,6 +45,7 @@
             <type>mysql</type>
             <server>localhost</server>
             <port>4435</port>
+            <database>dbtest</database>
             <user>dbuser2</user>
             <password>
                 <encrypted>jadofafeiojerioe3094</encrypted>
@@ -54,6 +56,7 @@
             <type>mysql</type>
             <server>localhost</server>
             <port>3306</port>
+            <database>dbtest</database>
             <user>dbuser</user>
             <password>
                 <cleartext>abracadabra</cleartext>
@@ -65,6 +68,7 @@
             <type>mysql</type>
             <server>localhost</server>
             <port>3306</port>
+            <database>dbtest</database>
             <user>dbuser</user>
             <password>
                 <cleartext>abracadabra</cleartext>
@@ -72,4 +76,4 @@
             <ssh code="remote2"/>
         </database>
     </databases>
-</beanmaker>
+</assets>

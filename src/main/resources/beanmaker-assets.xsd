@@ -4,7 +4,7 @@
            xmlns="https://schema.beanmaker.org/beanmaker-assets"
            elementFormDefault="qualified"
 >
-    <xs:element name="beanmaker">
+    <xs:element name="assets">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="ssh" minOccurs="0">
@@ -48,6 +48,7 @@
                                         <xs:element name="type" type="xs:string"/>
                                         <xs:element name="server" type="xs:string"/>
                                         <xs:element name="port" type="server-port"/>
+                                        <xs:element name="database" type="xs:string"/>
                                         <xs:element name="user" type="xs:string"/>
                                         <xs:element name="password" type="asset-password"/>
                                         <xs:element name="ssh" minOccurs="0">
