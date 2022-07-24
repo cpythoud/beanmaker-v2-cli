@@ -72,7 +72,7 @@ class DatabaseAddCommand implements Callable<Integer> {
         if (assetsData.hasDatabaseWithCode(code)) {
             out.print(Status.ERROR, "a database configuration with code '" + code
                     + "' already exists. You need to use a different code or use the ", true)
-                    .print(Status.ERROR, "edit", Console.COMMAND_STYLE)
+                    .print(Status.ERROR, "database edit", Console.COMMAND_STYLE)
                     .println(Status.ERROR, " command to change the database configuration '" + code + "'.");
             return ReturnCode.USER_ERROR.code();
         }
@@ -83,25 +83,7 @@ class DatabaseAddCommand implements Callable<Integer> {
         databaseConfig.setPort(port);
         databaseConfig.setDatabase(database);
         databaseConfig.setUser(user);
-
-        PasswordConfig passwordConfig;
-        if (cleartextPassword == null && password == null) {
-            passwordConfig = PasswordConfig.promptOnly();
-            if (passphrase != null)
-                out.println(Status.NOTICE, "--passphrase option is not used by the command. Interactive mode selected by default.");
-        } else {
-            if (cleartextPassword != null) {
-                passwordConfig = PasswordConfig.clearText(cleartextPassword);
-                if (passphrase != null)
-                    out.println(Status.NOTICE, "--passphrase option is not used by the command, since you choosed to store the password in clear text.");
-            } else {
-                if (passphrase == null)
-                    passwordConfig = PasswordConfig.encrypted(password);
-                else
-                    passwordConfig = PasswordConfig.encrypted(password, passphrase);
-            }
-        }
-        databaseConfig.setPasswordConfig(passwordConfig);
+        databaseConfig.setPasswordConfig(PasswordConfig.fromCommandOptions(out, cleartextPassword, password, passphrase));
 
         if (ssh != null) {
             // TODO: check SSH code and warn if invalid

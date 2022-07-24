@@ -41,7 +41,7 @@ class AssetsData extends ConfigData {
 
                 sshConfigs.put(code, sshConfig);
             }
-            for (var databaseConfigNode: getNodeList("/assets/databases/database")) {
+            for (var databaseConfigNode: getNodeList("/assets/databases/host")) {
                 String code = getStringValue("//code", databaseConfigNode);
                 var databaseConfig = new DatabaseConfig(code);
                 databaseConfig.setType(DatabaseType.valueOf(getStringValue("//type", databaseConfigNode).toUpperCase()));
@@ -65,6 +65,13 @@ class AssetsData extends ConfigData {
 
     boolean hasDatabaseWithCode(String code) {
         return databaseConfigs.containsKey(code);
+    }
+
+    DatabaseConfig getDatabaseConfig(String code) {
+        if (!hasDatabaseWithCode(code))
+            throw new AssertionError("No database with code: " + code);
+
+        return databaseConfigs.get(code);
     }
 
     void addDatabaseConfig(DatabaseConfig databaseConfig) {

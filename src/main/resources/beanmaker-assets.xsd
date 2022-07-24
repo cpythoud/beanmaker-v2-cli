@@ -41,7 +41,7 @@
                 <xs:element name="databases">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="database" maxOccurs="unbounded">
+                            <xs:element name="host" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:all>
                                         <xs:element name="code" type="xs:string"/>

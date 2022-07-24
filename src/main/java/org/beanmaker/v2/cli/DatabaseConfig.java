@@ -2,6 +2,8 @@ package org.beanmaker.v2.cli;
 
 import org.jcodegen.html.xmlbase.XMLElement;
 
+import java.util.Objects;
+
 class DatabaseConfig {
 
     private final String code;
@@ -30,12 +32,28 @@ class DatabaseConfig {
         this.type = type;
     }
 
+    boolean changeType(DatabaseType type) {
+        if (Objects.equals(this.type, type))
+            return false;
+
+        setType(type);
+        return true;
+    }
+
     String getServer() {
         return server;
     }
 
     void setServer(String server) {
         this.server = server;
+    }
+
+    boolean changeServer(String server) {
+        if (Objects.equals(this.server, server))
+            return false;
+
+        setServer(server);
+        return true;
     }
 
     int getPort() {
@@ -46,12 +64,28 @@ class DatabaseConfig {
         this.port = port;
     }
 
+    boolean changePort(int port) {
+        if (this.port == port)
+            return false;
+
+        setPort(port);
+        return true;
+    }
+
     String getDatabase() {
         return database;
     }
 
     void setDatabase(String database) {
         this.database = database;
+    }
+
+    boolean changeDatabase(String database) {
+        if (Objects.equals(this.database, database))
+            return false;
+
+        setDatabase(database);
+        return true;
     }
 
     String getUser() {
@@ -62,12 +96,28 @@ class DatabaseConfig {
         this.user = user;
     }
 
+    boolean changeUser(String user) {
+        if (Objects.equals(this.user, user))
+            return false;
+
+        setUser(user);
+        return true;
+    }
+
     PasswordConfig getPasswordConfig() {
         return passwordConfig;
     }
 
     void setPasswordConfig(PasswordConfig passwordConfig) {
         this.passwordConfig = passwordConfig;
+    }
+
+    boolean changePasswordConfig(PasswordConfig passwordConfig) {
+        if (Objects.equals(this.passwordConfig, passwordConfig))
+            return false;
+
+        setPasswordConfig(passwordConfig);
+        return true;
     }
 
     String getSshCode() {
@@ -78,8 +128,16 @@ class DatabaseConfig {
         this.sshCode = sshCode;
     }
 
+    boolean changeSshCode(String sshCode) {
+        if (Objects.equals(this.sshCode, sshCode))
+            return false;
+
+        setSshCode(sshCode);
+        return true;
+    }
+
     XMLElement getXMLElement() {
-        var hostElement = new XMLElement("database");
+        var hostElement = new XMLElement("host");
         hostElement.addChild(ConfigData.createXMLElement("code", code));
         hostElement.addChild(ConfigData.createXMLElement("type", type));
         hostElement.addChild(ConfigData.createXMLElement("server", server));

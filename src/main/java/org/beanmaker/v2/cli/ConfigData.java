@@ -18,7 +18,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathNodes;
@@ -29,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 
 abstract class ConfigData {
 
