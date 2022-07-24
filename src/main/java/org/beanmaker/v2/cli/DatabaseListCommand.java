@@ -17,7 +17,8 @@ public class DatabaseListCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        // TODO: implement subcommand here ;-)
+        // TODO: implement full list and list filtered by wildcards here
+        // TODO: do internet search for java tools and libraries to work with wildcards
         return ReturnCode.SUCCESS.code();
     }
 
