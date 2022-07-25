@@ -72,7 +72,7 @@ class DatabaseEditCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var out = Console.INSTANCE;
+        var out = Console.MESSAGES;
         var assetsData = new AssetsData();
 
         // * Check existence of config file

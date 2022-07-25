@@ -5,39 +5,43 @@ import picocli.CommandLine.Help.Ansi;
 import java.io.PrintStream;
 
 enum Console {
-    INSTANCE;
-
-    private static final PrintStream OUT = System.err;
+    DATA(System.out), MESSAGES(System.err);
 
     static final String COMMAND_STYLE = "bold,underline";
 
+    private final PrintStream out;
+
+    Console(PrintStream out) {
+        this.out = out;
+    }
+
     Console print(Status status, String message) {
-        OUT.print(ansiFormat(status, message, false, null));
+        out.print(ansiFormat(status, message, false, null));
         return this;
     }
 
     Console print(Status status, String message, boolean showPrefix) {
-        OUT.print(ansiFormat(status, message, showPrefix, null));
+        out.print(ansiFormat(status, message, showPrefix, null));
         return this;
     }
 
     Console print(Status status, String message, String extraStyles) {
-        OUT.print(ansiFormat(status, message, false, extraStyles));
+        out.print(ansiFormat(status, message, false, extraStyles));
         return this;
     }
 
     Console println(Status status, String message) {
-        OUT.println(ansiFormat(status, message, false, null));
+        out.println(ansiFormat(status, message, false, null));
         return this;
     }
 
     Console println(Status status, String message, boolean showPrefix) {
-        OUT.println(ansiFormat(status, message, showPrefix, null));
+        out.println(ansiFormat(status, message, showPrefix, null));
         return this;
     }
 
     Console println(Status status, String message, String extraStyles) {
-        OUT.println(ansiFormat(status, message, false, extraStyles));
+        out.println(ansiFormat(status, message, false, extraStyles));
         return this;
     }
 

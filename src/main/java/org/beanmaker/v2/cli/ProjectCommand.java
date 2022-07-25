@@ -36,7 +36,7 @@ class ProjectCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws ParserConfigurationException, IOException, SAXException, URISyntaxException, XPathExpressionException {
-        var out = Console.INSTANCE;
+        var out = Console.MESSAGES;
         var projectData = new ProjectData();
 
         if (!projectData.hasConfigFile()) {

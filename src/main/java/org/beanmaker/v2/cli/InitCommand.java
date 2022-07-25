@@ -43,7 +43,7 @@ class InitCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
-        var out = Console.INSTANCE;
+        var out = Console.MESSAGES;
         var projectData = new ProjectData();
         if (projectData.hasConfigFile()) {
             out.print(Status.ERROR, projectData.getConfigFilename() + " already exists. Please use ", true)

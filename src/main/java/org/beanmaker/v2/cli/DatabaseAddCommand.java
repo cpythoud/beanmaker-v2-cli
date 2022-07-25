@@ -66,7 +66,7 @@ class DatabaseAddCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException, ParserConfigurationException, SAXException, XPathException {
-        var out = Console.INSTANCE;
+        var out = Console.MESSAGES;
         var assetsData = new AssetsData();
 
         if (assetsData.hasDatabaseWithCode(code)) {
