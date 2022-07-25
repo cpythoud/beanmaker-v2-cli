@@ -1,8 +1,16 @@
 package org.beanmaker.v2.cli;
 
+import org.xml.sax.SAXException;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParentCommand;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import javax.xml.xpath.XPathException;
+
+import java.io.IOException;
 
 import java.util.concurrent.Callable;
 
@@ -16,9 +24,13 @@ public class DatabaseListCommand implements Callable<Integer> {
     private DatabaseCommand parent;
 
     @Override
-    public Integer call() {
-        // TODO: implement full list and list filtered by wildcards here
-        // TODO: do internet search for java tools and libraries to work with wildcards
+    public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
+        var data = Console.DATA;
+        var assetsData = new AssetsData();
+
+        for (String code: assetsData.getCodes(filter))
+            data.println(code);
+
         return ReturnCode.SUCCESS.code();
     }
 

@@ -15,6 +15,11 @@ enum Console {
         this.out = out;
     }
 
+    Console print(String data) {
+        out.print(data);
+        return this;
+    }
+
     Console print(Status status, String message) {
         out.print(ansiFormat(status, message, false, null));
         return this;
@@ -27,6 +32,11 @@ enum Console {
 
     Console print(Status status, String message, String extraStyles) {
         out.print(ansiFormat(status, message, false, extraStyles));
+        return this;
+    }
+
+    Console println(String data) {
+        out.println(data);
         return this;
     }
 
