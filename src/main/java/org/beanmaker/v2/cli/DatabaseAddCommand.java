@@ -66,11 +66,11 @@ class DatabaseAddCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException, ParserConfigurationException, SAXException, XPathException {
-        var out = Console.MESSAGES;
+        var msg = Console.MESSAGES;
         var assetsData = new AssetsData();
 
         if (assetsData.hasDatabaseWithCode(code)) {
-            out.print(Status.ERROR, "a database configuration with code '" + code
+            msg.print(Status.ERROR, "a database configuration with code '" + code
                     + "' already exists. You need to use a different code or use the ", true)
                     .print(Status.ERROR, "database edit", Console.COMMAND_STYLE)
                     .println(Status.ERROR, " command to change the database configuration '" + code + "'.");
@@ -83,7 +83,7 @@ class DatabaseAddCommand implements Callable<Integer> {
         databaseConfig.setPort(port);
         databaseConfig.setDatabase(database);
         databaseConfig.setUser(user);
-        databaseConfig.setPasswordConfig(PasswordConfig.fromCommandOptions(out, cleartextPassword, password, passphrase));
+        databaseConfig.setPasswordConfig(PasswordConfig.fromCommandOptions(msg, cleartextPassword, password, passphrase));
 
         if (ssh != null) {
             // TODO: check SSH code and warn if invalid
@@ -93,9 +93,9 @@ class DatabaseAddCommand implements Callable<Integer> {
         assetsData.addDatabaseConfig(databaseConfig);
         boolean newConfig = assetsData.writeConfigFile();
         if (newConfig)
-            out.println(Status.NOTICE, "a new asset configuration file has been created in " + assetsData.getConfigFileFullPath(), true);
+            msg.println(Status.NOTICE, "a new asset configuration file has been created in " + assetsData.getConfigFileFullPath(), true);
 
-        out.println(Status.OK, "Database configuration added successfully to asset configuration file in " + assetsData.getConfigFileFullPath());
+        msg.println(Status.OK, "Database configuration added successfully to asset configuration file in " + assetsData.getConfigFileFullPath());
         return ReturnCode.SUCCESS.code();
     }
 

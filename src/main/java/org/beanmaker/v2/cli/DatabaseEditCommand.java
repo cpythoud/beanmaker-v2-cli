@@ -72,12 +72,12 @@ class DatabaseEditCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var out = Console.MESSAGES;
+        var msg = Console.MESSAGES;
         var assetsData = new AssetsData();
 
         // * Check existence of config file
         if (!assetsData.hasConfigFile()) {
-            out.print(Status.ERROR, "there is no " + assetsData.getConfigFilename()
+            msg.print(Status.ERROR, "there is no " + assetsData.getConfigFilename()
                     + " in your home directory. To automatically create one, use either the ", true)
                     .print(Status.ERROR, "ssh add", Console.COMMAND_STYLE)
                     .print(Status.ERROR, " or ")
@@ -90,7 +90,7 @@ class DatabaseEditCommand implements Callable<Integer> {
 
         // * Check database code
         if (!assetsData.hasDatabaseWithCode(code)) {
-            out.print(Status.ERROR, "no database configuration with code '" + code
+            msg.print(Status.ERROR, "no database configuration with code '" + code
                             + "' exists. You might want to use the ", true)
                     .print(Status.ERROR, "database list", Console.COMMAND_STYLE)
                     .print(Status.ERROR, " command to view a list of available database configuration or use the ")
@@ -104,7 +104,7 @@ class DatabaseEditCommand implements Callable<Integer> {
 
         // * No option passed, notify and exit
         if (databaseType == null && server == null && port == -1 && database == null && user == null && cleartextPassword == null && password == null && passphrase == null) {
-            out.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
+            msg.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
                     .print(Status.NOTICE, "database show " + code, Console.COMMAND_STYLE)
                     .println(Status.NOTICE, " command.");
             return ReturnCode.SUCCESS.code();
@@ -123,7 +123,7 @@ class DatabaseEditCommand implements Callable<Integer> {
         if (user != null)
             configChanged = databaseConfig.changeUser(user) || configChanged;
         if (cleartextPassword != null || password != null)
-            configChanged = databaseConfig.changePasswordConfig(PasswordConfig.fromCommandOptions(out, cleartextPassword, password, passphrase))
+            configChanged = databaseConfig.changePasswordConfig(PasswordConfig.fromCommandOptions(msg, cleartextPassword, password, passphrase))
                     || configChanged;
         if (ssh != null) {
             // TODO: check SSH code and warn if invalid
@@ -132,7 +132,7 @@ class DatabaseEditCommand implements Callable<Integer> {
 
         // * If options do not change configuration, notify and exit
         if (!configChanged) {
-            out.print(Status.NOTICE, "no difference with previous database configuration. " +
+            msg.print(Status.NOTICE, "no difference with previous database configuration. " +
                             "Configuration file was not modified. To see the configuration use the ", true)
                     .print(Status.NOTICE, "database show " + code, Console.COMMAND_STYLE)
                     .println(Status.NOTICE, " command.");
@@ -141,7 +141,7 @@ class DatabaseEditCommand implements Callable<Integer> {
 
         // * Write new configuration to file
         assetsData.writeConfigFile();
-        out.println(Status.OK, "Database configuration was updated successfully. " );
+        msg.println(Status.OK, "Database configuration was updated successfully. " );
         return ReturnCode.SUCCESS.code();
     }
 

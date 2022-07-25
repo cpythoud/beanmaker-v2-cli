@@ -36,11 +36,11 @@ class ProjectCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws ParserConfigurationException, IOException, SAXException, URISyntaxException, XPathExpressionException {
-        var out = Console.MESSAGES;
+        var msg = Console.MESSAGES;
         var projectData = new ProjectData();
 
         if (!projectData.hasConfigFile()) {
-            out.print(Status.ERROR, projectData.getConfigFilename() + " does not exist. Please use ", true)
+            msg.print(Status.ERROR, projectData.getConfigFilename() + " does not exist. Please use ", true)
                     .print(Status.ERROR, "init", Console.COMMAND_STYLE)
                     .println(Status.ERROR, " command to create it. Or you might be in the wrong directory.");
             return ReturnCode.USER_ERROR.code();
@@ -48,7 +48,7 @@ class ProjectCommand implements Callable<Integer> {
 
         // * No option passed, notify and exit
         if (name == null && description == null && database == null && defaultPackage == null && genSourceDir == null) {
-            out.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
+            msg.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
                     .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
                     .println(Status.NOTICE, " command.");
             return ReturnCode.SUCCESS.code();
@@ -69,7 +69,7 @@ class ProjectCommand implements Callable<Integer> {
 
         // * If options do not change configuration, notify and exit
         if (!configChanged) {
-            out.print(Status.NOTICE, "no difference with previous config. Configuration file was not modified. To see the configuration use the ", true)
+            msg.print(Status.NOTICE, "no difference with previous config. Configuration file was not modified. To see the configuration use the ", true)
                     .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
                     .println(Status.NOTICE, " command.");
             return ReturnCode.SUCCESS.code();
@@ -77,7 +77,7 @@ class ProjectCommand implements Callable<Integer> {
 
         // * Write new configuration to file
         projectData.writeConfigFile();
-        out.println(Status.OK, "Configuration file changed successfully.");
+        msg.println(Status.OK, "Configuration file changed successfully.");
         return ReturnCode.SUCCESS.code();
     }
 
