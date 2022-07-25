@@ -1,5 +1,7 @@
 package org.beanmaker.v2.cli;
 
+import org.apache.commons.io.FilenameUtils;
+
 import org.jcodegen.html.xmlbase.XMLElement;
 
 import org.w3c.dom.Node;
@@ -14,6 +16,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 class AssetsData extends ConfigData {
@@ -25,31 +28,31 @@ class AssetsData extends ConfigData {
         super(ASSETS_CONFIG_FILE, ASSETS_SCHEMA_FILE, true, false);
 
         if (hasConfigFile()) {
-            for (var sshConfigNode: getNodeList("/assets/ssh/host")) {
-                String code = getStringValue("//code", sshConfigNode);
+            for (var sshConfigNode: getNodeList("assets/ssh/host")) {
+                String code = getStringValue("code", sshConfigNode);
                 var sshConfig = new SSHConfig(code);
-                sshConfig.setServer(getStringValue("//server", sshConfigNode));
-                sshConfig.setPort(getIntValue("//port", sshConfigNode));
-                sshConfig.setUser(getStringValue("//user", sshConfigNode));
+                sshConfig.setServer(getStringValue("server", sshConfigNode));
+                sshConfig.setPort(getIntValue("port", sshConfigNode));
+                sshConfig.setUser(getStringValue("user", sshConfigNode));
 
-                if (nodeExists("//auth/passwd", sshConfigNode))
-                    sshConfig.setSshAuthMethod(SSHAuthMethod.password(extractPasswordConfig("//auth/password", sshConfigNode)));
-                else if (nodeExists("//auth/key", sshConfigNode))
-                    sshConfig.setSshAuthMethod(SSHAuthMethod.privateKey(extractKeyConfig("//auth/key", sshConfigNode)));
+                if (nodeExists("auth/passwd", sshConfigNode))
+                    sshConfig.setSshAuthMethod(SSHAuthMethod.password(extractPasswordConfig("auth/password", sshConfigNode)));
+                else if (nodeExists("auth/key", sshConfigNode))
+                    sshConfig.setSshAuthMethod(SSHAuthMethod.privateKey(extractKeyConfig("auth/key", sshConfigNode)));
                 else
                     throw new AssertionError("Unknown SSH authentication method");
 
                 sshConfigs.put(code, sshConfig);
             }
-            for (var databaseConfigNode: getNodeList("/assets/databases/host")) {
-                String code = getStringValue("//code", databaseConfigNode);
+            for (var databaseConfigNode: getNodeList("assets/databases/host")) {
+                String code = getStringValue("code", databaseConfigNode);
                 var databaseConfig = new DatabaseConfig(code);
-                databaseConfig.setType(DatabaseType.valueOf(getStringValue("//type", databaseConfigNode).toUpperCase()));
-                databaseConfig.setServer(getStringValue("//server", databaseConfigNode));
-                databaseConfig.setPort(getIntValue("//port", databaseConfigNode));
-                databaseConfig.setDatabase(getStringValue("//database", databaseConfigNode));
-                databaseConfig.setUser(getStringValue("//user", databaseConfigNode));
-                databaseConfig.setPasswordConfig(extractPasswordConfig("//password", databaseConfigNode));
+                databaseConfig.setType(DatabaseType.valueOf(getStringValue("type", databaseConfigNode).toUpperCase()));
+                databaseConfig.setServer(getStringValue("server", databaseConfigNode));
+                databaseConfig.setPort(getIntValue("port", databaseConfigNode));
+                databaseConfig.setDatabase(getStringValue("database", databaseConfigNode));
+                databaseConfig.setUser(getStringValue("user", databaseConfigNode));
+                databaseConfig.setPasswordConfig(extractPasswordConfig("password", databaseConfigNode));
 
                 databaseConfigs.put(code, databaseConfig);
             }
