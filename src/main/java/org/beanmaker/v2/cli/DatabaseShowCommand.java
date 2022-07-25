@@ -1,8 +1,15 @@
 package org.beanmaker.v2.cli;
 
+import org.xml.sax.SAXException;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ParentCommand;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathException;
+
+import java.io.IOException;
 
 import java.util.concurrent.Callable;
 
@@ -16,8 +23,23 @@ public class DatabaseShowCommand implements Callable<Integer> {
     private DatabaseCommand parent;
 
     @Override
-    public Integer call() {
-        // TODO: implement subcommand here ;-)
+    public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
+        var msg = Console.MESSAGES;
+        var assetsData = new AssetsData();
+
+        // * Check existence of config file
+        if (CommandHelper.missingAssetConfiguration(assetsData, msg))
+            return ReturnCode.USER_ERROR.code();
+
+        // * Check database code
+        if (CommandHelper.missingDatabaseConfiguration(assetsData, msg, code))
+            return ReturnCode.USER_ERROR.code();
+
+        // * Display database data
+        var databaseConfig = assetsData.getDatabaseConfig(code);
+        var data = Console.DATA;
+        data.println(databaseConfig.getTabularRepresentation());
+
         return ReturnCode.SUCCESS.code();
     }
 

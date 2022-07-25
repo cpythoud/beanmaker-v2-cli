@@ -13,8 +13,6 @@ import javax.xml.xpath.XPathException;
 
 import java.io.IOException;
 
-import java.nio.file.Path;
-
 import java.util.concurrent.Callable;
 
 @Command(name = "edit", description = "Edit a database configuration already present in the main assets file")
@@ -76,28 +74,12 @@ class DatabaseEditCommand implements Callable<Integer> {
         var assetsData = new AssetsData();
 
         // * Check existence of config file
-        if (!assetsData.hasConfigFile()) {
-            msg.print(Status.ERROR, "there is no " + assetsData.getConfigFilename()
-                    + " in your home directory. To automatically create one, use either the ", true)
-                    .print(Status.ERROR, "ssh add", Console.COMMAND_STYLE)
-                    .print(Status.ERROR, " or ")
-                    .print(Status.ERROR, "database add", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command. Or if you have a " + assetsData.getConfigFilename()
-                            + " somewhere else, please move it to your home directory ("
-                            + Path.of(System.getProperty("user.home")) + ").");
+        if (CommandHelper.missingAssetConfiguration(assetsData, msg))
             return ReturnCode.USER_ERROR.code();
-        }
 
         // * Check database code
-        if (!assetsData.hasDatabaseWithCode(code)) {
-            msg.print(Status.ERROR, "no database configuration with code '" + code
-                            + "' exists. You might want to use the ", true)
-                    .print(Status.ERROR, "database list", Console.COMMAND_STYLE)
-                    .print(Status.ERROR, " command to view a list of available database configuration or use the ")
-                    .print(Status.ERROR, "database add", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command to create a new configuration.");
+        if (CommandHelper.missingDatabaseConfiguration(assetsData, msg, code))
             return ReturnCode.USER_ERROR.code();
-        }
 
         // * Obtain database data
         var databaseConfig = assetsData.getDatabaseConfig(code);

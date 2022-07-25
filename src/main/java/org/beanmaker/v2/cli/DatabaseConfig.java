@@ -1,5 +1,6 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.util.Strings;
 import org.jcodegen.html.xmlbase.XMLElement;
 
 import java.util.Objects;
@@ -138,6 +139,7 @@ class DatabaseConfig {
 
     XMLElement getXMLElement() {
         var hostElement = new XMLElement("host");
+
         hostElement.addChild(ConfigData.createXMLElement("code", code));
         hostElement.addChild(ConfigData.createXMLElement("type", type));
         hostElement.addChild(ConfigData.createXMLElement("server", server));
@@ -147,7 +149,24 @@ class DatabaseConfig {
         hostElement.addChild(passwordConfig.getXMLElement());
         if (sshCode != null)
             hostElement.addChild(ConfigData.createXMLElement("ssh", sshCode));
+
         return hostElement;
+    }
+
+    String getTabularRepresentation() {
+        var table = new TextTable(2);
+
+        table.addLine("CODE", code);
+        table.addLine("TYPE", type.toString());
+        table.addLine("SERVER", server);
+        table.addLine("PORT", Integer.toString(port));
+        table.addLine("DATABASE", database);
+        table.addLine("USER", user);
+        table.addLine("PASSWORD", Strings.repeatString("*", 16));  // TODO: reconsider at some point
+        if (sshCode != null)
+            table.addLine("SSH CODE", sshCode);
+
+        return table.toString();
     }
 
 }
