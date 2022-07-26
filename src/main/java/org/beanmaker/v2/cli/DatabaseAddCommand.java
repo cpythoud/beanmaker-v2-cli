@@ -35,9 +35,10 @@ class DatabaseAddCommand implements Callable<Integer> {
     @Option(
             names = "--cleartext-password",
             paramLabel = "<password>",
+            interactive = true,
             description = "ONLY USE FOR ACCOUNTS WITH MINIMAL PRIVILEGES -- password to connect to database server, stored in clear text in configuration file"
     )
-    char[] cleartextPassword;
+    char[] cleartextPassword;  // TODO: find way to use it non-interactively and still be able to use char[]
 
     @Option(
             names = { "-p", "--password" },
