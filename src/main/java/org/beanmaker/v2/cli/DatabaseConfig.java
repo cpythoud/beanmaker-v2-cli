@@ -169,4 +169,14 @@ class DatabaseConfig {
         return table.toString();
     }
 
+    boolean checkConnection() {
+        if (!passwordConfig.hasCleartextPassword())
+            throw new UnsupportedOperationException("Using a non clear text password is not implemented yet");
+
+        var serverConnection = type.getServerInstance(server, port, user, passwordConfig.getCleartextPassword());
+        serverConnection.getTables(database);  // ! Exception = bad connection TODO: implement proper reporting of failures
+
+        return true;
+    }
+
 }

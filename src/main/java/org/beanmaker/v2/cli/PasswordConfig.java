@@ -88,4 +88,15 @@ class PasswordConfig {
         return false;
     }
 
+    boolean hasCleartextPassword() {
+        return !promptOnly && !encrypted;
+    }
+
+    char[] getCleartextPassword() {
+        if (!hasCleartextPassword())
+            throw new IllegalArgumentException("No cleartext password available");
+
+        return Arrays.copyOf(password, password.length);
+    }
+
 }
