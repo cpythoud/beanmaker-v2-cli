@@ -1,8 +1,10 @@
 package org.beanmaker.v2.cli;
 
 import org.beanmaker.v2.util.Strings;
+
 import org.jcodegen.html.xmlbase.XMLElement;
 
+import java.util.List;
 import java.util.Objects;
 
 class DatabaseConfig {
@@ -170,13 +172,16 @@ class DatabaseConfig {
     }
 
     boolean checkConnection() {
+        getTables("*");  // ! Exception = bad connection TODO: implement proper reporting of failures
+        return true;
+    }
+
+    public List<String> getTables(String filter) {
         if (!passwordConfig.hasCleartextPassword())
             throw new UnsupportedOperationException("Using a non clear text password is not implemented yet");
 
         var serverConnection = type.getServerInstance(server, port, user, passwordConfig.getCleartextPassword());
-        serverConnection.getTables(database);  // ! Exception = bad connection TODO: implement proper reporting of failures
-
-        return true;
+        return CommandHelper.wildcardFilter(serverConnection.getTables(database), filter);
     }
 
 }

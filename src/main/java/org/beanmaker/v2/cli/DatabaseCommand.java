@@ -15,6 +15,7 @@ import picocli.CommandLine.ParentCommand;
                 DatabaseListCommand.class,
                 DatabaseRemoveCommand.class,
                 DatabaseShowCommand.class,
+                DatabaseTablesCommand.class,
                 DatabaseTestCommand.class,
                 CommandLine.HelpCommand.class
         }

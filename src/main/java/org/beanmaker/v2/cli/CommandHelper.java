@@ -1,6 +1,10 @@
 package org.beanmaker.v2.cli;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.List;
 
 class CommandHelper {
 
@@ -32,6 +36,16 @@ class CommandHelper {
         }
 
         return false;
+    }
+
+    // TODO: find a better library than commons-io for this
+    // TODO: need a library that can resolve things like *test*
+    // TODO: or go regex on this...
+    static List<String> wildcardFilter(Collection<String> list, String filter) {
+        return list.stream()
+                .filter(string -> FilenameUtils.wildcardMatch(string, filter))
+                .sorted()
+                .toList();
     }
 
     private CommandHelper() { }

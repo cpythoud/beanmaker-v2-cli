@@ -106,15 +106,8 @@ class AssetsData extends ConfigData {
         return newConfig;
     }
 
-    // TODO: find a better library than commons-io for this
-    // TODO: need a library that can resolve things like *test*
-    // TODO: or go regex on this...
     List<String> getCodes(String filter) {
-        return databaseConfigs.keySet()
-                .stream()
-                .filter(code -> FilenameUtils.wildcardMatch(code, filter))
-                .sorted()
-                .toList();
+        return CommandHelper.wildcardFilter(databaseConfigs.keySet(), filter);
     }
 
 }
