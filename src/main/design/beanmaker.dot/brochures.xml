@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
+    <name>brochures</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Brochure</bean>
+    <fields>
+        <field>
+            <sql-name>published_on</sql-name>
+            <java-type>Date</java-type>
+            <java-name>publishedOn</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>id_file</sql-name>
+            <java-type>long</java-type>
+            <java-name>idFile</java-name>
+            <required>true</required>
+            <unique>false</unique>
+            <bean-class>DbBeanFile</bean-class>
+        </field>
+    </fields>
+</table>

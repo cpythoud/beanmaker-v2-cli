@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
+    <name>customers</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Customer</bean>
+    <fields>
+        <field>
+            <sql-name>name</sql-name>
+            <java-type>String</java-type>
+            <java-name>name</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>tex_name</sql-name>
+            <java-type>String</java-type>
+            <java-name>texName</java-name>
+            <required>true</required>
+            <unique>true</unique>
+        </field>
+    </fields>
+    <relationships>
+        <relationship>
+            <database-table>invoices</database-table>
+            <java-type>Invoice</java-type>
+            <java-name>invoices</java-name>
+            <id-field>id_customer</id-field>
+        </relationship>
+    </relationships>
+</table>

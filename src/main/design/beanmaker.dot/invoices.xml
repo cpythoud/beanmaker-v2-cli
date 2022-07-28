@@ -1,11 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <table xmlns="https://schema.beanmaker.org/beanmaker-table"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
 >
-    <name>table-name</name>
-    <package>com.java.package</package>
-    <bean>BeanClassName</bean>
-    <!-- showing only fields with non default configuration -->
+    <name>invoices</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Invoice</bean>
     <fields>
         <field>
             <sql-name>id_customer</sql-name>
@@ -20,7 +20,7 @@
             <java-type>String</java-type>
             <java-name>number</java-name>
             <required>true</required>
-            <unique>false</unique>
+            <unique>true</unique>
         </field>
         <field>
             <sql-name>printed_date</sql-name>
@@ -38,22 +38,4 @@
             <id-field>id_invoice</id-field>
         </relationship>
     </relationships>
-    <extra-fields>
-        <field>
-            <java-type>MyType</java-type>
-            <java-name>myTypeObject</java-name>
-            <initialization>new MyType(OtherType.CONSTANT)</initialization>
-            <final/>
-            <imports>
-                <import>com.company.software.MyType</import>
-                <import>com.company.software.OtherType</import>
-            </imports>
-        </field>
-        <field>
-            <java-type>OtherType</java-type>
-            <java-name>otherTypeObject</java-name>
-            <initialization>new OtherType()</initialization>
-            <final/>
-        </field>
-    </extra-fields>
 </table>

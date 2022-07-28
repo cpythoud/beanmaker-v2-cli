@@ -1,5 +1,7 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.util.Strings;
+
 import org.jcodegen.html.xmlbase.ValueXMLAttribute;
 import org.jcodegen.html.xmlbase.XMLElement;
 
@@ -37,7 +39,9 @@ abstract class ConfigData {
     static final String PROJECT_CONFIG_FILE = "beanmaker.xml";
     static final String ASSETS_SCHEMA_FILE = "beanmaker-assets.xsd";
     static final String PROJECT_SCHEMA_FILE = "beanmaker-config.xsd";
-    static final String TABLE_SCHEAMA_FILE = "beanmaker-tables.xsd";
+    static final String TABLE_SCHEAMA_FILE = "beanmaker-table.xsd";
+
+    static final String BEANMAKER_SUBDIR = ".beanmaker";
 
     private final String configFilename;
     private final String schemaFilename;
@@ -74,14 +78,19 @@ abstract class ConfigData {
         if (!useBeanmakerDir)
             return startDir.resolve(configFilename);
 
-        Path subDir = startDir.resolve(".beanmaker");
+        Path subDir = getOrCreateConfigSubdir(startDir);
+        return subDir.resolve(configFilename);
+    }
+
+    Path getOrCreateConfigSubdir(Path startDir) throws IOException {
+        Path subDir = startDir.resolve(BEANMAKER_SUBDIR);
         if (Files.exists(subDir)) {
             if (!Files.isDirectory(subDir))
-                throw new IOException(".beanmaker exists but is not a directory.");
+                throw new IOException(BEANMAKER_SUBDIR + " exists but is not a directory.");
         } else
             Files.createDirectory(subDir);
 
-        return subDir.resolve(configFilename);
+        return subDir;
     }
 
     private void validate() throws SAXException, IOException {  // TODO: augment error reporting (manage exceptions)
@@ -116,15 +125,35 @@ abstract class ConfigData {
     }
 
     String getStringValue(String path) throws XPathExpressionException {
-        return xpath.evaluate(path, document);
+        String value = xpath.evaluate(path, document);
+        if (Strings.isEmpty(value))
+            return null;
+
+        return value;
     }
 
     String getStringValue(String path, Node node) throws XPathExpressionException {
-        return xpath.evaluate(path, node);
+        String value = xpath.evaluate(path, node);
+        if (Strings.isEmpty(value))
+            return null;
+
+        return value;
     }
 
-    int getIntValue(String path, Node node) throws XPathExpressionException {
-        return Integer.parseInt(getStringValue(path, node));
+    Integer getIntValue(String path, Node node) throws XPathExpressionException {
+        String value = getStringValue(path, node);
+        if (value == null)
+            return null;
+
+        return Integer.parseInt(value);
+    }
+
+    Boolean getBooleanValue(String path, Node node) throws XPathExpressionException {
+        String value = getStringValue(path, node);
+        if (value == null)
+            return null;
+
+        return Boolean.parseBoolean(value);
     }
 
     XPathNodes getNodeList(String path) throws XPathExpressionException {
@@ -150,13 +179,6 @@ abstract class ConfigData {
 
         throw new AssertionError("Unknown encoding of password data");
     }
-
-    /*Optional<String> getOptionalStringValue(String path, Node node) throws XPathException {
-        var nodes = getNodeList(path, node);
-        if (nodes == null || nodes.size() == 0)
-            return Optional.empty();
-        return Optional.of(nodes.get(0).getTextContent());
-    }*/
 
     XMLElement createRootElement(String name, String schemaReference) {
         var element = new XMLElement(name);

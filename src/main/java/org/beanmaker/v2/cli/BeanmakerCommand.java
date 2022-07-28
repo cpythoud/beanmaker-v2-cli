@@ -9,7 +9,13 @@ import picocli.jansi.graalvm.AnsiConsole;
         name = "beanmaker",
         version = "BeanMaker CLI 1.0",
         mixinStandardHelpOptions = true,
-        subcommands = { DatabaseCommand.class, InitCommand.class, ProjectCommand.class, CommandLine.HelpCommand.class }
+        subcommands = {
+                DatabaseCommand.class,
+                InitCommand.class,
+                ProjectCommand.class,
+                TableCommand.class,
+                CommandLine.HelpCommand.class
+        }
 )
 public class BeanmakerCommand {
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
+    <name>appointment</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Appointment</bean>
+    <fields>
+        <field>
+            <sql-name>with_whom</sql-name>
+            <java-type>String</java-type>
+            <java-name>withWhom</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>when</sql-name>
+            <java-type>Timestamp</java-type>
+            <java-name>when</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>end_of_meeting</sql-name>
+            <java-type>Time</java-type>
+            <java-name>endOfMeeting</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>ok_to_be_late</sql-name>
+            <java-type>Boolean</java-type>
+            <java-name>okToBeLate</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+    </fields>
+</table>

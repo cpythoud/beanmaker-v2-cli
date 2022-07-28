@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
+    <name>products</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Product</bean>
+    <fields>
+        <field>
+            <sql-name>id_category</sql-name>
+            <java-type>long</java-type>
+            <java-name>idCategory</java-name>
+            <required>true</required>
+            <unique>false</unique>
+            <bean-class>Category</bean-class>
+        </field>
+        <field>
+            <sql-name>id_label</sql-name>
+            <java-type>long</java-type>
+            <java-name>idLabel</java-name>
+            <required>true</required>
+            <unique>false</unique>
+            <bean-class>DbBeanLabel</bean-class>
+        </field>
+        <field>
+            <sql-name>id_description_label</sql-name>
+            <java-type>long</java-type>
+            <java-name>idDescriptionLabel</java-name>
+            <required>true</required>
+            <unique>false</unique>
+            <bean-class>DbBeanLabel</bean-class>
+        </field>
+        <field>
+            <sql-name>id_replaced_product</sql-name>
+            <java-type>long</java-type>
+            <java-name>idReplacedProduct</java-name>
+            <required>false</required>
+            <unique>false</unique>
+            <bean-class>Product</bean-class>
+        </field>
+    </fields>
+</table>

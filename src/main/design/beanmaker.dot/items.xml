@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
+    <name>items</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Item</bean>
+    <fields>
+        <field>
+            <sql-name>id_invoice</sql-name>
+            <java-type>long</java-type>
+            <java-name>idInvoice</java-name>
+            <required>true</required>
+            <unique>false</unique>
+            <bean-class>Invoice</bean-class>
+        </field>
+        <field>
+            <sql-name>qty</sql-name>
+            <java-type>Integer</java-type>
+            <java-name>qty</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>description</sql-name>
+            <java-type>String</java-type>
+            <java-name>description</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+        <field>
+            <sql-name>unit_price</sql-name>
+            <java-type>Money</java-type>
+            <java-name>unitPrice</java-name>
+            <required>true</required>
+            <unique>false</unique>
+        </field>
+    </fields>
+    <item-order-associated-field>id_invoice</item-order-associated-field>
+</table>

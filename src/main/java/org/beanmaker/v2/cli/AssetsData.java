@@ -1,7 +1,5 @@
 package org.beanmaker.v2.cli;
 
-import org.apache.commons.io.FilenameUtils;
-
 import org.jcodegen.html.xmlbase.XMLElement;
 
 import org.w3c.dom.Node;
@@ -53,6 +51,7 @@ class AssetsData extends ConfigData {
                 databaseConfig.setDatabase(getStringValue("database", databaseConfigNode));
                 databaseConfig.setUser(getStringValue("user", databaseConfigNode));
                 databaseConfig.setPasswordConfig(extractPasswordConfig("password", databaseConfigNode));
+                // TODO: process <ssh> tag
 
                 databaseConfigs.put(code, databaseConfig);
             }

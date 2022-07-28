@@ -28,6 +28,7 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="item-order-associated-field" minOccurs="0"/>
                 <xs:element name="relationships" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
@@ -38,7 +39,6 @@
                                         <xs:element name="java-type" type="xs:string"/>
                                         <xs:element name="java-name" type="xs:string"/>
                                         <xs:element name="id-field" type="xs:string"/>
-                                        <xs:element name="list-only" type="xs:boolean"/>
                                     </xs:all>
                                 </xs:complexType>
                             </xs:element>
@@ -53,11 +53,17 @@
                                     <xs:sequence>
                                         <xs:element name="java-type" type="xs:string"/>
                                         <xs:element name="java-name" type="xs:string"/>
-                                        <xs:element name="initialisation" type="xs:string"/>
-                                        <xs:element name="final">
+                                        <xs:element name="initialization" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="final" minOccurs="0">
                                             <xs:complexType/>
                                         </xs:element>
-                                        <xs:element name="import" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xs:element name="imports" minOccurs="0" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="import" type="xs:string" maxOccurs="unbounded"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>

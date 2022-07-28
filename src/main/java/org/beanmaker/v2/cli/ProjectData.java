@@ -126,4 +126,17 @@ class ProjectData extends ConfigData {
         writeConfig(root.toString());
     }
 
+    String getTabularRepresentation() {
+        var table = new TextTable(2);
+
+        table.addLine("NAME", name);
+        if (description != null)
+            table.addLine("DESCRIPTION", description);
+        table.addLine("DATABASE CODE", database);
+        table.addLine("DEFAULT PACKAGE", defaultPackage);
+        table.addLine("SOURCE DIR", genSourceDir);
+
+        return table.toString();
+    }
+
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<table xmlns="https://schema.beanmaker.org/beanmaker-table"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="https://schema.beanmaker.org/beanmaker-table ../../resources/beanmaker-table.xsd"
+>
+    <name>languages</name>
+    <package>ch.abcis.dbtest</package>
+    <bean>Language</bean>
+    <fields>
+        <field>
+            <sql-name>name</sql-name>
+            <java-type>String</java-type>
+            <java-name>name</java-name>
+            <required>true</required>
+            <unique>true</unique>
+        </field>
+        <field>
+            <sql-name>iso</sql-name>
+            <java-type>String</java-type>
+            <java-name>iso</java-name>
+            <required>true</required>
+            <unique>true</unique>
+        </field>
+    </fields>
+</table>

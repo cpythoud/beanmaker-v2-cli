@@ -1,5 +1,8 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.codegen.Columns;
+import org.beanmaker.v2.codegen.DatabaseServer;
+
 import org.beanmaker.v2.util.Strings;
 
 import org.jcodegen.html.xmlbase.XMLElement;
@@ -172,16 +175,31 @@ class DatabaseConfig {
     }
 
     boolean checkConnection() {
-        getTables("*");  // ! Exception = bad connection TODO: implement proper reporting of failures
+        getTables();  // ! Exception = bad connection TODO: implement proper reporting of failures
         return true;
     }
 
-    public List<String> getTables(String filter) {
+    List<String> getTables() {
         if (!passwordConfig.hasCleartextPassword())
             throw new UnsupportedOperationException("Using a non clear text password is not implemented yet");
 
-        var serverConnection = type.getServerInstance(server, port, user, passwordConfig.getCleartextPassword());
-        return CommandHelper.wildcardFilter(serverConnection.getTables(database), filter);
+        return getServerConnection().getTables(database);
+    }
+
+    List<String> getTables(String filter) {
+        return CommandHelper.wildcardFilter(getTables(), filter);
+    }
+
+    private DatabaseServer getServerConnection() {
+        return type.getServerInstance(server, port, user, passwordConfig.getCleartextPassword());
+    }
+
+    Columns getColumns(String table) {
+        return new Columns(getServerConnection(), database, table);
+    }
+
+    boolean hasTable(String table) {
+        return getTables().contains(table);  // TODO: check performance/need to store table list or make a request for big projects
     }
 
 }

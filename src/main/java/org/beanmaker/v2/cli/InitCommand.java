@@ -7,7 +7,7 @@ import picocli.CommandLine.Option;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathException;
 
 import java.io.IOException;
 
@@ -42,8 +42,15 @@ class InitCommand implements Callable<Integer> {
     String genSourceDir;
 
     @Override
-    public Integer call() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+    public Integer call() throws IOException, XPathException, ParserConfigurationException, SAXException {
         var msg = Console.MESSAGES;
+
+        // * Load and check existence of asset config file
+        var assetsData = new AssetsData();
+        if (CommandHelper.missingAssetConfiguration(assetsData, msg))
+            return ReturnCode.USER_ERROR.code();
+
+        // * Check that we are effectively trying to create a new project and not editing an existing one
         var projectData = new ProjectData();
         if (projectData.hasConfigFile()) {
             msg.print(Status.ERROR, projectData.getConfigFilename() + " already exists. Please use ", true)
@@ -52,13 +59,17 @@ class InitCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
         }
 
-        // TODO: verify parameters? i.e., database code
+        // * Collect data
         projectData.setName(name);
         if (description != null)
             projectData.setDescription(description);
         projectData.setDatabase(database);
         projectData.setDefaultPackage(defaultPackage);
         projectData.setGenSourceDir(genSourceDir);
+
+        // * Check database code
+        if (CommandHelper.unknownDatabaseConfigurationInProject(assetsData, msg, projectData.getDatabase()))
+            return ReturnCode.USER_ERROR.code();
 
         projectData.writeConfigFile();
         msg.println(Status.OK, "Configuration file created successfully.");
