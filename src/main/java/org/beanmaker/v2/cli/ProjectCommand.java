@@ -39,7 +39,7 @@ class ProjectCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws ParserConfigurationException, IOException, SAXException, URISyntaxException, XPathException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
 
         // * Load and check existence of asset config file
         var assetsData = new AssetsData();
@@ -56,9 +56,11 @@ class ProjectCommand implements Callable<Integer> {
 
         // * No option passed, notify and exit
         if (!dataChangeRequested && !show) {
-            msg.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
-                    .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
-                    .println(Status.NOTICE, " command.");
+            msg.status(Status.NOTICE)
+                    .printStatus()
+                    .print("no option has been provided. Configuration unchanged. To see the configuration use the ")
+                    .print("show", Console.COMMAND_STYLE)
+                    .println(" command.");
             return ReturnCode.SUCCESS.code();
         }
 
@@ -78,9 +80,11 @@ class ProjectCommand implements Callable<Integer> {
 
             // * If options do not change configuration, notify and exit
             if (!configChanged) {
-                msg.print(Status.NOTICE, "no difference with previous config. Configuration file was not modified. To see the configuration use the ", true)
-                        .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
-                        .println(Status.NOTICE, " command.");
+                msg.status(Status.NOTICE)
+                        .printStatus()
+                        .print("no difference with previous config. Configuration file was not modified. To see the configuration use the ")
+                        .print("show", Console.COMMAND_STYLE)
+                        .println(" command.");
                 return ReturnCode.SUCCESS.code();
             }
 
@@ -90,12 +94,12 @@ class ProjectCommand implements Callable<Integer> {
 
             // * Write new configuration to file
             projectData.writeConfigFile();
-            msg.println(Status.OK, "Configuration file changed successfully.");
+            msg.ok("Configuration file changed successfully.");
         }
 
         // * Show configuration if requested
         if (show)
-            Console.DATA.println(projectData.getTabularRepresentation());
+            ConsoleType.DATA.println(projectData.getTabularRepresentation());
 
         return ReturnCode.SUCCESS.code();
     }

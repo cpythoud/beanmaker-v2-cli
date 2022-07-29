@@ -43,7 +43,7 @@ class InitCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException, XPathException, ParserConfigurationException, SAXException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
 
         // * Load and check existence of asset config file
         var assetsData = new AssetsData();
@@ -53,9 +53,11 @@ class InitCommand implements Callable<Integer> {
         // * Check that we are effectively trying to create a new project and not editing an existing one
         var projectData = new ProjectData();
         if (projectData.hasConfigFile()) {
-            msg.print(Status.ERROR, projectData.getConfigFilename() + " already exists. Please use ", true)
-                    .print(Status.ERROR, "project", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command to modify it.");
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .print(projectData.getConfigFilename() + " already exists. Please use ")
+                    .print("project", Console.COMMAND_STYLE)
+                    .println(" command to modify it.");
             return ReturnCode.USER_ERROR.code();
         }
 
@@ -72,7 +74,7 @@ class InitCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
 
         projectData.writeConfigFile();
-        msg.println(Status.OK, "Configuration file created successfully.");
+        msg.ok("Configuration file created successfully.");
         return ReturnCode.SUCCESS.code();
     }
 

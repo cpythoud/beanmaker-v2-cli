@@ -38,12 +38,12 @@ class PasswordConfig {
         if (cleartextPassword == null && password == null) {
             passwordConfig = promptOnly();
             if (passphrase != null)
-                out.println(Status.NOTICE, "--passphrase option is not used by the command. Interactive mode selected by default.");
+                out.notice("--passphrase option is not used by the command. Interactive mode selected by default.");
         } else {
             if (cleartextPassword != null) {
                 passwordConfig = clearText(cleartextPassword);
                 if (passphrase != null)
-                    out.println(Status.NOTICE, "--passphrase option is not used by the command, since you choosed to store the password in clear text.");
+                    out.notice("--passphrase option is not used by the command, since you choosed to store the password in clear text.");
             } else {
                 if (passphrase == null)
                     passwordConfig = encrypted(password);

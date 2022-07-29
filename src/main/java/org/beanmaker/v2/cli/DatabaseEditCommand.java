@@ -71,7 +71,7 @@ class DatabaseEditCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
         var assetsData = new AssetsData();
 
         // * Check existence of config file
@@ -87,9 +87,11 @@ class DatabaseEditCommand implements Callable<Integer> {
 
         // * No option passed, notify and exit
         if (databaseType == null && server == null && port == -1 && database == null && user == null && cleartextPassword == null && password == null && passphrase == null) {
-            msg.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the configuration use the ", true)
-                    .print(Status.NOTICE, "database show " + code, Console.COMMAND_STYLE)
-                    .println(Status.NOTICE, " command.");
+            msg.status(Status.NOTICE)
+                    .printStatus()
+                    .print("No option has been provided. Configuration unchanged. To see the configuration use the ")
+                    .print("database show " + code, Console.COMMAND_STYLE)
+                    .println(" command.");
             return ReturnCode.SUCCESS.code();
         }
 
@@ -115,16 +117,17 @@ class DatabaseEditCommand implements Callable<Integer> {
 
         // * If options do not change configuration, notify and exit
         if (!configChanged) {
-            msg.print(Status.NOTICE, "no difference with previous database configuration. " +
-                            "Configuration file was not modified. To see the configuration use the ", true)
-                    .print(Status.NOTICE, "database show " + code, Console.COMMAND_STYLE)
-                    .println(Status.NOTICE, " command.");
+            msg.status(Status.NOTICE)
+                    .printStatus()
+                    .print("No difference with previous database configuration. Configuration file was not modified. To see the configuration use the ")
+                    .print("database show " + code, Console.COMMAND_STYLE)
+                    .println(" command.");
             return ReturnCode.SUCCESS.code();
         }
 
         // * Write new configuration to file
         assetsData.writeConfigFile();
-        msg.println(Status.OK, "Database configuration was updated successfully. " );
+        msg.ok("Database configuration was updated successfully. " );
         return ReturnCode.SUCCESS.code();
     }
 

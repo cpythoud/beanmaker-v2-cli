@@ -67,14 +67,15 @@ class DatabaseAddCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws IOException, ParserConfigurationException, SAXException, XPathException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
         var assetsData = new AssetsData();
 
         if (assetsData.hasDatabaseWithCode(code)) {
-            msg.print(Status.ERROR, "a database configuration with code '" + code
-                    + "' already exists. You need to use a different code or use the ", true)
-                    .print(Status.ERROR, "database edit", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command to change the database configuration '" + code + "'.");
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .print("A database configuration with code '" + code + "' already exists. You need to use a different code or use the ")
+                    .print("database edit", Console.COMMAND_STYLE)
+                    .println(" command to change the database configuration '" + code + "'.");
             return ReturnCode.USER_ERROR.code();
         }
 
@@ -94,9 +95,9 @@ class DatabaseAddCommand implements Callable<Integer> {
         assetsData.addDatabaseConfig(databaseConfig);
         boolean newConfig = assetsData.writeConfigFile();
         if (newConfig)
-            msg.println(Status.NOTICE, "a new asset configuration file has been created in " + assetsData.getConfigFileFullPath(), true);
+            msg.notice("A new asset configuration file has been created in " + assetsData.getConfigFileFullPath());
 
-        msg.println(Status.OK, "Database configuration added successfully to asset configuration file in " + assetsData.getConfigFileFullPath());
+        msg.ok("Database configuration added successfully to asset configuration file in " + assetsData.getConfigFileFullPath());
         return ReturnCode.SUCCESS.code();
     }
 

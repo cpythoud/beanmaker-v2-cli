@@ -24,7 +24,7 @@ public class DatabaseShowCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
         var assetsData = new AssetsData();
 
         // * Check existence of config file
@@ -37,7 +37,7 @@ public class DatabaseShowCommand implements Callable<Integer> {
 
         // * Display database data
         var databaseConfig = assetsData.getDatabaseConfig(code);
-        var data = Console.DATA;
+        var data = new Console(ConsoleType.DATA);
         data.println(databaseConfig.getTabularRepresentation());
 
         return ReturnCode.SUCCESS.code();

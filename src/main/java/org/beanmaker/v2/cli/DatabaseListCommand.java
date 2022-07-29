@@ -25,7 +25,7 @@ public class DatabaseListCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var data = Console.DATA;
+        var data = new Console(ConsoleType.DATA);
         var assetsData = new AssetsData();
 
         for (String code: assetsData.getCodes(filter))

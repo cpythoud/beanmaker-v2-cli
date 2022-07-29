@@ -2,9 +2,9 @@ package org.beanmaker.v2.cli;
 
 public enum Status {
     OK("green", null),
-    NOTICE("blue", "Notice:"),
-    WARNING("yellow", "Warning:"),
-    ERROR("red", "Error:");
+    NOTICE("blue", "[Notice]"),
+    WARNING("yellow", "[Warning]"),
+    ERROR("red", "[Error]");
 
     private final String color;
     private final String prefix;

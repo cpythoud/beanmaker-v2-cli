@@ -22,7 +22,7 @@ public class DatabaseTablesCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
         var assetsData = new AssetsData();
 
         // * Check existence of config file
@@ -34,7 +34,7 @@ public class DatabaseTablesCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
 
         // * Obtain database data
-        var data = Console.DATA;
+        var data = new Console(ConsoleType.DATA);
         var databaseConfig = assetsData.getDatabaseConfig(code);
 
         for (String table: databaseConfig.getTables(filter))

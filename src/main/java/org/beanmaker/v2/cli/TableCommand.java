@@ -40,7 +40,7 @@ public class TableCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws ParserConfigurationException, IOException, SAXException, URISyntaxException, XPathException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
 
         // * Load and check existence of asset config file
         var assetsData = new AssetsData();
@@ -62,25 +62,30 @@ public class TableCommand implements Callable<Integer> {
         // * Obtain database data and check table existence if no configuration exist for it yet
         var databaseConfig = assetsData.getDatabaseConfig(projectData.getDatabase());
         if (!tableData.hasConfigFile() && !databaseConfig.hasTable(table)) {  // ! for performance reasons (and for now) we assume that the table exists if there is a config file
-            msg.println(Status.ERROR, "no table '" + table + "' in database '" + projectData.getDatabase() + "'.", true);
-            msg.print(Status.ERROR, "You might want to check the table and/or use the ")
-                    .print(Status.ERROR, "database tables", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command to list the available tables.");
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .println("No table '" + table + "' in database '" + projectData.getDatabase() + "'.");
+            msg.status(Status.WARNING)
+                    .print("You might want to check the table and/or use the ")
+                    .print("database tables", Console.COMMAND_STYLE)
+                    .println(" command to list the available tables.");
             return ReturnCode.USER_ERROR.code();
         }
 
         // * No option passed, notify and exit
         if (beanName == null && !current && packageName == null && !show) {
-            msg.print(Status.NOTICE, "no option has been provided. Configuration unchanged. To see the table configuration use the ", true)
-                    .print(Status.NOTICE, "show", Console.COMMAND_STYLE)
-                    .println(Status.NOTICE, " command.");
+            msg.status(Status.NOTICE)
+                    .printStatus()
+                    .print("No option has been provided. Configuration unchanged. To see the table configuration use the ")
+                    .print("show", Console.COMMAND_STYLE)
+                    .println(" command.");
             return ReturnCode.SUCCESS.code();
         }
 
         // * Check if table must be made current
         if (current) {
             tableData.makeCurrent();
-            msg.println(Status.OK, table + " is now the current table.");
+            msg.ok(table + " is now the current table.");
         }
 
         // * Retrieve or create table data
@@ -92,13 +97,13 @@ public class TableCommand implements Callable<Integer> {
             if (packageName != null)
                 configChanged = tableData.changePackageName(packageName) || configChanged;
             if (configChanged) {
-                msg.println(Status.OK, "Config file " + tableData.getConfigFilename() + " has been successfully updated.");
+                msg.ok("Config file " + tableData.getConfigFilename() + " has been successfully updated.");
                 tableData.writeConfigFile();
             }
         } else {
             if (beanName == null) {
                 if (packageName != null) {
-                    msg.println(Status.ERROR, "can't create new config file for table if --bean value has not been specified", true);
+                    msg.error("Can't create new config file for table if --bean value has not been specified");
                     return ReturnCode.USER_ERROR.code();
                 }
             } else {
@@ -108,14 +113,14 @@ public class TableCommand implements Callable<Integer> {
                     tableData.setPackageName(projectData.getDefaultPackage());
                 else
                     tableData.setPackageName(packageName);
-                msg.println(Status.OK, "Config file " + tableData.getConfigFilename() + " has been successfully created.");
+                msg.ok("Config file " + tableData.getConfigFilename() + " has been successfully created.");
                 tableData.writeConfigFile();
             }
         }
 
         // * Check if configuration must be shown
         if (show)
-            Console.DATA.println(tableData.getTabularRepresentation(databaseConfig.getColumns(table)));
+            ConsoleType.DATA.println(tableData.getTabularRepresentation(databaseConfig.getColumns(table)));
 
         return ReturnCode.SUCCESS.code();
     }

@@ -11,11 +11,15 @@ class CommandHelper {
 
     static boolean missingProjectConfiguration(ProjectData projectData, Console msg, String command) {
         if (!projectData.hasConfigFile()) {
-            msg.print(Status.ERROR, projectData.getConfigFilename() + " does not exist. Please use ", true)
-                    .print(Status.ERROR, "init", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command to create it. Or you might be in the wrong directory.");
-            msg.print(Status.WARNING, "You need a project configuration file before you can use command ")
-                    .print(Status.WARNING, command).println(Status.WARNING, ".");
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .print(projectData.getConfigFilename() + " does not exist. Please use ")
+                    .print("init", Console.COMMAND_STYLE)
+                    .println(" command to create it. Or you might be in the wrong directory.");
+            msg.status(Status.WARNING)
+                    .print("You need a project configuration file before you can use command ")
+                    .print(command, Console.COMMAND_STYLE)
+                    .println(".");
             return true;
         }
 
@@ -24,12 +28,13 @@ class CommandHelper {
 
     static boolean missingAssetConfiguration(AssetsData assetsData, Console msg) {
         if (!assetsData.hasConfigFile()) {
-            msg.print(Status.ERROR, "there is no " + assetsData.getConfigFilename()
-                            + " in your home directory. To automatically create one, use either the ", true)
-                    .print(Status.ERROR, "ssh add", Console.COMMAND_STYLE)
-                    .print(Status.ERROR, " or ")
-                    .print(Status.ERROR, "database add", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " command. Or if you have a " + assetsData.getConfigFilename()
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .print("there is no " + assetsData.getConfigFilename() + " in your home directory. To automatically create one, use either the ")
+                    .print("ssh add", Console.COMMAND_STYLE)
+                    .print(" or ")
+                    .print("database add", Console.COMMAND_STYLE)
+                    .println(" command. Or if you have a " + assetsData.getConfigFilename()
                             + " somewhere else, please move it to your home directory ("
                             + Path.of(System.getProperty("user.home")) + ").");
             return true;
@@ -40,7 +45,9 @@ class CommandHelper {
 
     static boolean missingDatabaseConfiguration(AssetsData assetsData, Console msg, String dbCode) {
         if (!assetsData.hasDatabaseWithCode(dbCode)) {
-            msg.println(Status.ERROR, "no database configuration with code '" + dbCode + "' exists.", true);
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .println("no database configuration with code '" + dbCode + "' exists.");
             printGeneralDatabaseTroubleshootingAdvice(msg);
             return true;
         }
@@ -49,20 +56,24 @@ class CommandHelper {
     }
 
     private static void printGeneralDatabaseTroubleshootingAdvice(Console msg) {
-        msg.print(Status.ERROR, "You might want to use the ")
-                .print(Status.ERROR, "database list", Console.COMMAND_STYLE)
-                .print(Status.ERROR, " command to view a list of available database configuration or use the ")
-                .print(Status.ERROR, "database add", Console.COMMAND_STYLE)
-                .println(Status.ERROR, " command to create a new configuration.");
+        msg.status(Status.WARNING)
+                .print("You might want to use the ")
+                .print("database list", Console.COMMAND_STYLE)
+                .print(" command to view a list of available database configuration or use the ")
+                .print("database add", Console.COMMAND_STYLE)
+                .println(" command to create a new configuration.");
     }
 
     static boolean unknownDatabaseConfigurationInProject(AssetsData assetsData, Console msg, String dbCode) {
         if (!assetsData.hasDatabaseWithCode(dbCode)) {
-            msg.println(Status.ERROR, "project configuration references database with code '" + dbCode
-                    + ", but no such database is present in the assets config file. You might want to use the ", true);
-            msg.print(Status.ERROR, "You might want to use the ")
-                    .print(Status.ERROR, "project --show", Console.COMMAND_STYLE)
-                    .println(Status.ERROR, " to check the database code.");
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .println("project configuration references database with code '" + dbCode
+                            + ", but no such database is present in the assets config file.");
+            msg.status(Status.WARNING)
+                    .print("You might want to use the ")
+                    .print("project --show", Console.COMMAND_STYLE)
+                    .println(" to check the database code.");
             printGeneralDatabaseTroubleshootingAdvice(msg);
             return true;
         }

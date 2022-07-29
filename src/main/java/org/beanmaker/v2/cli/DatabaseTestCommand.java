@@ -25,7 +25,7 @@ class DatabaseTestCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var msg = Console.MESSAGES;
+        var msg = new Console(ConsoleType.MESSAGES);
         var assetsData = new AssetsData();
 
         // * Check existence of config file
@@ -40,11 +40,11 @@ class DatabaseTestCommand implements Callable<Integer> {
         var databaseConfig = assetsData.getDatabaseConfig(code);
 
         if (databaseConfig.checkConnection()) {
-            msg.println(Status.OK, "Connection successful");
+            msg.ok("Connection successful");
             return ReturnCode.SUCCESS.code();
         }
 
-        msg.println(Status.ERROR, "Connection failed");
+        msg.error("Connection failed");
         return ReturnCode.SYSTEM_ERROR.code();
     }
 

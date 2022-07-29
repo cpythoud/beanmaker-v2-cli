@@ -1,73 +1,94 @@
 package org.beanmaker.v2.cli;
 
-import picocli.CommandLine.Help.Ansi;
+import picocli.CommandLine;
 
 import java.io.PrintStream;
 
-enum Console {
-    DATA(System.out), MESSAGES(System.err);
+class Console {
 
     static final String COMMAND_STYLE = "bold,underline";
 
     private final PrintStream out;
 
-    Console(PrintStream out) {
-        this.out = out;
+    private Status status;
+
+    Console(ConsoleType consoleType) {
+        out = consoleType.getPrintStream();
     }
 
-    Console print(String data) {
-        out.print(data);
+    Console status(Status status) {
+        this.status = status;
         return this;
     }
 
-    Console print(Status status, String message) {
-        out.print(ansiFormat(status, message, false, null));
+    Console resetStatus() {
+        status = null;
         return this;
     }
 
-    Console print(Status status, String message, boolean showPrefix) {
-        out.print(ansiFormat(status, message, showPrefix, null));
+    Console printStatus() {
+        if (status == null || status.getPrefix() == null)
+            return this;
+
+        out.printf("@|fg(%s),bold %s|@ %n", status.getColor(), status.getPrefix());
         return this;
     }
 
-    Console print(Status status, String message, String extraStyles) {
-        out.print(ansiFormat(status, message, false, extraStyles));
+    Console print(String text) {
+        return print(text, null);
+    }
+
+    Console print(String text, String extraStyles) {
+        out.print(ansiFormat(text, extraStyles));
         return this;
     }
 
-    Console println(String data) {
-        out.println(data);
+    Console println(String text) {
+        return println(text, null);
+    }
+
+    Console println(String text, String extraStyles) {
+        out.println(ansiFormat(text, extraStyles));
         return this;
     }
 
-    Console println(Status status, String message) {
-        out.println(ansiFormat(status, message, false, null));
-        return this;
-    }
-
-    Console println(Status status, String message, boolean showPrefix) {
-        out.println(ansiFormat(status, message, showPrefix, null));
-        return this;
-    }
-
-    Console println(Status status, String message, String extraStyles) {
-        out.println(ansiFormat(status, message, false, extraStyles));
-        return this;
-    }
-
-    private String ansiFormat(Status status, String message, boolean showPrefix, String extraStyles) {
-        String prefix = status.getPrefix();
-        String color = status.getColor();
+    private String ansiFormat(String text, String extraStyles) {
+        if (status == null && extraStyles == null)
+            return text;
 
         var ansiText = new StringBuilder();
-        if (prefix != null && showPrefix)
-            ansiText.append("@|fg(%s),bold %s|@ ".formatted(color, prefix));
-        ansiText.append("@|fg(").append(color).append(")");
-        if (extraStyles != null)
-            ansiText.append(",").append(extraStyles);
-        ansiText.append(" ").append(message).append("|@");
+        ansiText.append("@|");
+        if (status != null)
+            ansiText.append("fg(").append(status.getColor()).append(")");
+        if (extraStyles != null) {
+            if (status != null)
+                ansiText.append(",");
+            ansiText.append(extraStyles);
+        }
+        ansiText.append(" ").append(text).append("|@");
 
-        return Ansi.AUTO.string(ansiText.toString());
+        return CommandLine.Help.Ansi.AUTO.string(ansiText.toString());
+    }
+
+    // * Quickies
+    void ok(String message) {
+        status = Status.OK;
+        println(message);
+    }
+
+    void notice(String message) {
+        status = Status.NOTICE;
+        printStatus().println(message);
+    }
+
+    void warning(String message) {
+        status = Status.WARNING;
+        printStatus().println(message);
+    }
+
+    void error(String message) {
+        status = Status.ERROR;
+        printStatus().println(message);
     }
 
 }
