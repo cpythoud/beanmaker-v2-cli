@@ -27,13 +27,13 @@ class ProjectCommand implements Callable<Integer> {
     @Option(names = { "--db", "--database"}, paramLabel = "<database code>", description = "specify database to connect to")
     String database;
 
-    @Option(names = "--default-package", paramLabel = "<package name>", description = "set default package for generated beans")
+    @Option(names = { "-dp", "--default-package" }, paramLabel = "<package name>", description = "set default package for generated beans")
     String defaultPackage;
 
-    @Option(names = "--gen-source-dir", paramLabel = "<path to source dir>", description = "set where to save generated source files")
+    @Option(names = { "--gsd", "--gen-source-dir"}, paramLabel = "<path to source dir>", description = "set where to save generated source files")
     String genSourceDir;
 
-    @Option(names = "--show", description = "show project configuration")
+    @Option(names = { "-s", "--show"}, description = "show project configuration")
     boolean show;
 
 

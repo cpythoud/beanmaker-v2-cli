@@ -30,7 +30,7 @@ class InitCommand implements Callable<Integer> {
     @Option(names = { "--db", "--database"}, required = true, paramLabel = "<database code>", description = "database to connect to")
     String database;
 
-    @Option(names = "--default-package", required = true, paramLabel = "<package name>", description = "default package for generated beans")
+    @Option(names = { "-dp", "--default-package" }, required = true, paramLabel = "<package name>", description = "default package for generated beans")
     String defaultPackage;
 
     @Option(

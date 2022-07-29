@@ -10,19 +10,19 @@ import java.util.concurrent.Callable;
 @Command(name = "field", description = "Manage field data")
 class BeanFieldCommand implements Callable<Integer> {
 
-    @Option(names = "--java-type", paramLabel = "<java-type>", description = "change java type")
+    @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", description = "change java type")
     String javaType;
 
-    @Option(names = "--java-name", paramLabel = "<java-name>", description = "change java field name")
+    @Option(names = { "--jn", "--java-name" }, paramLabel = "<java-name>", description = "change java field name")
     String server;
 
-    @Option(names = "--required", description = "mark field as required")  // TODO: check --no-required in PicoCLI documentation
+    @Option(names = { "-r", "--required" }, description = "mark field as required")  // TODO: check --no-required in PicoCLI documentation
     boolean required;
 
-    @Option(names = "--unique", description = "mark field as unique")  // TODO: check --no-required in PicoCLI documentation
+    @Option(names = { "-u", "--unique" }, description = "mark field as unique")  // TODO: check --no-required in PicoCLI documentation
     boolean unique;
 
-    @Option(names = "--associated-bean-class", paramLabel = "<associated-bean-class>", description = "bean class associated to id_field")
+    @Option(names = { "--abc", "--associated-bean-class" }, paramLabel = "<associated-bean-class>", description = "bean class associated to id_field")
     String associatedBeanClass;
 
     @Parameters(index = "0", paramLabel = "<db-name>", description = "name of field in database (can type only beginning of field name)")

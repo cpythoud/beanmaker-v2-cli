@@ -17,19 +17,19 @@ import java.util.concurrent.Callable;
 @Command(name = "add", description = "Add a database configuration to main assets file")
 class DatabaseAddCommand implements Callable<Integer> {
 
-    @Option(names = "--type", paramLabel = "<type>", defaultValue = "MYSQL", description = "database type (default: ${DEFAULT-VALUE})")
+    @Option(names = { "-t", "--type" }, paramLabel = "<type>", defaultValue = "MYSQL", description = "database type (default: ${DEFAULT-VALUE})")
     DatabaseType databaseType;
 
-    @Option(names = "--server", paramLabel = "<server>", required = true, description = "database server FQDN")
+    @Option(names = { "-s", "--server" }, paramLabel = "<server>", required = true, description = "database server FQDN")
     String server;
 
     @Option(names = "--port", paramLabel = "<port>", defaultValue = "3306", description = "port on which the database listens (default: ${DEFAULT-VALUE})")
     int port;
 
-    @Option(names = "--database", paramLabel = "<database>", required = true, description = "name of database to connect to")
+    @Option(names = { "-db", "--database" }, paramLabel = "<database>", required = true, description = "name of database to connect to")
     String database;
 
-    @Option(names = "--user", paramLabel = "<user>", required = true, description = "user account to connect to the database server")
+    @Option(names = { "-u", "--user" }, paramLabel = "<user>", required = true, description = "user account to connect to the database server")
     String user;
 
     @Option(
