@@ -10,6 +10,7 @@ import picocli.jansi.graalvm.AnsiConsole;
         version = "BeanMaker CLI 1.0",
         mixinStandardHelpOptions = true,
         subcommands = {
+                BeanCommand.class,
                 DatabaseCommand.class,
                 InitCommand.class,
                 ProjectCommand.class,
