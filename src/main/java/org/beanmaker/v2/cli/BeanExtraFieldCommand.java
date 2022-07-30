@@ -1,5 +1,6 @@
 package org.beanmaker.v2.cli;
 
+import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.ParentCommand;
@@ -13,11 +14,22 @@ public class BeanExtraFieldCommand implements Callable<Integer> {
     @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", description = "change java type")
     String javaType;
 
-    @Option(names = { "--ic", "--initialization-code" }, paramLabel = "<code>", description = "specify field initialization code")
+    @Option(names = { "--ic", "--initialization-code" }, paramLabel = "<java expression>", description = "specify field initialization code")
     String initializationCode;
 
-    @Option(names = { "-f", "--final" }, description = "mark field as final")  // TODO: check --no-final in PicoCLI documentation
-    boolean isFinal;
+    @ArgGroup()
+    IsFinal isFinal;
+
+    static class IsFinal {
+        @Option(names = { "-f", "--final" }, description = "mark field as final")
+        boolean isFinal;
+
+        @Option(names = { "--nf", "--not-final" }, description = "mark field as not final")
+        boolean notFinal;
+    }
+
+    @Option(names = { "--ci", "--clear--imports" }, description = "mark field as final")
+    boolean clearImports;
 
     @Option(names = { "--ri", "--required-import" }, paramLabel = "<import>", description = "specify a required import")
     String[] imports;
