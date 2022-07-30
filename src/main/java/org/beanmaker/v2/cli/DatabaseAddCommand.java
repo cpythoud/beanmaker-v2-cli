@@ -35,6 +35,7 @@ class DatabaseAddCommand implements Callable<Integer> {
     @Option(
             names = "--cleartext-password",
             paramLabel = "<password>",
+            arity = "0..1",
             interactive = true,
             description = "ONLY USE FOR ACCOUNTS WITH MINIMAL PRIVILEGES -- password to connect to database server, stored in clear text in configuration file"
     )
