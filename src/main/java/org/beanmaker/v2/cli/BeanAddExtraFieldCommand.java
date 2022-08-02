@@ -8,17 +8,17 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "extra-field", description = "Manage extra non-database-based field")
-public class BeanExtraFieldCommand implements Callable<Integer> {
+@Command(name = "add-extra-field", description = "Create extra non-database-based field")
+class BeanAddExtraFieldCommand implements Callable<Integer> {
 
-    @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", description = "change java type")
+    @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", required = true, description = "change java type")
     String javaType;
 
     @Option(names = { "--ic", "--initialization-code" }, paramLabel = "<java expression>", description = "specify field initialization code")
     String initializationCode;
 
     @ArgGroup()
-    IsFinal isFinal;
+    BeanEditExtraFieldCommand.IsFinal isFinal;
 
     static class IsFinal {
         @Option(names = { "-f", "--final" }, description = "mark field as final")

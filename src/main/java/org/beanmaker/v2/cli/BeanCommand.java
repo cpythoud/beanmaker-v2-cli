@@ -8,9 +8,13 @@ import picocli.CommandLine.ParentCommand;
         name = "bean",
         description = "Manage current table/bean configuration",
         subcommands = {
-                BeanExtraFieldCommand.class,
+                BeanAddExtraFieldCommand.class,
+                BeanEditExtraFieldCommand.class,
+                BeanDeleteExtraFieldCommand.class,
                 BeanFieldCommand.class,
-                BeanRelationshipCommand.class,
+                BeanAddRelationshipCommand.class,
+                BeanEditRelationshipCommand.class,
+                BeanDeleteRelationshipCommand.class,
                 BeanShowCommand.class,
                 CommandLine.HelpCommand.class
         }
