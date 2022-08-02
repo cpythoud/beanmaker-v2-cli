@@ -15,6 +15,7 @@ import picocli.jansi.graalvm.AnsiConsole;
                 InitCommand.class,
                 ProjectCommand.class,
                 TableCommand.class,
+                TableListCommand.class,
                 CommandLine.HelpCommand.class
         }
 )

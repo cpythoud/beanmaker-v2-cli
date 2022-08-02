@@ -14,28 +14,31 @@ import java.io.IOException;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "tables", description = "List tables belonging to the database")
-public class DatabaseTablesCommand implements Callable<Integer> {
+@Command(name = "table-list", description = "List project database tables")
+public class TableListCommand implements Callable<Integer> {
 
-    @Parameters(index = "0", paramLabel = "<code>", description = "Code to uniquely identify the database configuration")
-    String code;
-
-    @Parameters(index = "1", defaultValue = "*", paramLabel = "<filter>", description = "Wildcard filter (optional)")
+    @Parameters(index = "0", defaultValue = "*", paramLabel = "<filter>", description = "Wildcard filter (optional)")
     String filter;
 
     @ParentCommand
-    private DatabaseCommand parent;
+    private BeanmakerCommand parent;
 
     @Override
     public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
         var msg = new Console(ConsoleType.MESSAGES);
-        var assetsData = new AssetsData();
 
-        // * Check existence of config file
+        // * Load and check existence of asset config file
+        var assetsData = new AssetsData();
         if (CommandHelper.missingAssetConfiguration(assetsData, msg))
             return ReturnCode.USER_ERROR.code();
 
-        // * Check database code
+        // * Check that we are effectively trying to edit an existing project
+        var projectData = new ProjectData();
+        if (CommandHelper.missingProjectConfiguration(projectData, msg, "project"))
+            return ReturnCode.USER_ERROR.code();
+
+        // * Obtain database code
+        String code = projectData.getDatabase();
         if (CommandHelper.missingDatabaseConfiguration(assetsData, msg, code))
             return ReturnCode.USER_ERROR.code();
 
