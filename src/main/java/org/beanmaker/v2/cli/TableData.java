@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 class TableData extends ConfigData {
 
@@ -35,7 +36,7 @@ class TableData extends ConfigData {
     private final Map<String, ExtraFieldConfig> extraFields = new LinkedHashMap<>();
 
     TableData(String table) throws IOException, SAXException, ParserConfigurationException, XPathExpressionException {
-        super(table, TABLE_SCHEAMA_FILE, false, true);
+        super(table + ".xml", TABLE_SCHEAMA_FILE, false, true);
 
         if (hasConfigFile()) {
             name = getStringValue("table/name");
@@ -75,6 +76,17 @@ class TableData extends ConfigData {
             }
         } else
             name = table;  // ! in case table is made current and/or shown before a config file is created
+    }
+
+    static Optional<TableData> getCurrent() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+        Path subDir = getOrCreateConfigSubdir(Path.of("."));
+        Path currentTableFile = subDir.resolve(CURRENT_TABLE_FILENAME);
+        if (!Files.exists(currentTableFile) || !Files.isRegularFile(currentTableFile))
+            return Optional.empty();
+
+        String table = Files.readString(currentTableFile, StandardCharsets.UTF_8);
+
+        return Optional.of(new TableData(table));
     }
 
     String getName() {
@@ -123,6 +135,13 @@ class TableData extends ConfigData {
 
     void setItemOrderAssociatedField(String itemOrderAssociatedField) {
         this.itemOrderAssociatedField = itemOrderAssociatedField;
+    }
+
+    void updateField(FieldConfig fieldConfig, Column column) {
+        fields.remove(fieldConfig.getSqlName());
+        if (fieldConfig.matches(column))
+            return;
+        fields.put(fieldConfig.getSqlName(), fieldConfig);
     }
 
     void makeCurrent() throws IOException {
@@ -214,6 +233,7 @@ class TableData extends ConfigData {
                 javaName = field.getJavaName();
                 required = getYesNo(field.isRequired());
                 unique = getYesNo(field.isUnique());
+                complement = getComplementaryInfo(column, field);
             }
 
             if (column.isItemOrder() && itemOrderAssociatedField != null)
@@ -238,6 +258,16 @@ class TableData extends ConfigData {
 
         if (column.isItemOrder() && !column.isUnique())
             return "ASSOCIATED FIELD: " + column.getItemOrderAssociatedField();
+
+        return "";
+    }
+
+    private String getComplementaryInfo(Column column, FieldConfig field) {
+        if (column.couldHaveAssociatedBean())
+            return "ASSOCIATED BEAN CLASS: " + field.getAssociatedBeanClass();
+
+        if (column.isItemOrder() && !column.isUnique())
+            return "ASSOCIATED FIELD: " + getItemOrderAssociatedField();
 
         return "";
     }
@@ -271,6 +301,20 @@ class TableData extends ConfigData {
         }
 
         return table.toString();
+    }
+
+    FieldConfig getFieldConfig(String field, Column column) {
+        var config = fields.get(field);
+        if (config != null)
+            return config;
+
+        config = new FieldConfig(field);
+        config.setJavaType(column.getJavaType());
+        config.setJavaName(column.getJavaName());
+        config.setRequired(column.isRequired());
+        config.setUnique(column.isUnique());
+        config.setAssociatedBeanClass(column.getAssociatedBeanClass());
+        return config;
     }
 
 }

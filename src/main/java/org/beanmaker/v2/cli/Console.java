@@ -30,7 +30,8 @@ class Console {
         if (status == null || status.getPrefix() == null)
             return this;
 
-        out.printf("@|fg(%s),bold %s|@ %n", status.getColor(), status.getPrefix());
+        String statusText = "@|fg(%s),bold %s|@ ".formatted(status.getColor(), status.getPrefix());
+        out.print(CommandLine.Help.Ansi.AUTO.string(statusText));
         return this;
     }
 

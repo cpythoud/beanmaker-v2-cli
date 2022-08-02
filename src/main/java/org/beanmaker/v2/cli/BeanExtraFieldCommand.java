@@ -42,7 +42,20 @@ public class BeanExtraFieldCommand implements Callable<Integer> {
 
     @Override
     public Integer call()  {
-        // TODO: implement sub-command
+        // TODO: check gen-config exists
+
+        // TODO: check project-config exists
+
+        // TODO: check we have a current table
+
+        // TODO: load current table data (config. + Columns), error if not available (i.e. no previous config file create with table exists)
+
+        // TODO: retrieve field information (either from config file or Columns)
+
+        // TODO: process options (if changes from Column suggestion, record in config, if not don't record and remove record if one exist)
+        // TODO: if required, save new configuration
+
+
         return ReturnCode.SUCCESS.code();
     }
 

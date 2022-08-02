@@ -1,6 +1,8 @@
 package org.beanmaker.v2.cli;
 
 import org.apache.commons.io.FilenameUtils;
+import org.beanmaker.v2.codegen.Column;
+import org.beanmaker.v2.util.Strings;
 
 import java.nio.file.Path;
 
@@ -30,7 +32,7 @@ class CommandHelper {
         if (!assetsData.hasConfigFile()) {
             msg.status(Status.ERROR)
                     .printStatus()
-                    .print("there is no " + assetsData.getConfigFilename() + " in your home directory. To automatically create one, use either the ")
+                    .print("There is no " + assetsData.getConfigFilename() + " in your home directory. To automatically create one, use either the ")
                     .print("ssh add", Console.COMMAND_STYLE)
                     .print(" or ")
                     .print("database add", Console.COMMAND_STYLE)
@@ -47,7 +49,7 @@ class CommandHelper {
         if (!assetsData.hasDatabaseWithCode(dbCode)) {
             msg.status(Status.ERROR)
                     .printStatus()
-                    .println("no database configuration with code '" + dbCode + "' exists.");
+                    .println("No database configuration with code '" + dbCode + "' exists.");
             printGeneralDatabaseTroubleshootingAdvice(msg);
             return true;
         }
@@ -68,7 +70,7 @@ class CommandHelper {
         if (!assetsData.hasDatabaseWithCode(dbCode)) {
             msg.status(Status.ERROR)
                     .printStatus()
-                    .println("project configuration references database with code '" + dbCode
+                    .println("Project configuration references database with code '" + dbCode
                             + ", but no such database is present in the assets config file.");
             msg.status(Status.WARNING)
                     .print("You might want to use the ")
@@ -92,5 +94,18 @@ class CommandHelper {
     }
 
     private CommandHelper() { }
+
+    public static boolean unknownJavaType(String javaType, Console msg) {
+        if (!Column.JAVA_TYPES.contains(javaType)) {
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .println(javaType + " is not a supported java type.");
+            msg.status(Status.WARNING)
+                    .println("The supported java types are: " + Strings.concatWithSeparator(", ", Column.JAVA_TYPES));
+            return true;
+        }
+
+        return false;
+    }
 
 }

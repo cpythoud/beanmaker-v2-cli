@@ -77,7 +77,7 @@ public class TableCommand implements Callable<Integer> {
             msg.status(Status.NOTICE)
                     .printStatus()
                     .print("No option has been provided. Configuration unchanged. To see the table configuration use the ")
-                    .print("show", Console.COMMAND_STYLE)
+                    .print("table --show", Console.COMMAND_STYLE)
                     .println(" command.");
             return ReturnCode.SUCCESS.code();
         }
@@ -89,7 +89,6 @@ public class TableCommand implements Callable<Integer> {
         }
 
         // * Retrieve or create table data
-
         if (tableData.hasConfigFile()) {
             boolean configChanged = false;
             if (beanName != null)

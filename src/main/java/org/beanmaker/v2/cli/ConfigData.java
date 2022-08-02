@@ -82,7 +82,7 @@ abstract class ConfigData {
         return subDir.resolve(configFilename);
     }
 
-    Path getOrCreateConfigSubdir(Path startDir) throws IOException {
+    static Path getOrCreateConfigSubdir(Path startDir) throws IOException {
         Path subDir = startDir.resolve(BEANMAKER_SUBDIR);
         if (Files.exists(subDir)) {
             if (!Files.isDirectory(subDir))
