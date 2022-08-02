@@ -181,6 +181,7 @@ class TableData extends ConfigData {
     String getTabularRepresentation(Columns columns) {
         var tables = new StringBuilder();
 
+        tables.append(getTitle("TABLE & BEAN"));
         tables.append(getMainInfoTable());
         tables.append(getTitle("FIELDS"));
         tables.append(getFieldsTable(columns));

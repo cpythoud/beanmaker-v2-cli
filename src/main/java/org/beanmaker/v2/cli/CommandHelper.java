@@ -3,11 +3,16 @@ package org.beanmaker.v2.cli;
 import org.apache.commons.io.FilenameUtils;
 import org.beanmaker.v2.codegen.Column;
 import org.beanmaker.v2.util.Strings;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
 import java.nio.file.Path;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 class CommandHelper {
 
@@ -95,7 +100,7 @@ class CommandHelper {
 
     private CommandHelper() { }
 
-    public static boolean unknownJavaType(String javaType, Console msg) {
+    static boolean unknownJavaType(String javaType, Console msg) {
         if (!Column.JAVA_TYPES.contains(javaType)) {
             msg.status(Status.ERROR)
                     .printStatus()
@@ -106,6 +111,30 @@ class CommandHelper {
         }
 
         return false;
+    }
+
+    static Optional<TableData> checkAndRetrieveTableData(Console msg) throws XPathExpressionException, IOException, ParserConfigurationException, SAXException {
+        var tableData = TableData.getCurrent().orElse(null);
+
+        if (tableData == null) {
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .print("Current table is unknown. Please use the ")
+                    .print("table --current", Console.COMMAND_STYLE)
+                    .println(" to specify the current table.");
+            return Optional.empty();
+        }
+
+        if (!tableData.hasConfigFile()) {
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .print("Current table has no associated config file. To create an initial config, you need to specify the name of the associated bean with the ")
+                    .print("table --bean", Console.COMMAND_STYLE)
+                    .println(".");
+            return Optional.empty();
+        }
+
+        return Optional.of(tableData);
     }
 
 }

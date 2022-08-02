@@ -75,23 +75,9 @@ class BeanFieldCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
 
         // * Check & retrieve table data
-        var tableData = TableData.getCurrent().orElse(null);
-        if (tableData == null) {
-            msg.status(Status.ERROR)
-                    .printStatus()
-                    .print("Current table is unknown. Please use the ")
-                    .print("table --current", Console.COMMAND_STYLE)
-                    .println(" to specify the current table.");
+        var tableData = CommandHelper.checkAndRetrieveTableData(msg).orElse(null);
+        if (tableData == null)
             return ReturnCode.USER_ERROR.code();
-        }
-        if (!tableData.hasConfigFile()) {
-            msg.status(Status.ERROR)
-                    .printStatus()
-                    .print("Current table has no associated config file. To create an initial config, you need to specify the name of the associated bean with the ")
-                    .print("table --bean", Console.COMMAND_STYLE)
-                    .println(".");
-            return ReturnCode.USER_ERROR.code();
-        }
 
         // * No option passed, notify and exit
         if (javaType == null && javaName == null && required == null && unique == null && associatedBeanClass == null) {
