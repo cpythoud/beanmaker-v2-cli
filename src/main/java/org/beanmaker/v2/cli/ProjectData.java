@@ -126,7 +126,7 @@ class ProjectData extends ConfigData {
         writeConfig(root.toString());
     }
 
-    String getTabularRepresentation() {
+    String getTabularRepresentation() throws IOException {
         var table = new TextTable(2);
 
         table.addLine("NAME", name);
@@ -135,6 +135,8 @@ class ProjectData extends ConfigData {
         table.addLine("DATABASE CODE", database);
         table.addLine("DEFAULT PACKAGE", defaultPackage);
         table.addLine("SOURCE DIR", genSourceDir);
+
+        TableData.getCurrentTableName().ifPresent(currentTable -> table.addLine("CURRENT TABLE", currentTable));
 
         return table.toString();
     }

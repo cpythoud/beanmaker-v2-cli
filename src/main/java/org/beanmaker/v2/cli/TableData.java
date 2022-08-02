@@ -79,14 +79,20 @@ class TableData extends ConfigData {
     }
 
     static Optional<TableData> getCurrent() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
+        String table = getCurrentTableName().orElse(null);
+        if (table == null)
+            return Optional.empty();
+
+        return Optional.of(new TableData(table));
+    }
+
+    static Optional<String> getCurrentTableName() throws IOException {
         Path subDir = getOrCreateConfigSubdir(Path.of("."));
         Path currentTableFile = subDir.resolve(CURRENT_TABLE_FILENAME);
         if (!Files.exists(currentTableFile) || !Files.isRegularFile(currentTableFile))
             return Optional.empty();
 
-        String table = Files.readString(currentTableFile, StandardCharsets.UTF_8);
-
-        return Optional.of(new TableData(table));
+        return Optional.of(Files.readString(currentTableFile, StandardCharsets.UTF_8));
     }
 
     String getName() {
@@ -316,6 +322,17 @@ class TableData extends ConfigData {
         config.setUnique(column.isUnique());
         config.setAssociatedBeanClass(column.getAssociatedBeanClass());
         return config;
+    }
+
+    boolean relationshipExists(String javaName) {
+        return relationships.containsKey(javaName);
+    }
+
+    void addRelationship(RelationshipConfig relationship) {
+        if (relationshipExists(relationship.javaName()))
+            throw new IllegalArgumentException("Relationship " + relationship.javaName() + " already exists");
+
+        relationships.put(relationship.javaName(), relationship);
     }
 
 }
