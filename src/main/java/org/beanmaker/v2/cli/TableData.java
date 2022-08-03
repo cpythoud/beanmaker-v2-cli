@@ -135,12 +135,24 @@ class TableData extends ConfigData {
         return true;
     }
 
+    boolean hasItemOrderAssociatedField() {
+        return itemOrderAssociatedField != null;
+    }
+
     String getItemOrderAssociatedField() {
         return itemOrderAssociatedField;
     }
 
     void setItemOrderAssociatedField(String itemOrderAssociatedField) {
         this.itemOrderAssociatedField = itemOrderAssociatedField;
+    }
+
+    boolean changeItemOrderAssociatedField(String itemOrderAssociatedField) {
+        if (Objects.equals(this.itemOrderAssociatedField, itemOrderAssociatedField))
+            return false;
+
+        setItemOrderAssociatedField(itemOrderAssociatedField);
+        return true;
     }
 
     void updateField(FieldConfig fieldConfig, Column column) {
@@ -210,7 +222,7 @@ class TableData extends ConfigData {
         table.addLine("PACKAGE", hasConfigFile() ? packageName : "");
         table.addLine("BEAN", hasConfigFile() ? beanName : "");
         if (itemOrderAssociatedField != null)
-            table.addLine("ITEM_ORDER ASSOCIATED TABLE", itemOrderAssociatedField);
+            table.addLine("ITEM_ORDER ASSOCIATED FIELD", itemOrderAssociatedField);
 
         return table.toString();
     }
