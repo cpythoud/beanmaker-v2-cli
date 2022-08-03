@@ -7,7 +7,7 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "edit-relationship", description = "Manage a relationship with an other table")
+@Command(name = "edit-relationship", aliases = { "er" }, description = "Manage a relationship with an other table")
 class BeanEditRelationshipCommand implements Callable<Integer> {
 
     @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", description = "change java type")

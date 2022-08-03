@@ -6,7 +6,7 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "delete-relationship", description = "Delete a relationship with an other table")
+@Command(name = "delete-relationship", aliases = { "dr" }, description = "Delete a relationship with an other table")
 class BeanDeleteRelationshipCommand implements Callable<Integer> {
 
     @Parameters(index = "0", paramLabel = "<java-fieldname>", description = "name of java field for referencing the list")

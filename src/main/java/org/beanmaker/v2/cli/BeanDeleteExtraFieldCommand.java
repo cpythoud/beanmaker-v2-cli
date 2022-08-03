@@ -6,7 +6,7 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "delete-extra-field", description = "Delete extra non-database-based field")
+@Command(name = "delete-extra-field", aliases = { "def" }, description = "Delete extra non-database-based field")
 class BeanDeleteExtraFieldCommand implements Callable<Integer> {
 
     @Parameters(index = "0", paramLabel = "<java-fieldname>", description = "name of extra field (can type only beginning of field name)")

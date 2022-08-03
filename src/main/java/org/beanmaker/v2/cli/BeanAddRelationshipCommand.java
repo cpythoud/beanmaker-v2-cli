@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "add-relationship", description = "Create a relationship with an other table")
+@Command(name = "add-relationship", aliases = { "ar" }, description = "Create a relationship with an other table")
 class BeanAddRelationshipCommand implements Callable<Integer> {
 
     @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", required = true, description = "change java type")

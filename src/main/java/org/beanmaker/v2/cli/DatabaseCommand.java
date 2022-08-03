@@ -6,6 +6,7 @@ import picocli.CommandLine.ParentCommand;
 
 @Command(
         name = "database",
+        aliases = { "db" },
         description = "Manage database configurations",
         subcommands = {
                 DatabaseAddCommand.class,

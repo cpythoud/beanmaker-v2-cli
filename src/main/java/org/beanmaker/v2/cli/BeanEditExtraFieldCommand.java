@@ -8,7 +8,7 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "edit-extra-field", description = "Manage extra non-database-based field")
+@Command(name = "edit-extra-field", aliases = { "eef" }, description = "Manage extra non-database-based field")
 class BeanEditExtraFieldCommand implements Callable<Integer> {
 
     @Option(names = { "--jt", "--java-type" }, paramLabel = "<java-type>", description = "change java type")

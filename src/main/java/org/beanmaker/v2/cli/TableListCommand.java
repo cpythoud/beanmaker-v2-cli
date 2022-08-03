@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import java.util.concurrent.Callable;
 
-@Command(name = "table-list", description = "List project database tables")
+@Command(name = "table-list", aliases = { "tl" }, description = "List project database tables")
 public class TableListCommand implements Callable<Integer> {
 
     @Parameters(index = "0", defaultValue = "*", paramLabel = "<filter>", description = "Wildcard filter (optional)")
