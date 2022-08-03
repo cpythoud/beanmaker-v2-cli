@@ -349,4 +349,11 @@ class TableData extends ConfigData {
         relationships.put(relationship.javaName(), relationship);
     }
 
+    public void deleteRelationship(String javaName) {
+        if (!relationshipExists(javaName))
+            throw new IllegalArgumentException("No relationship anchored to java field " + javaName + " exists");
+
+        relationships.remove(javaName);
+    }
+
 }

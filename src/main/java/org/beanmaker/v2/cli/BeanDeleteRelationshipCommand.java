@@ -1,8 +1,16 @@
 package org.beanmaker.v2.cli;
 
+import org.xml.sax.SAXException;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ParentCommand;
 import picocli.CommandLine.Parameters;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import javax.xml.xpath.XPathException;
+
+import java.io.IOException;
 
 import java.util.concurrent.Callable;
 
@@ -16,20 +24,42 @@ class BeanDeleteRelationshipCommand implements Callable<Integer> {
     private BeanCommand parent;
 
     @Override
-    public Integer call()  {
-        // TODO: check gen-config exists
+    public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
+        var msg = new Console(ConsoleType.MESSAGES);
 
-        // TODO: check project-config exists
+        // * Load and check existence of asset config file
+        var assetsData = new AssetsData();
+        if (CommandHelper.missingAssetConfiguration(assetsData, msg))
+            return ReturnCode.USER_ERROR.code();
 
-        // TODO: check we have a current table
+        // * Load and check existence of project config file
+        var projectData = new ProjectData();
+        if (CommandHelper.missingProjectConfiguration(projectData, msg, "table"))
+            return ReturnCode.USER_ERROR.code();
 
-        // TODO: load current table data (config. + Columns), error if not available (i.e. no previous config file create with table exists)
+        // * Check database code
+        if (CommandHelper.unknownDatabaseConfigurationInProject(assetsData, msg, projectData.getDatabase()))
+            return ReturnCode.USER_ERROR.code();
 
-        // TODO: retrieve field information (either from config file or Columns)
+        // * Check & retrieve table data
+        var tableData = CommandHelper.checkAndRetrieveTableData(msg).orElse(null);
+        if (tableData == null)
+            return ReturnCode.USER_ERROR.code();
 
-        // TODO: process options (if changes from Column suggestion, record in config, if not don't record and remove record if one exist)
-        // TODO: if required, save new configuration
+        // * Check if relationship is not defined
+        if (CommandHelper.missingRelationship(tableData, msg, javaName))
+            return ReturnCode.USER_ERROR.code();
 
+        // * Obtain confirmation of deletion
+        if (CommandHelper.confirm("Are you sure you want to delete the relationship anchored to java field " + javaName + "?", msg)) {
+            // * Update configuration
+            tableData.deleteRelationship(javaName);
+
+            // * Write new configuration to file
+            tableData.writeConfigFile();
+            msg.ok("Relationship " + javaName + " has been deleted.");
+        } else
+            msg.notice("Relationship " + javaName + " was NOT deleted.");
 
         return ReturnCode.SUCCESS.code();
     }

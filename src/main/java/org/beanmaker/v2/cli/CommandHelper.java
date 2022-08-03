@@ -1,13 +1,19 @@
 package org.beanmaker.v2.cli;
 
 import org.apache.commons.io.FilenameUtils;
+
 import org.beanmaker.v2.codegen.Column;
+
 import org.beanmaker.v2.util.Strings;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import javax.xml.xpath.XPathExpressionException;
+
 import java.io.IOException;
+
 import java.nio.file.Path;
 
 import java.util.Collection;
@@ -15,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 class CommandHelper {
+
+    private static final String YES_NO_CHOICE_TEXT = " (y/n): ";
 
     static boolean missingProjectConfiguration(ProjectData projectData, Console msg, String command) {
         if (!projectData.hasConfigFile()) {
@@ -154,6 +162,12 @@ class CommandHelper {
                 .print("You can use the ")
                 .print("bean show", Console.COMMAND_STYLE)
                 .println(" command to list existing relationships.");
+    }
+
+    static boolean confirm(String message, Console msg) {
+        msg.status(Status.WARNING).print(message + YES_NO_CHOICE_TEXT);
+        String answer = System.console().readLine();
+        return Boolean.parseBoolean(answer) || answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes");
     }
 
 }
