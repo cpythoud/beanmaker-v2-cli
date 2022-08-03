@@ -61,10 +61,7 @@ class BeanAddRelationshipCommand implements Callable<Integer> {
             msg.status(Status.ERROR)
                     .printStatus()
                     .println("Field " + javaName + " is already in use as a relationship marker.");
-            msg.status(Status.WARNING)
-                    .print("You can use the ")
-                    .print("bean show", Console.COMMAND_STYLE)
-                    .println(" to list existing relationships.");
+            CommandHelper.printShowRelationshipsHelp(msg);
             return ReturnCode.USER_ERROR.code();
         }
 

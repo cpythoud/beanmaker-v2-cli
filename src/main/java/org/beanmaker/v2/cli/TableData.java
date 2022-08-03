@@ -335,4 +335,18 @@ class TableData extends ConfigData {
         relationships.put(relationship.javaName(), relationship);
     }
 
+    RelationshipConfig getRelationship(String javaName) {
+        if (!relationshipExists(javaName))
+            throw new IllegalArgumentException("No relationship anchored to java field " + javaName + " exists");
+
+        return relationships.get(javaName);
+    }
+
+    public void changeRelationship(RelationshipConfig relationship) {
+        if (!relationshipExists(relationship.javaName()))
+            throw new IllegalArgumentException("No relationship anchored to java field " + relationship.javaName() + " exists");
+
+        relationships.put(relationship.javaName(), relationship);
+    }
+
 }

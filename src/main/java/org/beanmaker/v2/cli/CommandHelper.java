@@ -137,4 +137,23 @@ class CommandHelper {
         return Optional.of(tableData);
     }
 
+    static boolean missingRelationship(TableData tableData, Console msg, String javaName) {
+        if (!tableData.relationshipExists(javaName)) {
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .println("There is no relationship anchored to java field " + javaName + ".");
+            printShowRelationshipsHelp(msg);
+            return true;
+        }
+
+        return false;
+    }
+
+    static void printShowRelationshipsHelp(Console msg) {
+        msg.status(Status.WARNING)
+                .print("You can use the ")
+                .print("bean show", Console.COMMAND_STYLE)
+                .println(" command to list existing relationships.");
+    }
+
 }
