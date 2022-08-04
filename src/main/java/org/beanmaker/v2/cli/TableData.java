@@ -17,7 +17,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -336,6 +338,10 @@ class TableData extends ConfigData {
         return config;
     }
 
+    Optional<FieldConfig> getCustomizedFieldConfiguration(String field) {
+        return Optional.ofNullable(fields.get(field));
+    }
+
     boolean relationshipExists(String javaName) {
         return relationships.containsKey(javaName);
     }
@@ -354,18 +360,22 @@ class TableData extends ConfigData {
         return relationships.get(javaName);
     }
 
-    public void changeRelationship(RelationshipConfig relationship) {
+    void changeRelationship(RelationshipConfig relationship) {
         if (!relationshipExists(relationship.javaName()))
             throw new IllegalArgumentException("No relationship anchored to java field " + relationship.javaName() + " exists");
 
         relationships.put(relationship.javaName(), relationship);
     }
 
-    public void deleteRelationship(String javaName) {
+    void deleteRelationship(String javaName) {
         if (!relationshipExists(javaName))
             throw new IllegalArgumentException("No relationship anchored to java field " + javaName + " exists");
 
         relationships.remove(javaName);
+    }
+
+    List<RelationshipConfig> getRelationships() {
+        return new ArrayList<>(relationships.values());
     }
 
 }

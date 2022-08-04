@@ -170,4 +170,11 @@ class CommandHelper {
         return Boolean.parseBoolean(answer) || answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes");
     }
 
+    static void askToFixSourceDir(Console msg) {
+        msg.status(Status.WARNING)
+                .print("You need to correct this situation or use the ")
+                .print("project", Console.COMMAND_STYLE)
+                .println(" command to change the source directory.");
+    }
+
 }

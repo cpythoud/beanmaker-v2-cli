@@ -12,6 +12,7 @@ import picocli.jansi.graalvm.AnsiConsole;
         subcommands = {
                 BeanCommand.class,
                 DatabaseCommand.class,
+                GenerateCodeCommand.class,
                 InitCommand.class,
                 ProjectCommand.class,
                 TableCommand.class,
