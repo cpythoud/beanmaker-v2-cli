@@ -27,7 +27,7 @@ class DatabaseEditCommand implements Callable<Integer> {
     @Option(names = "--port", paramLabel = "<port>", description = "port on which the database listens")
     int port = -1;
 
-    @Option(names = { "-db", "--database" }, paramLabel = "<database>", description = "name of database to connect to")
+    @Option(names = { "--db", "--database" }, paramLabel = "<database>", description = "name of database to connect to")
     String database;
 
     @Option(names = { "-u", "--user" }, paramLabel = "<user>", description = "user account to connect to the database server")

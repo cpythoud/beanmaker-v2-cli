@@ -26,7 +26,7 @@ class DatabaseAddCommand implements Callable<Integer> {
     @Option(names = "--port", paramLabel = "<port>", defaultValue = "3306", description = "port on which the database listens (default: ${DEFAULT-VALUE})")
     int port;
 
-    @Option(names = { "-db", "--database" }, paramLabel = "<database>", required = true, description = "name of database to connect to")
+    @Option(names = { "--db", "--database" }, paramLabel = "<database>", required = true, description = "name of database to connect to")
     String database;
 
     @Option(names = { "-u", "--user" }, paramLabel = "<user>", required = true, description = "user account to connect to the database server")
