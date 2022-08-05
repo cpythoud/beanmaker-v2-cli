@@ -84,6 +84,13 @@ class AssetsData extends ConfigData {
         databaseConfigs.put(code, databaseConfig);
     }
 
+    void removeDatabaseConfig(String code) {
+        if (!hasDatabaseWithCode(code))
+            throw new AssertionError("No database with code: " + code);
+
+        databaseConfigs.remove(code);
+    }
+
     boolean writeConfigFile() throws IOException {
         boolean newConfig = !hasConfigFile();
         var root = createRootElement("assets", "assets");
