@@ -157,11 +157,30 @@ class CommandHelper {
         return false;
     }
 
+    static boolean missingExtraField(TableData tableData, Console msg, String javaName) {
+        if (!tableData.extraFieldExists(javaName)) {
+            msg.status(Status.ERROR)
+                    .printStatus()
+                    .println("There is no extra field referred by " + javaName + ".");
+            printShowRelationshipsHelp(msg);
+            return true;
+        }
+
+        return false;
+    }
+
     static void printShowRelationshipsHelp(Console msg) {
         msg.status(Status.WARNING)
                 .print("You can use the ")
                 .print("bean show", Console.COMMAND_STYLE)
                 .println(" command to list existing relationships.");
+    }
+
+    static void printShowExtraFieldHelp(Console msg) {
+        msg.status(Status.WARNING)
+                .print("You can use the ")
+                .print("bean show", Console.COMMAND_STYLE)
+                .println(" command to list existing extra fields.");
     }
 
     static boolean confirm(String message, Console msg) {
@@ -175,6 +194,25 @@ class CommandHelper {
                 .print("You need to correct this situation or use the ")
                 .print("project", Console.COMMAND_STYLE)
                 .println(" command to change the source directory.");
+    }
+
+    static void printNoBeanConfigChange(Console msg) {
+        msg.status(Status.NOTICE)
+                .printStatus()
+                .print("No option has been provided. Configuration unchanged. To see the current configuration use the ")
+                .print("bean show", Console.COMMAND_STYLE)
+                .println(" command.");
+    }
+
+    static boolean unsupportedJavaType(String javaType, Console msg) {
+        if (!Column.JAVA_TYPES.contains(javaType)) {
+            msg.error("Type " + javaType + " is not supported.");
+            msg.status(Status.WARNING)
+                    .println("Allowed java types are: " + String.join(", ", Column.JAVA_TYPES));
+            return true;
+        }
+
+        return false;
     }
 
 }

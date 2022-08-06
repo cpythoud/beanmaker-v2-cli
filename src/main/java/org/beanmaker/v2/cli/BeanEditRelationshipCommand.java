@@ -61,11 +61,7 @@ class BeanEditRelationshipCommand implements Callable<Integer> {
 
         // * No option passed, notify and exit
         if (table == null && javaType == null && idField == null) {
-            msg.status(Status.NOTICE)
-                    .printStatus()
-                    .print("No option has been provided. Configuration unchanged. To see the current configuration use the ")
-                    .print("bean show", Console.COMMAND_STYLE)
-                    .println(" command.");
+            CommandHelper.printNoBeanConfigChange(msg);
             return ReturnCode.SUCCESS.code();
         }
 

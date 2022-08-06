@@ -1,5 +1,6 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.codegen.ExtraField;
 import org.beanmaker.v2.codegen.OneToManyRelationship;
 
 import org.xml.sax.SAXException;
@@ -132,7 +133,13 @@ public class GenerateCodeCommand implements Callable<Integer>  {
                     relationship.table(),
                     relationship.idField()
             ));
-        // TODO: insert here code to setup extra-fields
+        for (var extraField: tableData.getExtrafields())
+            columns.addExtraField(
+                    ExtraField.builder(extraField.getJavaType(), extraField.getJavaName())
+                            .initializationExpression(extraField.getInitialization())
+                            .isFinal(extraField.isFinal())
+                            .addImports(extraField.getImports())
+                            .create());
 
         // * Generate classes
         var sourceFiles = new SourceFiles(

@@ -68,10 +68,11 @@ class TableData extends ConfigData {
                         getStringValue("java-type", extraFieldConfigNode),
                         javaName
                 );
-                extraFieldConfig.setInitialization(getStringValue("initialization"));
-                var isFinal = getBooleanValue("final", extraFieldConfigNode);
+                extraFieldConfig.setInitialization(getStringValue("initialization", extraFieldConfigNode));
+                extraFieldConfig.setFinal(nodeExists("final", extraFieldConfigNode));
+                /*var isFinal = getBooleanValue("final", extraFieldConfigNode);
                 if (isFinal != null)
-                    extraFieldConfig.setFinal(isFinal);
+                    extraFieldConfig.setFinal(isFinal);*/
                 for (var importNode: getNodeList("imports/import", extraFieldConfigNode))
                     extraFieldConfig.addImport(importNode.getTextContent());
                 extraFields.put(javaName, extraFieldConfig);
@@ -376,6 +377,42 @@ class TableData extends ConfigData {
 
     List<RelationshipConfig> getRelationships() {
         return new ArrayList<>(relationships.values());
+    }
+
+    boolean extraFieldExists(String javaName) {
+        return extraFields.containsKey(javaName);
+    }
+
+    void addExtraField(ExtraFieldConfig extraField) {
+        if (extraFieldExists(extraField.getJavaName()))
+            throw new IllegalArgumentException("Extra field " + extraField.getJavaName() + " already exists");
+
+        extraFields.put(extraField.getJavaName(), extraField);
+    }
+
+    ExtraFieldConfig getExtraField(String javaName) {
+        if (!extraFieldExists(javaName))
+            throw new IllegalArgumentException("Extra field " + javaName + " does not exist");
+
+        return extraFields.get(javaName);
+    }
+
+    /*void changeRelationship(RelationshipConfig relationship) {
+        if (!relationshipExists(relationship.javaName()))
+            throw new IllegalArgumentException("No relationship anchored to java field " + relationship.javaName() + " exists");
+
+        relationships.put(relationship.javaName(), relationship);
+    }*/
+
+    void deleteExtraField(String javaName) {
+        if (!extraFieldExists(javaName))
+            throw new IllegalArgumentException("No extra field " + javaName + " exists");
+
+        extraFields.remove(javaName);
+    }
+
+    List<ExtraFieldConfig> getExtrafields() {
+        return new ArrayList<>(extraFields.values());
     }
 
 }
