@@ -60,7 +60,7 @@ class Console {
         var ansiText = new StringBuilder();
         ansiText.append("@|");
         if (status != null)
-            ansiText.append("fg(").append(status.getColor()).append(")");
+            ansiText.append("fg(").append(status.getColor()).append("),bold");
         if (extraStyles != null) {
             if (status != null)
                 ansiText.append(",");
