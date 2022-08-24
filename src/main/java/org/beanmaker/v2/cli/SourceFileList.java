@@ -53,11 +53,10 @@ enum SourceFileList {
                 Arrays.asList("BeanBaseSource", "BeanParametersBaseSource");
 
         private static final List<String> EDITION_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "BaseServlet", "BeanServletSource");
+                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource");
 
         private static final List<String> EDITION_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
-                "BeanParametersBaseSource", "BeanServletBaseSource");
+                "BeanParametersBaseSource");
 
         private static final List<String> HTML_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
                 "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
