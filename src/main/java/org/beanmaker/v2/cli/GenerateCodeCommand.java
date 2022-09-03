@@ -40,7 +40,7 @@ public class GenerateCodeCommand implements Callable<Integer>  {
         @Option(names = { "-e", "--editors" }, description = "create/refresh editor source files (for read/write operations)")
         boolean editions;
 
-        @Option(names = { "--hf", "--html-forms" }, description = "create/refresh html dialog source files (read/write through html forms/modals)")
+        @Option(names = { "--hf", "--html-forms" }, description = "create/refresh html dialog source files (read/write through html forms/modals, create servlets to do form processing)")
         boolean htmlDialog;
 
         @Option(names = { "--mt", "--master-tables" }, description = "create/refresh master table source files (includes read operations)")
