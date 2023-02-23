@@ -19,25 +19,15 @@
           <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli-codegen/4.6.3/picocli-codegen-4.6.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli/4.6.3/picocli-4.6.3.jar" />
         </processorPath>
-        <module name="beanmaker2-cli" />
-      </profile>
-      <profile name="Annotation profile for v2-cli" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <option name="project" value="${project.groupId}/${project.artifactId}" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli-codegen/4.6.3/picocli-codegen-4.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli/4.6.3/picocli-4.6.3.jar" />
-        </processorPath>
         <module name="v2-cli" />
+        <module name="beanmaker2-cli" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="beanmaker2-cli" options="-Aproject=org.beanmaker/beanmaker2-cli" />
-      <module name="v2-cli" options="" />
+      <module name="v2-cli" options="-Aproject=org.beanmaker/beanmaker2-cli" />
     </option>
   </component>
 </project>
