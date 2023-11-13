@@ -2,6 +2,8 @@ package org.beanmaker.v2.cli;
 
 import org.beanmaker.v2.codegen.BaseServletSourceFile;
 import org.beanmaker.v2.codegen.BeanBaseSourceFile;
+import org.beanmaker.v2.codegen.BeanCsvImportBaseSourceFile;
+import org.beanmaker.v2.codegen.BeanCsvImportSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorSourceFile;
 import org.beanmaker.v2.codegen.BeanFormatterBaseSourceFile;
@@ -151,6 +153,14 @@ class SourceFiles {
         CREATION_FUNCTIONS.put(
                 "WebXMLConfigSource",
                 parameters -> new WebXMLConfig(parameters.beanName(), parameters.packageName())
+        );
+        CREATION_FUNCTIONS.put(
+                "BeanCsvImportSource",
+                parameters -> new BeanCsvImportSourceFile(parameters.beanName(), parameters.packageName())
+        );
+        CREATION_FUNCTIONS.put(
+                "BeanCsvImportBaseSource",
+                parameters -> new BeanCsvImportBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
         );
     }
 

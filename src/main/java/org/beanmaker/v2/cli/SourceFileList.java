@@ -7,9 +7,11 @@ import java.util.List;
 
 enum SourceFileList {
     ALL(FileLists.ALL_FILES_EDITABLE, FileLists.ALL_FILES_NON_EDITABLE),
+    MOST(FileLists.MOST_FILES_EDITABLE, FileLists.MOST_FILES_NON_EDITABLE),
     DATA(FileLists.DATA_FILES_EDITABLE, FileLists.DATA_FILES_NON_EDITABLE),
     EDITION(FileLists.EDITION_FILES_EDITABLE, FileLists.EDITION_FILES_NON_EDITABLE),
     HTML_FORMS(FileLists.HTML_FILES_EDITABLE, FileLists.HTML_FILES_NON_EDITABLE),
+    CSV(FileLists.CSV_FILES_EDITABLE, FileLists.CSV_FILES_NON_EDITABLE),
     MASTER_TABLES(FileLists.MASTER_TABLES_EDITABLE, FileLists.MASTER_TABLES_NON_EDITABLE);
 
     private final List<String> editableFiles;
@@ -34,14 +36,24 @@ enum SourceFileList {
         return list;
     }
 
-    private static class FileLists {  // * Lists must in inner class, otherwise we have a forward reference problem
+    private static class FileLists {  // * Lists must be in inner class, otherwise we have a forward reference problem
         private static final List<String> ALL_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
+                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
+                "LocalDbBeanFormatterSource", "BeanFormatterSource", "BeanFormatterInterfaceSource",
+                "FormattedBeanDataSource", "HTMLViewSource", "BeanHTMLViewSource", "LocalMasterTableViewSource",
+                "BeanMasterTableViewSource", "BaseServlet", "BeanServletSource", "BeanCsvImportSource");
+
+        private static final List<String> ALL_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
+                "BeanParametersBaseSource", "BeanFormatterBaseSource", "BeanFormatterInterfaceBaseSource",
+                "FormattedBeanDataBaseSource", "BeanHTMLViewBaseSource", "BeanMasterTableViewBaseSource",
+                "BeanServletBaseSource", "BeanCsvImportBaseSource");
+        private static final List<String> MOST_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
                 "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
                 "LocalDbBeanFormatterSource", "BeanFormatterSource", "BeanFormatterInterfaceSource",
                 "FormattedBeanDataSource", "HTMLViewSource", "BeanHTMLViewSource", "LocalMasterTableViewSource",
                 "BeanMasterTableViewSource", "BaseServlet", "BeanServletSource");
 
-        private static final List<String> ALL_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
+        private static final List<String> MOST_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
                 "BeanParametersBaseSource", "BeanFormatterBaseSource", "BeanFormatterInterfaceBaseSource",
                 "FormattedBeanDataBaseSource", "BeanHTMLViewBaseSource", "BeanMasterTableViewBaseSource",
                 "BeanServletBaseSource");
@@ -67,6 +79,15 @@ enum SourceFileList {
         private static final List<String> HTML_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
                 "BeanParametersBaseSource", "BeanHTMLViewBaseSource", "BeanServletBaseSource",
                 "BeanFormatterBaseSource", "BeanFormatterInterfaceBaseSource");
+
+        private static final List<String> CSV_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
+                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
+                "LocalDbBeanFormatterSource", "BeanFormatterSource", "BeanFormatterInterfaceSource",
+                "BeanCsvImportSource");
+
+        private static final List<String> CSV_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
+                "BeanParametersBaseSource", "BeanFormatterBaseSource", "BeanFormatterInterfaceBaseSource",
+                "BeanCsvImportBaseSource");
 
         private static final List<String> MASTER_TABLES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
                 "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",

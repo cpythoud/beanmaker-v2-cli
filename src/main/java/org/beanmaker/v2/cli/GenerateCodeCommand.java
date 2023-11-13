@@ -34,6 +34,9 @@ public class GenerateCodeCommand implements Callable<Integer>  {
         @Option(names = { "-a", "--all" }, description = "create/refresh all source files")
         boolean all;
 
+        @Option(names = { "-m", "--most" }, description = "create/refresh standard source files (data, editor, html views, master tables and servlets)")
+        boolean most;
+
         @Option(names = { "-d", "--data" }, description = "create/refresh data source files (for read-only operations)")
         boolean data;
 
@@ -51,6 +54,9 @@ public class GenerateCodeCommand implements Callable<Integer>  {
 
         @Option(names = { "-f", "--file" }, description = "create/refresh a specific file")
         String fileReference;
+
+        @Option(names = { "--csv", "--comma-separated-values" }, description = "create/refresh CSV import source files (includes bean read and write operations)")
+        boolean csv;
     }
 
     @ParentCommand
@@ -148,12 +154,16 @@ public class GenerateCodeCommand implements Callable<Integer>  {
         // * Create source files skipping already existing editable classes unless --force-refresh is set
         if (fileSet.all)
             writeFiles(SourceFileList.ALL, sourceFiles, sourceDir, msg);
+        else if (fileSet.most)
+            writeFiles(SourceFileList.MOST, sourceFiles, sourceDir, msg);
         else if (fileSet.data)
             writeFiles(SourceFileList.DATA, sourceFiles, sourceDir, msg);
         else if (fileSet.editions)
             writeFiles(SourceFileList.EDITION, sourceFiles, sourceDir, msg);
         else if (fileSet.htmlDialog)
             writeFiles(SourceFileList.HTML_FORMS, sourceFiles, sourceDir, msg);
+        else if (fileSet.csv)
+            writeFiles(SourceFileList.CSV, sourceFiles, sourceDir, msg);
         else if (fileSet.masterTables)
             writeFiles(SourceFileList.MASTER_TABLES, sourceFiles, sourceDir, msg);
         else if (fileSet.refresh)
