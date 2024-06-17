@@ -25,6 +25,7 @@ import org.beanmaker.v2.codegen.FormattedBeanDataBaseSourceFile;
 import org.beanmaker.v2.codegen.FormattedBeanDataSourceFile;
 import org.beanmaker.v2.codegen.HTMLViewSourceFile;
 import org.beanmaker.v2.codegen.LabelManagerSourceFile;
+import org.beanmaker.v2.codegen.LocalCsvImportSourceFile;
 import org.beanmaker.v2.codegen.LocalDbBeanFormatterSourceFile;
 import org.beanmaker.v2.codegen.LocalFileManagerSourceFile;
 import org.beanmaker.v2.codegen.LocalMasterTableViewSourceFile;
@@ -161,6 +162,10 @@ class SourceFiles {
         CREATION_FUNCTIONS.put(
                 "BeanCsvImportBaseSource",
                 parameters -> new BeanCsvImportBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+        );
+        CREATION_FUNCTIONS.put(
+                "LocalCsvImportSource",
+                parameters -> new LocalCsvImportSourceFile(parameters.packageName())
         );
     }
 

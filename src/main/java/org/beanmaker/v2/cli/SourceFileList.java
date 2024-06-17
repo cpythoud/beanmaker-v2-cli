@@ -83,7 +83,7 @@ enum SourceFileList {
         private static final List<String> CSV_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
                 "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
                 "LocalDbBeanFormatterSource", "BeanFormatterSource", "BeanFormatterInterfaceSource",
-                "BeanCsvImportSource");
+                "BeanCsvImportSource", "LocalCsvImportSource");
 
         private static final List<String> CSV_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
                 "BeanParametersBaseSource", "BeanFormatterBaseSource", "BeanFormatterInterfaceBaseSource",
@@ -97,7 +97,6 @@ enum SourceFileList {
         private static final List<String> MASTER_TABLES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
                 "BeanParametersBaseSource", "BeanFormatterBaseSource", "BeanFormatterInterfaceBaseSource",
                 "FormattedBeanDataBaseSource", "BeanMasterTableViewBaseSource");
-
     }
 
 }
