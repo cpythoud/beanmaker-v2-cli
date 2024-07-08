@@ -4,7 +4,9 @@
 
     <groupId>org.beanmaker</groupId>
     <artifactId>beanmaker2-cli</artifactId>
-    <version>2.0</version>  <!-- Version should be in sync with Beanmaker version used -->
+    <!-- ! Version should be in sync with Beanmaker version used            ! -->
+    <!-- ! Add a letter at the end, if a patch is required for the CLI only ! -->
+    <version>2.0</version>
 
     <name>Beanmaker V2, CLI</name>
     <description>
