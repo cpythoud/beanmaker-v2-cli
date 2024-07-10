@@ -1,0 +1,15 @@
+Release Notes for Beanmaker CLI
+-------------------------------
+
+v2.0 (2024-07-02) 7251404d36b5580846bc971eed17f52f7f806aec
+
+- move from 1.0-SNAPSHOT to an actual version number
+- version number will match the version number of the Beanmaker library used by the CLI program (a letter will be
+  added at the end if a patch is required between updates to the library)
+
+
+V2.0b (2024-07-10)
+
+- add 'regenerate-all' command
+- fix the xsi:schemaLocation attribute in the 'assets', 'projet' and 'table' xml configuration file (there is now
+  a website available from which the schema files can be downloaded by development tools)
