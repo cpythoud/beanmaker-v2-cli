@@ -47,6 +47,7 @@ abstract class ConfigData {
     private final String schemaFilename;
     private final boolean useUserHomeDir;
     private final boolean useBeanmakerDir;
+    private final Path configDir;
     private final Path configFile;
     private boolean hasConfigFile;
     private final Document document;
@@ -60,7 +61,8 @@ abstract class ConfigData {
         this.useUserHomeDir = useUserHomeDir;
         this.useBeanmakerDir = useBeanmakerDir;
 
-        configFile = getConfigFile();
+        configDir = getOrCreateConfigDir();
+        configFile = configDir.resolve(configFilename);
         hasConfigFile = Files.exists(configFile);
 
         if (hasConfigFile) {
@@ -93,6 +95,15 @@ abstract class ConfigData {
         return subDir;
     }
 
+    private Path getOrCreateConfigDir() throws IOException {  // ! will create .beanmaker directory if it doesn't exist
+        Path startDir = useUserHomeDir ? Path.of(System.getProperty("user.home")) : Path.of(".");
+        if (!useBeanmakerDir)
+            return startDir;
+
+        Path subDir = getOrCreateConfigSubdir(startDir);
+        return subDir;
+    }
+
     private void validate() throws SAXException, IOException {  // TODO: augment error reporting (manage exceptions)
         var schemaFile = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(schemaFilename));
         var schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -110,6 +121,10 @@ abstract class ConfigData {
     private XPath getXPath() {
         var xPathFactory = XPathFactory.newInstance();
         return xPathFactory.newXPath();
+    }
+
+    Path getConfigDir() {
+        return configDir;
     }
 
     boolean hasConfigFile() {

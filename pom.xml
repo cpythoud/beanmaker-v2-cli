@@ -7,7 +7,8 @@
     <!-- ! Version should be in sync with Beanmaker library version in use                        ! -->
     <!-- ! Add a letter at the end of the version string, if a patch is required for the CLI only ! -->
     <!-- ! Version number in BeanmakerCommand need to be manually updated to match the one below  ! -->
-    <version>2.0</version>
+    <!-- ! Version number should also be manually updated in deployment scripts                   ! -->
+    <version>2.0b</version>
 
     <name>Beanmaker V2, CLI</name>
     <description>

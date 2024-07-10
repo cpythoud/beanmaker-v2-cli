@@ -1,5 +1,6 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.codegen.Columns;
 import org.beanmaker.v2.codegen.ExtraField;
 import org.beanmaker.v2.codegen.OneToManyRelationship;
 
@@ -62,23 +63,61 @@ public class GenerateCodeCommand implements Callable<Integer>  {
     @ParentCommand
     BeanmakerCommand parent;
 
-    @Override
-    public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
-        var msg = new Console(ConsoleType.MESSAGES);
+    static class Data {
+        private final Integer errorCode;
+        private final AssetsData assetsData;
+        private final ProjectData projectData;
+        private final Path sourceDir;
 
+        private Data(int errorCode) {
+            this.errorCode = errorCode;
+            assetsData = null;
+            projectData = null;
+            sourceDir = null;
+        }
+
+        private Data(AssetsData assetsData, ProjectData projectData, Path sourceDir) {
+            errorCode = null;
+            this.assetsData = assetsData;
+            this.projectData = projectData;
+            this.sourceDir = sourceDir;
+        }
+
+        boolean isOk() {
+            return errorCode == null;
+        }
+
+        Integer getErrorCode() {
+            return errorCode;
+        }
+
+        AssetsData getAssetsData() {
+            return assetsData;
+        }
+
+        ProjectData getProjectData() {
+            return projectData;
+        }
+
+        Path getSourceDir() {
+            return sourceDir;
+        }
+    }
+
+    static Data retriveData(Console msg) throws XPathException, IOException, ParserConfigurationException, SAXException {
         // * Load and check existence of asset config file
         var assetsData = new AssetsData();
         if (CommandHelper.missingAssetConfiguration(assetsData, msg))
-            return ReturnCode.USER_ERROR.code();
+            return new Data(ReturnCode.USER_ERROR.code()) ;
 
         // * Load and check existence of project config file
         var projectData = new ProjectData();
         if (CommandHelper.missingProjectConfiguration(projectData, msg, "table"))
-            return ReturnCode.USER_ERROR.code();
+            return new Data(ReturnCode.USER_ERROR.code());
 
         // * Check database code
         if (CommandHelper.unknownDatabaseConfigurationInProject(assetsData, msg, projectData.getDatabase()))
-            return ReturnCode.USER_ERROR.code();
+            return new Data(ReturnCode.USER_ERROR.code());
 
         // * Verify source dir exists and is writable
         var sourceDir = Path.of(projectData.getGenSourceDir());
@@ -90,28 +129,27 @@ public class GenerateCodeCommand implements Callable<Integer>  {
                     .print("You need to create the directory " + projectData.getGenSourceDir() + " or use the ")
                     .print("project", Console.COMMAND_STYLE)
                     .println(" command to change the source directory.");
-            return ReturnCode.USER_ERROR.code();
+            return new Data(ReturnCode.USER_ERROR.code());
         }
         if (!Files.isDirectory(sourceDir)) {
             msg.status(Status.ERROR)
                     .printStatus()
                     .println(projectData.getGenSourceDir() + " is not a directory.");
             CommandHelper.askToFixSourceDir(msg);
-            return ReturnCode.USER_ERROR.code();
+            return new Data(ReturnCode.USER_ERROR.code());
         }
         if (!Files.isWritable(sourceDir)) {
             msg.status(Status.ERROR)
                     .printStatus()
                     .println("It's not possible to write in directory " + projectData.getGenSourceDir() + ".");
             CommandHelper.askToFixSourceDir(msg);
-            return ReturnCode.USER_ERROR.code();
+            return new Data(ReturnCode.USER_ERROR.code());
         }
 
+        return new Data(assetsData, projectData, sourceDir);
+    }
 
-        // * Retrieve columns data & configuration data
-        var tableData = CommandHelper.checkAndRetrieveTableData(msg).orElse(null);
-        if (tableData == null)
-            return ReturnCode.USER_ERROR.code();
+    static Columns retrieveColumns(AssetsData assetsData, ProjectData projectData, TableData tableData) throws XPathException, IOException, ParserConfigurationException, SAXException {
         var columns = assetsData.getDatabaseConfig(projectData.getDatabase()).getColumns(tableData.getName());
 
         // * Use configuration data to modify columns data
@@ -146,6 +184,27 @@ public class GenerateCodeCommand implements Callable<Integer>  {
                             .isFinal(extraField.isFinal())
                             .addImports(extraField.getImports())
                             .create());
+
+        return columns;
+    }
+
+    @Override
+    public Integer call() throws XPathException, IOException, ParserConfigurationException, SAXException {
+        var msg = new Console(ConsoleType.MESSAGES);
+
+        var data = retriveData(msg);
+        if (!data.isOk())
+            return data.errorCode;
+        var assetsData = data.assetsData;
+        var projectData = data.projectData;
+        var sourceDir = data.sourceDir;
+
+
+        // * Retrieve columns data & configuration data
+        var tableData = CommandHelper.checkAndRetrieveTableData(msg).orElse(null);
+        if (tableData == null)
+            return ReturnCode.USER_ERROR.code();
+        var columns = retrieveColumns(assetsData, projectData, tableData);
 
         // * Generate classes
         var sourceFiles = new SourceFiles(
