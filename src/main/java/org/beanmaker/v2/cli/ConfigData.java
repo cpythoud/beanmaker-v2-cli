@@ -207,7 +207,8 @@ abstract class ConfigData {
         ));
         element.addAttribute(new ValueXMLAttribute(
                 "xsi:schemaLocation",
-                "https://schema.beanmaker.org/beanmaker-" + schemaReference + " beanmaker-" + schemaReference + ".xsd"
+                "https://schema.beanmaker.org/beanmaker-" + schemaReference
+                        + " https://schema.beanmaker.org/beanmaker-" + schemaReference + ".xsd"
         ));
         return element;
     }
