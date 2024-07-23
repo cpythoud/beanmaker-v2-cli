@@ -7,8 +7,9 @@
     <!-- ! Version should be in sync with Beanmaker library version in use                        ! -->
     <!-- ! Add a letter at the end of the version string, if a patch is required for the CLI only ! -->
     <!-- ! Version number in BeanmakerCommand need to be manually updated to match the one below  ! -->
+    <!-- ! The beanmaker.version property value should match the actual version in use            ! -->
     <!-- ! Version number should also be manually updated in deployment scripts                   ! -->
-    <version>2.0b</version>
+    <version>2.0.1</version>
 
     <name>Beanmaker V2, CLI</name>
     <description>
@@ -41,7 +42,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
-        <beanmaker.version>2.0</beanmaker.version>
+        <beanmaker.version>2.0.1</beanmaker.version>
     </properties>
 
     <dependencies>
@@ -153,7 +154,7 @@
                 <version>3.2.2</version>
             </plugin>
             <!-- * mvn clean compile assembly:single -->
-            <!-- * java -jar ./taget/<jar-with-dependencies>.jar -->
+            <!-- * java -jar ./target/<jar-with-dependencies>.jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
