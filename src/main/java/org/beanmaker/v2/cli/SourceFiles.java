@@ -20,7 +20,7 @@ import org.beanmaker.v2.codegen.BeanParametersSourceFile;
 import org.beanmaker.v2.codegen.BeanServletBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanServletSourceFile;
 import org.beanmaker.v2.codegen.BeanSourceFile;
-import org.beanmaker.v2.codegen.DbBeanSourceFile;
+import org.beanmaker.v2.codegen.DbBeansSourceFile;
 import org.beanmaker.v2.codegen.FormattedBeanDataBaseSourceFile;
 import org.beanmaker.v2.codegen.FormattedBeanDataSourceFile;
 import org.beanmaker.v2.codegen.HTMLViewSourceFile;
@@ -49,103 +49,124 @@ class SourceFiles {
 
         CREATION_FUNCTIONS.put(
                 "DbBeanSource",
-                parameters -> new DbBeanSourceFile(parameters.columns().getDb(), parameters.packageName())
+                parameters -> new DbBeansSourceFile(parameters.columns().getDb(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "LabelManagerSource",
-                parameters -> new LabelManagerSourceFile(parameters.packageName())
+                parameters -> new LabelManagerSourceFile(parameters.packageName(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "LocalFileManagerSource",
-                parameters -> new LocalFileManagerSourceFile(parameters.packageName())
+                parameters -> new LocalFileManagerSourceFile(parameters.packageName(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanBaseSource",
-                parameters -> new BeanBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanSource",
-                parameters -> new BeanSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanEditorBaseSource",
-                parameters -> new BeanEditorBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanEditorBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanEditorSource",
-                parameters -> new BeanEditorSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanEditorSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanParametersBaseSource",
-                parameters -> new BeanParametersBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanParametersBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanParametersSource",
-                parameters -> new BeanParametersSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanParametersSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "LocalDbBeanFormatterSource",
-                parameters -> new LocalDbBeanFormatterSourceFile(parameters.packageName())
+                parameters -> new LocalDbBeanFormatterSourceFile(parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanFormatterBaseSource",
-                parameters -> new BeanFormatterBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanFormatterBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanFormatterSource",
-                parameters -> new BeanFormatterSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanFormatterSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanFormatterInterfaceBaseSource",
-                parameters -> new BeanFormatterInterfaceBaseSourceCode(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanFormatterInterfaceBaseSourceCode(parameters.beanName(), parameters.packageName(),
+                        parameters.columns())
         );
         CREATION_FUNCTIONS.put(
                 "BeanFormatterInterfaceSource",
-                parameters -> new BeanFormatterInterfaceSourceCode(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanFormatterInterfaceSourceCode(parameters.beanName(), parameters.packageName(),
+                        parameters.columns())
         );
         CREATION_FUNCTIONS.put(
                 "FormattedBeanDataBaseSource",
-                parameters -> new FormattedBeanDataBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new FormattedBeanDataBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "FormattedBeanDataSource",
-                parameters -> new FormattedBeanDataSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new FormattedBeanDataSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "HTMLViewSource",
-                parameters -> new HTMLViewSourceFile(parameters.packageName())
+                parameters -> new HTMLViewSourceFile(parameters.packageName(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanHTMLViewBaseSource",
-                parameters -> new BeanHTMLViewBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanHTMLViewBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanHTMLViewSource",
-                parameters -> new BeanHTMLViewSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanHTMLViewSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "LocalMasterTableViewSource",
-                parameters -> new LocalMasterTableViewSourceFile(parameters.packageName())
+                parameters -> new LocalMasterTableViewSourceFile(parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanMasterTableViewBaseSource",
-                parameters -> new BeanMasterTableViewBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanMasterTableViewBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanMasterTableViewSource",
-                parameters -> new BeanMasterTableViewSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanMasterTableViewSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BaseServlet",
-                parameters -> new BaseServletSourceFile(parameters.packageName())
+                parameters -> new BaseServletSourceFile(parameters.packageName(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanServletBaseSource",
-                parameters -> new BeanServletBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanServletBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanServletSource",
-                parameters -> new BeanServletSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanServletSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "XMLConfigSource",
@@ -157,15 +178,17 @@ class SourceFiles {
         );
         CREATION_FUNCTIONS.put(
                 "BeanCsvImportSource",
-                parameters -> new BeanCsvImportSourceFile(parameters.beanName(), parameters.packageName())
+                parameters -> new BeanCsvImportSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "BeanCsvImportBaseSource",
-                parameters -> new BeanCsvImportBaseSourceFile(parameters.beanName(), parameters.packageName(), parameters.columns())
+                parameters -> new BeanCsvImportBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
                 "LocalCsvImportSource",
-                parameters -> new LocalCsvImportSourceFile(parameters.packageName())
+                parameters -> new LocalCsvImportSourceFile(parameters.packageName(), parameters.projectParameters())
         );
     }
 

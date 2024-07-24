@@ -179,6 +179,11 @@ abstract class ConfigData {
         return xpath.evaluateExpression(path, node, XPathNodes.class);
     }
 
+    boolean nodeExists(String path) throws XPathExpressionException {
+        var nodes = getNodeList(path);
+        return nodes != null && nodes.size() > 0;
+    }
+
     boolean nodeExists(String path, Node node) throws XPathExpressionException {
         var nodes = getNodeList(path, node);
         return nodes != null && nodes.size() > 0;

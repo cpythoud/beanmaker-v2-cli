@@ -35,7 +35,11 @@ public class RegenerateAllCommand implements Callable<Integer> {
             msg.notice(table + " is now the current table.");
             var columns = GenerateCodeCommand.retrieveColumns(assetsData, projectData, tableData);
             var sourceFiles = new SourceFiles(
-                    new SourceFileParameters(tableData.getPackageName(), tableData.getBeanName(), columns));
+                    new SourceFileParameters(
+                            tableData.getPackageName(),
+                            tableData.getBeanName(),
+                            columns,
+                            projectData.getProjectParameters()));
             sourceFiles.refreshFiles(sourceDir, false, msg);
         }
 

@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import java.net.URISyntaxException;
 
+import java.util.Collections;
+import java.util.Set;
+
 import java.util.concurrent.Callable;
 
 @Command(name = "project", description = "Manage project parameters")
@@ -36,6 +39,12 @@ class ProjectCommand implements Callable<Integer> {
     @Option(names = { "-s", "--show"}, description = "show project configuration")
     boolean show;
 
+    @Option(names = { "--ap", "--activate-parameter"}, description = "activate code generator parameter")
+    Set<ProjectParameter> activatedParameters;
+
+    @Option(names = { "--dap", "--deactivate-parameter"}, description = "deactivate code generator parameter")
+    Set<ProjectParameter> deactivatedParameters;
+
 
     @Override
     public Integer call() throws ParserConfigurationException, IOException, SAXException, URISyntaxException, XPathException {
@@ -52,7 +61,13 @@ class ProjectCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
 
         // * Check if data change options passed
-        boolean dataChangeRequested = name != null || description != null || database != null || defaultPackage != null || genSourceDir != null;
+        boolean dataChangeRequested = name != null
+                || description != null
+                || database != null
+                || defaultPackage != null
+                || genSourceDir != null
+                || (activatedParameters != null && !activatedParameters.isEmpty())
+                || (deactivatedParameters != null && !deactivatedParameters.isEmpty());
 
         // * No option passed, notify and exit
         if (!dataChangeRequested && !show) {
@@ -77,6 +92,9 @@ class ProjectCommand implements Callable<Integer> {
                 configChanged = projectData.changeDefaultPackage(defaultPackage) || configChanged;
             if (genSourceDir != null)
                 configChanged = projectData.changeGenSourceDir(genSourceDir) || configChanged;
+            if ((activatedParameters != null && !activatedParameters.isEmpty()) ||
+                    (deactivatedParameters != null && !deactivatedParameters.isEmpty()))
+                configChanged = projectData.updateParameters(activatedParameters, deactivatedParameters);
 
             // * If options do not change configuration, notify and exit
             if (!configChanged) {
@@ -91,6 +109,12 @@ class ProjectCommand implements Callable<Integer> {
             // * Check database code
             if (CommandHelper.unknownDatabaseConfigurationInProject(assetsData, msg, projectData.getDatabase()))
                 return ReturnCode.USER_ERROR.code();
+
+            // * Check that parameters are not activated and deactivated at the same time
+            if (activatedParameters != null && deactivatedParameters != null && !Collections.disjoint(activatedParameters, deactivatedParameters)) {
+                msg.error("Cannot activate and deactivate the same parameter at the same time.");
+                return ReturnCode.USER_ERROR.code();
+            }
 
             // * Write new configuration to file
             projectData.writeConfigFile();

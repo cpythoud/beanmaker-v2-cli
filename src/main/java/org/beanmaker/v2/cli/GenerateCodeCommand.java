@@ -208,7 +208,11 @@ public class GenerateCodeCommand implements Callable<Integer>  {
 
         // * Generate classes
         var sourceFiles = new SourceFiles(
-                new SourceFileParameters(tableData.getPackageName(), tableData.getBeanName(), columns));
+                new SourceFileParameters(
+                        tableData.getPackageName(),
+                        tableData.getBeanName(),
+                        columns,
+                        projectData.getProjectParameters()));
 
         // * Create source files skipping already existing editable classes unless --force-refresh is set
         if (fileSet.all)

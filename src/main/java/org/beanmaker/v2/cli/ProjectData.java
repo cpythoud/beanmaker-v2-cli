@@ -1,5 +1,7 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.codegen.ProjectParameters;
+
 import org.beanmaker.v2.util.Strings;
 
 import org.xml.sax.SAXException;
@@ -10,7 +12,9 @@ import javax.xml.xpath.XPathExpressionException;
 
 import java.io.IOException;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 class ProjectData extends ConfigData {
 
@@ -19,6 +23,9 @@ class ProjectData extends ConfigData {
     private String database;
     private String defaultPackage;
     private String genSourceDir;
+    private boolean editorFieldsConstructor;
+    private boolean sealedClasses;
+    private boolean databaseProviderReference;
 
     ProjectData() throws IOException, SAXException, ParserConfigurationException, XPathExpressionException {
         super(PROJECT_CONFIG_FILE, PROJECT_SCHEMA_FILE, false, false);
@@ -31,11 +38,10 @@ class ProjectData extends ConfigData {
             database = getStringValue("/project/database/text()");
             defaultPackage = getStringValue("/project/default-package/text()");
             genSourceDir = getStringValue("/project/gen-source-dir/text()");
+            editorFieldsConstructor = nodeExists("/project/parameters/editor-fields-constructor");
+            sealedClasses = nodeExists("/project/parameters/sealed-classes");
+            databaseProviderReference = nodeExists("/project/parameters/database-provider-reference");
         }
-    }
-
-    String getName() {
-        return name;
     }
 
     void setName(String name) {
@@ -48,10 +54,6 @@ class ProjectData extends ConfigData {
 
         setName(name);
         return true;
-    }
-
-    String getDescription() {
-        return description;
     }
 
     void setDescription(String description) {
@@ -114,6 +116,66 @@ class ProjectData extends ConfigData {
         return true;
     }
 
+    boolean updateParameters(Set<ProjectParameter> activatedParameters, Set<ProjectParameter> deactivatedParameters) {
+        boolean changed = false;
+        if (activatedParameters != null) {
+            if (activatedParameters.contains(ProjectParameter.EDITOR_FIELDS_CONSTRUCTOR)) {
+                if (!editorFieldsConstructor) {
+                    changed = true;
+                    editorFieldsConstructor = true;
+                }
+            }
+            if (activatedParameters.contains(ProjectParameter.SEALED_CLASSES)) {
+                if (!sealedClasses) {
+                    changed = true;
+                    sealedClasses = true;
+                }
+            }
+            if (activatedParameters.contains(ProjectParameter.DATABASE_PROVIDER_REFERENCE)) {
+                if (!databaseProviderReference) {
+                    changed = true;
+                    databaseProviderReference = true;
+                }
+            }
+        }
+        if (deactivatedParameters != null) {
+            if (deactivatedParameters.contains(ProjectParameter.EDITOR_FIELDS_CONSTRUCTOR)) {
+                if (editorFieldsConstructor) {
+                    changed = true;
+                    editorFieldsConstructor = false;
+                }
+            }
+            if (deactivatedParameters.contains(ProjectParameter.SEALED_CLASSES)) {
+                if (sealedClasses) {
+                    changed = true;
+                    sealedClasses = false;
+                }
+            }
+            if (deactivatedParameters.contains(ProjectParameter.DATABASE_PROVIDER_REFERENCE)) {
+                if (databaseProviderReference) {
+                    changed = true;
+                    databaseProviderReference = false;
+                }
+            }
+        }
+        return changed;
+    }
+
+    private Set<ProjectParameter> getParameterSet() {
+        var set = new LinkedHashSet<ProjectParameter>();
+        if (editorFieldsConstructor)
+            set.add(ProjectParameter.EDITOR_FIELDS_CONSTRUCTOR);
+        if (sealedClasses)
+            set.add(ProjectParameter.SEALED_CLASSES);
+        if (databaseProviderReference)
+            set.add(ProjectParameter.DATABASE_PROVIDER_REFERENCE);
+        return set;
+    }
+
+    ProjectParameters getProjectParameters() {
+        return new CodeGenerationParameters(getParameterSet());
+    }
+
     void writeConfigFile() throws IOException {
         var root = createRootElement("project", "config");
         root.addChild(createXMLElement("name", name));
@@ -122,6 +184,14 @@ class ProjectData extends ConfigData {
         root.addChild(createXMLElement("database", database));
         root.addChild(createXMLElement("default-package", defaultPackage));
         root.addChild(createXMLElement("gen-source-dir", genSourceDir));
+
+        var parameterSet  = getParameterSet();
+        if (!parameterSet.isEmpty()) {
+            var parameterElements = createXMLElement("parameters");
+            for (var parameter : parameterSet)
+                parameterElements.addChild(createXMLElement(parameter.xmlName(), "true"));
+            root.addChild(parameterElements);
+        }
 
         writeConfig(root.toString());
     }
@@ -136,9 +206,22 @@ class ProjectData extends ConfigData {
         table.addLine("DEFAULT PACKAGE", defaultPackage);
         table.addLine("SOURCE DIR", genSourceDir);
 
+        var parameterSet  = getParameterSet();
+        if (!parameterSet.isEmpty())
+            table.addLine("CODEGEN PARAMETERS", format(parameterSet));
+
         TableData.getCurrentTableName().ifPresent(currentTable -> table.addLine("CURRENT TABLE", currentTable));
 
         return table.toString();
+    }
+
+    private String format(Set<ProjectParameter> parameterSet) {
+        var parameters = new StringBuilder();
+        for (ProjectParameter parameter : parameterSet) {
+            parameters.append(parameter.xmlName()).append(", ");
+        }
+        parameters.delete(parameters.length() - 2, parameters.length());
+        return parameters.toString();
     }
 
 }

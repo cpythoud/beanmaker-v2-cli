@@ -12,6 +12,15 @@
                 <xs:element name="database" type="xs:string"/>
                 <xs:element name="default-package" type="xs:string"/>
                 <xs:element name="gen-source-dir" type="xs:string"/>
+                <xs:element name="parameters" minOccurs="0">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element name="editor-fields-constructor" type="xs:boolean" minOccurs="0" />
+                            <xs:element name="sealed-classes" type="xs:boolean" minOccurs="0" />
+                            <xs:element name="database-provider-reference" type="xs:boolean" minOccurs="0" />
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
             </xs:all>
         </xs:complexType>
     </xs:element>

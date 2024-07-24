@@ -25,8 +25,10 @@ public class BeanmakerCommand {
 
     public static void main(String[] args) {
         int exitCode;
-        try (AnsiConsole ansi = AnsiConsole.windowsInstall()) {
-            exitCode = new CommandLine(new BeanmakerCommand()).execute(args);
+        try (AnsiConsole ignored = AnsiConsole.windowsInstall()) {
+            var cmd = new CommandLine(new BeanmakerCommand());
+            cmd.setCaseInsensitiveEnumValuesAllowed(true);
+            exitCode = cmd.execute(args);
         }
         System.exit(exitCode);
     }
