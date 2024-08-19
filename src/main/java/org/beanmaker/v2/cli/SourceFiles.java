@@ -6,10 +6,6 @@ import org.beanmaker.v2.codegen.BeanCsvImportBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanCsvImportSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorSourceFile;
-import org.beanmaker.v2.codegen.BeanFormatterBaseSourceFile;
-import org.beanmaker.v2.codegen.BeanFormatterInterfaceBaseSourceCode;
-import org.beanmaker.v2.codegen.BeanFormatterInterfaceSourceCode;
-import org.beanmaker.v2.codegen.BeanFormatterSourceFile;
 import org.beanmaker.v2.codegen.BeanHTMLViewBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanHTMLViewSourceFile;
 import org.beanmaker.v2.codegen.BeanMakerSourceFile;
@@ -94,26 +90,6 @@ class SourceFiles {
                 "LocalDbBeanFormatterSource",
                 parameters -> new LocalDbBeanFormatterSourceFile(parameters.packageName(),
                         parameters.projectParameters())
-        );
-        CREATION_FUNCTIONS.put(
-                "BeanFormatterBaseSource",
-                parameters -> new BeanFormatterBaseSourceFile(parameters.beanName(), parameters.packageName(),
-                        parameters.columns(), parameters.projectParameters())
-        );
-        CREATION_FUNCTIONS.put(
-                "BeanFormatterSource",
-                parameters -> new BeanFormatterSourceFile(parameters.beanName(), parameters.packageName(),
-                        parameters.projectParameters())
-        );
-        CREATION_FUNCTIONS.put(
-                "BeanFormatterInterfaceBaseSource",
-                parameters -> new BeanFormatterInterfaceBaseSourceCode(parameters.beanName(), parameters.packageName(),
-                        parameters.columns())
-        );
-        CREATION_FUNCTIONS.put(
-                "BeanFormatterInterfaceSource",
-                parameters -> new BeanFormatterInterfaceSourceCode(parameters.beanName(), parameters.packageName(),
-                        parameters.columns())
         );
         CREATION_FUNCTIONS.put(
                 "FormattedBeanDataBaseSource",
