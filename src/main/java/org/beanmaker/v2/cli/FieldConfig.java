@@ -117,7 +117,7 @@ class FieldConfig {
         fieldElement.addChild(ConfigData.createXMLElement("java-name", javaName));
         fieldElement.addChild(ConfigData.createXMLElement("required", required));
         fieldElement.addChild(ConfigData.createXMLElement("unique", unique));
-        if (associatedBeanClass != null)
+        if (!Strings.isEmpty(associatedBeanClass))
             fieldElement.addChild(ConfigData.createXMLElement("bean-class", associatedBeanClass));
 
         return fieldElement;
