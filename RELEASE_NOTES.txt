@@ -13,3 +13,7 @@ V2.0b (2024-07-10)
 - add 'regenerate-all' command
 - fix the xsi:schemaLocation attribute in the 'assets', 'projet' and 'table' xml configuration file (there is now
   a website available from which the schema files can be downloaded by development tools)
+
+V2.2 (2024-12-24)
+
+- this version will generate code using the newly released version 2.2 of Beanmaker V2

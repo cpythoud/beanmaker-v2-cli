@@ -7,7 +7,7 @@ import picocli.jansi.graalvm.AnsiConsole;
 
 @Command(
         name = "beanmaker",
-        version = "BeanMaker CLI 2.2-SNAPSHOT",
+        version = "BeanMaker CLI 2.2",
         mixinStandardHelpOptions = true,
         subcommands = {
                 BeanCommand.class,
