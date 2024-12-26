@@ -12,3 +12,4 @@ buildNumber.properties
 ~$beanmaker-cli.mmap.~$lock
 local-scripts/
 todo-next.txt
+.idea
