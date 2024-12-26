@@ -1,6 +1,7 @@
 package org.beanmaker.v2.cli;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,10 @@ import java.util.stream.Collectors;
 
 @Command(name = "regenerate-all", aliases = { "reg-all" }, description = "Regenerate code for all beans in project")
 public class RegenerateAllCommand implements Callable<Integer> {
+
+    @Option(names = "--force-refresh",
+            description = "force refresh of all source files, including the ones that can be edited; USE OF THIS OPTION WILL REMOVE ALL THE EDITING YOU MIGHT HAVE DONE: IT'S LIKE A FULL RESET OF THE BEANMAKER PART OF YOUR PROJECT'")
+    boolean forceRefresh;
 
     @Override
     public Integer call() throws Exception {
@@ -40,7 +45,7 @@ public class RegenerateAllCommand implements Callable<Integer> {
                             tableData.getBeanName(),
                             columns,
                             projectData.getProjectParameters()));
-            sourceFiles.refreshFiles(sourceDir, false, msg);
+            sourceFiles.refreshFiles(sourceDir, forceRefresh, msg);
         }
 
         return ReturnCode.SUCCESS.code();

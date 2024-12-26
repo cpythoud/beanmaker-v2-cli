@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
 @Command(name = "generate-code", aliases = { "gc" }, description = "Generate source files for current table")
 public class GenerateCodeCommand implements Callable<Integer>  {
 
-    @Option(names = "--force-refresh", description = "force refresh of all source files, including the ones who might have been manually modified (caution required)")
+    @Option(names = "--force-refresh", description = "force refresh of all source files, including the ones that can be edited: BE CAREFUL NOT TO LOOSE YOUR WORK")
     boolean forceRefresh;
 
     @ArgGroup(multiplicity = "1")
