@@ -8,6 +8,8 @@ import org.beanmaker.v2.codegen.BeanEditorBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorSourceFile;
 import org.beanmaker.v2.codegen.BeanHTMLViewBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanHTMLViewSourceFile;
+import org.beanmaker.v2.codegen.BeanHTMLWrapperBaseSourceFile;
+import org.beanmaker.v2.codegen.BeanHTMLWrapperSourceFile;
 import org.beanmaker.v2.codegen.BeanMakerSourceFile;
 import org.beanmaker.v2.codegen.BeanMasterTableViewBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanMasterTableViewSourceFile;
@@ -165,6 +167,16 @@ class SourceFiles {
         CREATION_FUNCTIONS.put(
                 "LocalCsvImportSource",
                 parameters -> new LocalCsvImportSourceFile(parameters.packageName(), parameters.projectParameters())
+        );
+        CREATION_FUNCTIONS.put(
+                "BeanHTMLWrapperBaseSource",
+                parameters -> new BeanHTMLWrapperBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
+        );
+        CREATION_FUNCTIONS.put(
+                "BeanHTMLWrapperSource",
+                parameters -> new BeanHTMLWrapperSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
         );
     }
 

@@ -50,6 +50,9 @@ public class GenerateCodeCommand implements Callable<Integer>  {
         @Option(names = { "--mt", "--master-tables" }, description = "create/refresh master table source files (includes read operations)")
         boolean masterTables;
 
+        @Option(names = { "--hw", "--html-wrappers" }, description = "create/refresh html wrapper and html dialog source files (read/write through html forms/modals, create servlets to do form processing)")
+        boolean htmlWrapper;
+
         @Option(names = { "-r", "--refresh" }, description = "refresh existing files")
         boolean refresh;
 
@@ -229,6 +232,8 @@ public class GenerateCodeCommand implements Callable<Integer>  {
             writeFiles(SourceFileList.CSV, sourceFiles, sourceDir, msg);
         else if (fileSet.masterTables)
             writeFiles(SourceFileList.MASTER_TABLES, sourceFiles, sourceDir, msg);
+        else if (fileSet.htmlWrapper)
+            writeFiles(SourceFileList.HTML_WRAPPER, sourceFiles, sourceDir, msg);
         else if (fileSet.refresh)
             sourceFiles.refreshFiles(sourceDir, forceRefresh, msg);
         else if (fileSet.fileReference != null) {
