@@ -17,6 +17,8 @@ class FieldConfig {
     private boolean required;
     private boolean unique;
     private String associatedBeanClass;
+    private int decimals;
+    private boolean positiveOnly;
 
     FieldConfig(String sqlName) {
         this.sqlName = sqlName;
@@ -109,6 +111,42 @@ class FieldConfig {
         return true;
     }
 
+    int getDecimals() {
+        return decimals;
+    }
+
+    void setDecimals(int decimals) {
+        this.decimals = decimals;
+    }
+
+    boolean changeDecimals(int decimals) {
+        if (this.decimals == decimals)
+            return false;
+
+        setDecimals(decimals);
+        return true;
+    }
+
+    boolean isPositiveOnly() {
+        return positiveOnly;
+    }
+
+    void setPositiveOnly(boolean positiveOnly) {
+        this.positiveOnly = positiveOnly;
+    }
+
+    boolean changePositiveOnly(boolean positiveOnly) {
+        if (this.positiveOnly == positiveOnly)
+            return false;
+
+        setPositiveOnly(positiveOnly);
+        return true;
+    }
+
+    public boolean isDecimalValue() {
+        return javaType.equals("DecimalValue");
+    }
+
     XMLElement getXMLElement() {
         var fieldElement = new XMLElement("field");
 
@@ -119,6 +157,8 @@ class FieldConfig {
         fieldElement.addChild(ConfigData.createXMLElement("unique", unique));
         if (!Strings.isEmpty(associatedBeanClass))
             fieldElement.addChild(ConfigData.createXMLElement("bean-class", associatedBeanClass));
+        fieldElement.addChild(ConfigData.createXMLElement("decimals", decimals));
+        fieldElement.addChild(ConfigData.createXMLElement("positive-only", positiveOnly));
 
         return fieldElement;
     }
@@ -129,7 +169,9 @@ class FieldConfig {
                 && Objects.equals(javaName, column.getJavaName())
                 && required == column.isRequired()
                 && unique == column.isUnique()
-                && Objects.equals(associatedBeanClass, nullifyAssociatedBean(column));
+                && Objects.equals(associatedBeanClass, nullifyAssociatedBean(column))
+                && decimals == column.getDecimals()
+                && positiveOnly == !column.canBeNegative();
     }
 
     private String nullifyAssociatedBean(Column column) {
@@ -137,6 +179,20 @@ class FieldConfig {
         if (Strings.isEmpty(value))
             return null;
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "FieldConfig{" +
+                "sqlName='" + sqlName + '\'' +
+                ", javaType='" + javaType + '\'' +
+                ", javaName='" + javaName + '\'' +
+                ", required=" + required +
+                ", unique=" + unique +
+                ", associatedBeanClass='" + associatedBeanClass + '\'' +
+                ", decimals=" + decimals +
+                ", positiveOnly=" + positiveOnly +
+                '}';
     }
 
 }

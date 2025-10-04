@@ -171,6 +171,8 @@ public class GenerateCodeCommand implements Callable<Integer>  {
                 columns.setUnique(index, fieldConfig.isUnique());
                 if (fieldConfig.getAssociatedBeanClass() != null)
                     columns.setAssociatedBeanClass(index, fieldConfig.getAssociatedBeanClass());
+                columns.setDecimals(index, fieldConfig.getDecimals());
+                columns.canBeNegative(index, !fieldConfig.isPositiveOnly());
             });
         }
         for (var relationship: tableData.getRelationships())

@@ -21,6 +21,8 @@
                                         <xs:element name="java-name" type="xs:string"/>
                                         <xs:element name="required" type="xs:boolean"/>
                                         <xs:element name="unique" type="xs:boolean"/>
+                                        <xs:element name="decimals" type="xs:integer" minOccurs="0"/>
+                                        <xs:element name="positive-only" type="xs:boolean" minOccurs="0"/>
                                         <xs:element name="bean-class" type="xs:string" minOccurs="0"/>
                                     </xs:all>
                                 </xs:complexType>

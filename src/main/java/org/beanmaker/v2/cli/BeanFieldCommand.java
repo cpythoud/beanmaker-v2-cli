@@ -50,6 +50,20 @@ class BeanFieldCommand implements Callable<Integer> {
     @Option(names = { "--abc", "--associated-bean-class" }, paramLabel = "<associated-bean-class>", description = "bean class associated to id_field")
     String associatedBeanClass;
 
+    @Option(names = { "--dec", "--decimals" }, paramLabel = "<decimals>", description = "number of decimals for numeric fields")
+    Integer decimals;
+
+    @ArgGroup
+    Sign sign;
+
+    static class Sign {
+        @Option(names = { "--pos", "--positive" }, description = "mark numeric field as positive only")
+        boolean positive;
+
+        @Option(names = { "--neg", "--negative" }, description = "mark numeric field that can be negative")
+        boolean negative;
+    }
+
     @Parameters(index = "0", paramLabel = "<db-field>", description = "name of field in database (can type only beginning of field name)")
     String dbField;
 
@@ -80,7 +94,9 @@ class BeanFieldCommand implements Callable<Integer> {
             return ReturnCode.USER_ERROR.code();
 
         // * No option passed, notify and exit
-        if (javaType == null && javaName == null && required == null && unique == null && associatedBeanClass == null) {
+        if (javaType == null && javaName == null && required == null && unique == null && associatedBeanClass == null
+                && decimals == null && sign == null)
+        {
             msg.status(Status.NOTICE)
                     .printStatus()
                     .print("No option has been provided. Configuration unchanged. To see the bean configuration use the ")
@@ -124,6 +140,14 @@ class BeanFieldCommand implements Callable<Integer> {
 
         if (associatedBeanClass != null)
             configChanged = fieldConfig.changeAssociatedBeanClass(associatedBeanClass) || configChanged;
+
+        if (decimals != null) {
+            configChanged = fieldConfig.changeDecimals(decimals) || configChanged;
+        }
+
+        if (sign != null) {
+            configChanged = fieldConfig.changePositiveOnly(sign.positive) || configChanged;
+        }
 
         // * If options do not change configuration, notify and exit
         if (!configChanged) {

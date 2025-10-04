@@ -53,6 +53,8 @@ class TableData extends ConfigData {
                 fieldConfig.setRequired(getBooleanValue("required", fieldConfigNode));
                 fieldConfig.setUnique(getBooleanValue("unique", fieldConfigNode));
                 fieldConfig.setAssociatedBeanClass(getStringValue("bean-class", fieldConfigNode));
+                fieldConfig.setDecimals(getIntValue("decimals", fieldConfigNode, 2));
+                fieldConfig.setPositiveOnly(getBooleanValue("positive-only", fieldConfigNode, false));
                 fields.put(sqlName, fieldConfig);
             }
             for (var relationshipConfigNode: getNodeList("table/relationships/relationship")) {
@@ -281,7 +283,15 @@ class TableData extends ConfigData {
         if (column.isItemOrder() && !column.isUnique())
             return "ASSOCIATED FIELD: " + column.getItemOrderAssociatedField();
 
+        if (column.isDecimalValue())
+            return getDecimalValueInfo(column);
+
         return "";
+    }
+
+    private String getDecimalValueInfo(Column column) {
+        return "DECIMALS: " + column.getDecimals() + ", "
+                + (column.canBeNegative() ? "NEGATIVE OK" : "POSITIVE ONLY");
     }
 
     private String getComplementaryInfo(Column column, FieldConfig field) {
@@ -291,7 +301,15 @@ class TableData extends ConfigData {
         if (column.isItemOrder() && !column.isUnique())
             return "ASSOCIATED FIELD: " + getItemOrderAssociatedField();
 
+        if (field.isDecimalValue())
+            return getDecimalValueInfo(field);
+
         return "";
+    }
+
+    private String getDecimalValueInfo(FieldConfig field) {
+        return "DECIMALS: " + field.getDecimals() + ", "
+                + (field.isPositiveOnly() ? "POSITIVE ONLY" : "NEGATIVE OK");
     }
 
     private String getRelationshipsTable() {
@@ -336,6 +354,8 @@ class TableData extends ConfigData {
         config.setRequired(column.isRequired());
         config.setUnique(column.isUnique());
         config.setAssociatedBeanClass(column.getAssociatedBeanClass());
+        config.setDecimals(column.getDecimals());
+        config.setPositiveOnly(!column.canBeNegative());
         return config;
     }
 
