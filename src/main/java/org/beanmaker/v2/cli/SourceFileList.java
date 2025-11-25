@@ -39,69 +39,74 @@ enum SourceFileList {
 
     private static class FileLists {  // * Lists must be in inner class, otherwise we have a forward reference problem
         private static final List<String> ALL_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "LocalDbBeanFormatterSource", "FormattedBeanDataSource", "HTMLViewSource", "BeanHTMLViewSource",
-                "LocalMasterTableViewSource", "BeanMasterTableViewSource", "BeanHTMLWrapperSource", "BaseServlet",
-                "BeanServletSource", "BeanCsvImportSource");
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
+                "BeanParametersSource", "LocalDbBeanFormatterSource", "FormattedBeanDataSource", "HTMLViewSource",
+                "BeanHTMLViewSource", "LocalMasterTableViewSource", "BeanMasterTableViewSource",
+                "BeanHTMLWrapperSource", "BaseServlet", "BeanServletSource", "BeanCsvImportSource");
 
-        private static final List<String> ALL_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource", "BeanEditorBaseSource",
-                "BeanParametersBaseSource", "FormattedBeanDataBaseSource", "BeanHTMLViewBaseSource",
-                "BeanMasterTableViewBaseSource", "BeanHTMLWrapperBaseSource", "BeanServletBaseSource", "BeanCsvImportBaseSource");
+        private static final List<String> ALL_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
+                "BeanDataModelBaseSource",  "BeanEditorBaseSource", "BeanParametersBaseSource",
+                "FormattedBeanDataBaseSource", "BeanHTMLViewBaseSource", "BeanMasterTableViewBaseSource",
+                "BeanHTMLWrapperBaseSource", "BeanServletBaseSource", "BeanCsvImportBaseSource");
 
         private static final List<String> MOST_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "LocalDbBeanFormatterSource", "FormattedBeanDataSource", "HTMLViewSource", "BeanHTMLViewSource",
-                "LocalMasterTableViewSource", "BeanMasterTableViewSource", "BaseServlet", "BeanServletSource");
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
+                "BeanParametersSource", "LocalDbBeanFormatterSource", "FormattedBeanDataSource", "HTMLViewSource",
+                "BeanHTMLViewSource", "LocalMasterTableViewSource", "BeanMasterTableViewSource", "BaseServlet",
+                "BeanServletSource");
 
         private static final List<String> MOST_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
-                "BeanEditorBaseSource", "BeanParametersBaseSource", "FormattedBeanDataBaseSource",
-                "BeanHTMLViewBaseSource", "BeanMasterTableViewBaseSource", "BeanServletBaseSource");
+                "BeanDataModelBaseSource", "BeanEditorBaseSource", "BeanParametersBaseSource",
+                "FormattedBeanDataBaseSource", "BeanHTMLViewBaseSource", "BeanMasterTableViewBaseSource",
+                "BeanServletBaseSource");
 
         private static final List<String> DATA_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanParametersSource");
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanParametersSource");
 
         private static final List<String> DATA_FILES_NON_EDITABLE =
-                Arrays.asList("BeanBaseSource", "BeanParametersBaseSource");
+                Arrays.asList("BeanBaseSource", "BeanDataModelBaseSource",  "BeanParametersBaseSource");
 
         private static final List<String> EDITION_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "LocalDbBeanFormatterSource");
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
+                "BeanParametersSource", "LocalDbBeanFormatterSource");
 
         private static final List<String> EDITION_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
-                "BeanEditorBaseSource", "BeanParametersBaseSource");
+                "BeanDataModelBaseSource", "BeanEditorBaseSource", "BeanParametersBaseSource");
 
         private static final List<String> HTML_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "HTMLViewSource", "BeanHTMLViewSource", "BaseServlet", "BeanServletSource",
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
+                "BeanParametersSource", "HTMLViewSource", "BeanHTMLViewSource", "BaseServlet", "BeanServletSource",
                 "LocalDbBeanFormatterSource");
 
         private static final List<String> HTML_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
-                "BeanEditorBaseSource", "BeanParametersBaseSource", "BeanHTMLViewBaseSource", "BeanServletBaseSource");
+                "BeanDataModelBaseSource", "BeanEditorBaseSource", "BeanParametersBaseSource",
+                "BeanHTMLViewBaseSource", "BeanServletBaseSource");
 
         private static final List<String> CSV_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "LocalDbBeanFormatterSource", "BeanCsvImportSource", "LocalCsvImportSource");
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
+                "BeanParametersSource", "LocalDbBeanFormatterSource", "BeanCsvImportSource", "LocalCsvImportSource");
 
         private static final List<String> CSV_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
-                "BeanEditorBaseSource", "BeanParametersBaseSource", "BeanCsvImportBaseSource");
+                "BeanDataModelBaseSource", "BeanEditorBaseSource", "BeanParametersBaseSource",
+                "BeanCsvImportBaseSource");
 
         private static final List<String> MASTER_TABLES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "LocalDbBeanFormatterSource", "FormattedBeanDataSource", "LocalMasterTableViewSource",
-                "BeanMasterTableViewSource");
+                "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
+                "BeanParametersSource", "LocalDbBeanFormatterSource", "FormattedBeanDataSource",
+                "LocalMasterTableViewSource", "BeanMasterTableViewSource");
 
         private static final List<String> MASTER_TABLES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
-                "BeanEditorBaseSource", "BeanParametersBaseSource", "FormattedBeanDataBaseSource",
-                "BeanMasterTableViewBaseSource");
+                "BeanDataModelBaseSource", "BeanEditorBaseSource", "BeanParametersBaseSource",
+                "FormattedBeanDataBaseSource", "BeanMasterTableViewBaseSource");
 
-        private static final List<String> HTML_WRAPPER_FILES_EDITABLE = Arrays.asList("DbBeanSource", "LabelManagerSource",
-                "LocalFileManagerSource", "BeanSource", "BeanEditorSource", "BeanParametersSource",
-                "HTMLViewSource", "BeanHTMLViewSource", "BeanHTMLWrapperSource", "BaseServlet", "BeanServletSource",
-                "LocalDbBeanFormatterSource");
+        private static final List<String> HTML_WRAPPER_FILES_EDITABLE = Arrays.asList("DbBeanSource",
+                "LabelManagerSource", "LocalFileManagerSource", "BeanSource", "BeanDataModelSource",
+                "BeanEditorSource", "BeanParametersSource", "HTMLViewSource", "BeanHTMLViewSource",
+                "BeanHTMLWrapperSource", "BaseServlet", "BeanServletSource", "LocalDbBeanFormatterSource");
 
         private static final List<String> HTML_WRAPPER_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
-                "BeanEditorBaseSource", "BeanParametersBaseSource", "BeanHTMLViewBaseSource",
-                "BeanHTMLWrapperBaseSource", "BeanServletBaseSource");
+                "BeanDataModelBaseSource", "BeanEditorBaseSource", "BeanParametersBaseSource",
+                "BeanHTMLViewBaseSource", "BeanHTMLWrapperBaseSource", "BeanServletBaseSource");
     }
 
 }

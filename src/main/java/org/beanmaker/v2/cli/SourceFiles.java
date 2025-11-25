@@ -4,6 +4,8 @@ import org.beanmaker.v2.codegen.BaseServletSourceFile;
 import org.beanmaker.v2.codegen.BeanBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanCsvImportBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanCsvImportSourceFile;
+import org.beanmaker.v2.codegen.BeanDataModelBaseSourceFile;
+import org.beanmaker.v2.codegen.BeanDataModelSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorBaseSourceFile;
 import org.beanmaker.v2.codegen.BeanEditorSourceFile;
 import org.beanmaker.v2.codegen.BeanHTMLViewBaseSourceFile;
@@ -64,8 +66,18 @@ class SourceFiles {
                         parameters.columns(), parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
+                "BeanDataModelBaseSource",
+                parameters -> new BeanDataModelBaseSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.columns(), parameters.projectParameters())
+        );
+        CREATION_FUNCTIONS.put(
                 "BeanSource",
                 parameters -> new BeanSourceFile(parameters.beanName(), parameters.packageName(),
+                        parameters.projectParameters())
+        );
+        CREATION_FUNCTIONS.put(
+                "BeanDataModelSource",
+                parameters -> new BeanDataModelSourceFile(parameters.beanName(), parameters.packageName(),
                         parameters.projectParameters())
         );
         CREATION_FUNCTIONS.put(
