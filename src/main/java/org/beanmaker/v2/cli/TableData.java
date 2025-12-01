@@ -274,7 +274,7 @@ class TableData extends ConfigData {
     }
 
     private String getComplementaryInfo(Column column) {
-        if (column.isBad())
+        if (column.incompatibleSqlType())
             return "***INVALID FIELD***";
 
         if (column.couldHaveAssociatedBean())
@@ -285,6 +285,9 @@ class TableData extends ConfigData {
 
         if (column.isDecimalValue())
             return getDecimalValueInfo(column);
+
+        if (column.isOriginalBeanId())
+            return "ASSOCIATED BEAN CLASS: " + beanName;
 
         return "";
     }
