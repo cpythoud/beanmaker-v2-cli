@@ -1,5 +1,6 @@
 package org.beanmaker.v2.cli;
 
+import org.beanmaker.v2.codegen.Column;
 import org.beanmaker.v2.codegen.Columns;
 import org.beanmaker.v2.codegen.DatabaseServer;
 
@@ -195,11 +196,20 @@ class DatabaseConfig {
     }
 
     Columns getColumns(String table) {
-        return new Columns(getServerConnection(), database, table);
+        var cols = new Columns(getServerConnection(), database, table);
+        //debugPrint(cols);
+        return cols;
     }
 
     boolean hasTable(String table) {
         return getTables().contains(table);  // TODO: check performance/need to store table list or make a request for big projects
+    }
+
+    private void debugPrint(Columns columns) {
+        for (Column column: columns) {
+            System.out.println(column);
+            System.out.println();
+        }
     }
 
 }
