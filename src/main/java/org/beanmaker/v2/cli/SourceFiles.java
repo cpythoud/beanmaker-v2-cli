@@ -242,6 +242,7 @@ class SourceFiles {
         Path packagePath = resolvePackagePath(sourceDir, msg);
         var nonEditableFiles = SourceFileList.ALL.getNonEditableFiles();
 
+        var basicDataFiles = SourceFileList.DATA.getAllFiles();
         for (var fileReference: SourceFileList.ALL.getAllFiles()) {
             var sourceFileData = sourceFiles.get(fileReference);
             String filename = sourceFileData.getFilename();
@@ -257,6 +258,9 @@ class SourceFiles {
                     } else
                         msg.notice("Skipped existing file: " + filename);
                 }
+            } else if (basicDataFiles.contains(fileReference)) {
+                Files.writeString(sourceFile, sourceFileData.getSourceCode());
+                msg.ok("Created source file: " + filename);
             }
         }
     }
