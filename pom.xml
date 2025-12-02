@@ -11,7 +11,7 @@
     <!-- ! Version number should also be manually updated in deployment scripts                   ! -->
     <version>2.3-SNAPSHOT</version>
 
-    <name>Beanmaker V2, CLI</name>
+    <name>Beanmaker V2 CLI</name>
     <description>
         BeanMaker Framework Version 2, CLI Tool
     </description>
@@ -43,6 +43,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
         <beanmaker.version>2.3-SNAPSHOT</beanmaker.version>
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
     </properties>
 
     <dependencies>
@@ -108,6 +109,12 @@
     </distributionManagement>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
