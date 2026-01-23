@@ -171,6 +171,14 @@ abstract class ConfigData {
         return Integer.parseInt(value);
     }
 
+    Boolean getBooleanValue(String path, boolean defaultValue) throws XPathExpressionException {
+        String value = getStringValue(path, document);
+        if (value == null)
+            return defaultValue;
+
+        return Boolean.parseBoolean(value);
+    }
+
     Boolean getBooleanValue(String path, Node node) throws XPathExpressionException {
         String value = getStringValue(path, node);
         if (value == null)
