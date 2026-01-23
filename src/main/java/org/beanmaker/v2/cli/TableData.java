@@ -205,7 +205,7 @@ class TableData extends ConfigData {
         var tables = new StringBuilder();
 
         tables.append(getTitle("TABLE & BEAN"));
-        tables.append(getMainInfoTable());
+        tables.append(getMainInfoTable(columns));
         tables.append(getTitle("FIELDS"));
         tables.append(getFieldsTable(columns));
         if (!relationships.isEmpty()) {
@@ -220,7 +220,7 @@ class TableData extends ConfigData {
         return tables.toString();
     }
 
-    private String getMainInfoTable() {
+    private String getMainInfoTable(Columns columns) {
         var table = new TextTable(2);
 
         table.addLine("NAME", name);
@@ -228,6 +228,7 @@ class TableData extends ConfigData {
         table.addLine("BEAN", hasConfigFile() ? beanName : "");
         if (itemOrderAssociatedField != null)
             table.addLine("ITEM_ORDER ASSOCIATED FIELD", itemOrderAssociatedField);
+        table.addLine("VERSIONING", columns.isVersioned() ? "YES" : "NO");
 
         return table.toString();
     }
