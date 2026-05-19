@@ -17,6 +17,7 @@ import picocli.CommandLine.ParentCommand;
                 BeanDeleteRelationshipCommand.class,
                 BeanItemOrderCommand.class,
                 BeanShowCommand.class,
+                BeanShowConfigCommand.class,
                 CommandLine.HelpCommand.class
         }
 )

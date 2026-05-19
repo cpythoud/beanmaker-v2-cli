@@ -271,4 +271,15 @@ abstract class ConfigData {
         hasConfigFile = true;
     }
 
+    String getCurrentFileContent() {
+        if (!hasConfigFile)
+            throw new IllegalStateException("Config file " + configFile.toAbsolutePath() + " does not exist");
+
+        try {
+            return Files.readString(configFile, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
