@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.util.Collections;
 import java.util.concurrent.Callable;
 
 @Command(name = "generate-code", aliases = { "gc" }, description = "Generate source files for current table")
@@ -266,6 +267,7 @@ public class GenerateCodeCommand implements Callable<Integer>  {
         }
 
         msg.error("No file reference with name: " + fileSet.fileReference);
+        Collections.sort(allReferences);
         msg.status(Status.WARNING)
                 .println("File reference must be one of: " + String.join(", ", allReferences));
         return false;
