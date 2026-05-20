@@ -3,6 +3,8 @@ package org.beanmaker.v2.cli;
 import org.beanmaker.v2.codegen.Column;
 import org.beanmaker.v2.codegen.Columns;
 
+import org.beanmaker.v2.util.Strings;
+
 import org.jcodegen.html.xmlbase.XMLElement;
 
 import org.xml.sax.SAXException;
@@ -202,6 +204,7 @@ class TableData extends ConfigData {
     }
 
     String getTabularRepresentation(Columns columns) {
+        fixItemOrderData(columns);
         var tables = new StringBuilder();
 
         tables.append(getTitle("TABLE & BEAN"));
@@ -218,6 +221,11 @@ class TableData extends ConfigData {
         }
 
         return tables.toString();
+    }
+
+    private void fixItemOrderData(Columns columns) {
+        if (columns.hasItemOrder() && !Strings.isEmpty(itemOrderAssociatedField))
+            columns.setItemOrderAssociatedField(itemOrderAssociatedField);
     }
 
     private String getMainInfoTable(Columns columns) {
