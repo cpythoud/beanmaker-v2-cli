@@ -17,3 +17,8 @@ V2.0b (2024-07-10)
 V2.2 (2024-12-24)
 
 - this version will generate code using the newly released version 2.2 of Beanmaker V2
+
+V2.3 (2026-05-25)
+
+- this version will generate code using the newly released version 2.3 of Beanmaker V2
+
