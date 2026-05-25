@@ -6,10 +6,9 @@
     <artifactId>beanmaker2-cli</artifactId>
     <!-- ! Version should be in sync with Beanmaker library version in use                        ! -->
     <!-- ! Add a letter at the end of the version string, if a patch is required for the CLI only ! -->
-    <!-- ! Version number in BeanmakerCommand need to be manually updated to match the one below  ! -->
     <!-- ! The beanmaker.version property value should match the actual version in use            ! -->
-    <!-- ! Version number should also be manually updated in deployment scripts                   ! -->
-    <version>2.3-SNAPSHOT</version>
+    <!-- ! Version number should be manually updated in deployment scripts                        ! -->
+    <version>2.3</version>
 
     <name>Beanmaker V2 CLI</name>
     <description>
@@ -42,7 +41,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
-        <beanmaker.version>2.3-SNAPSHOT</beanmaker.version>
+        <beanmaker.version>2.3</beanmaker.version>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
     </properties>
 
