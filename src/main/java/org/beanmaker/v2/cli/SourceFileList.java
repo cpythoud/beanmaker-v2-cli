@@ -42,7 +42,8 @@ enum SourceFileList {
                 "LocalFileManagerSource", "BeanSource", "BeanDataModelSource", "BeanEditorSource",
                 "BeanParametersSource", "LocalDbBeanFormatterSource", "FormattedBeanDataSource", "HTMLViewSource",
                 "BeanHTMLViewSource", "LocalMasterTableViewSource", "BeanMasterTableViewSource",
-                "BeanHTMLWrapperSource", "BaseServlet", "BeanServletSource", "BeanCsvImportSource");
+                "BeanHTMLWrapperSource", "BaseServlet", "BeanServletSource", "BeanCsvImportSource",
+                "LocalCsvImportSource");
 
         private static final List<String> ALL_FILES_NON_EDITABLE = Arrays.asList("BeanBaseSource",
                 "BeanDataModelBaseSource",  "BeanEditorBaseSource", "BeanParametersBaseSource",
