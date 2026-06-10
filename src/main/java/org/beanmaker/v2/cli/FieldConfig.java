@@ -33,7 +33,7 @@ class FieldConfig {
     }
 
     void setJavaType(String javaType) {
-        if (!Column.JAVA_TYPES.contains(javaType))
+        if (!Column.SUPPORTED_JAVA_TYPES.contains(javaType))
             throw new IllegalArgumentException("Unsupported type: " + javaType);
 
         this.javaType = javaType;

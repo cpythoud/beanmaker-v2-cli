@@ -108,13 +108,14 @@ class CommandHelper {
 
     private CommandHelper() { }
 
-    static boolean unknownJavaType(String javaType, Console msg) {
-        if (!Column.JAVA_TYPES.contains(javaType)) {
+    static boolean unsupportedJavaType(String javaType, Console msg) {
+        if (!Column.SUPPORTED_JAVA_TYPES.contains(javaType)) {
             msg.status(Status.ERROR)
                     .printStatus()
                     .println(javaType + " is not a supported java type.");
             msg.status(Status.WARNING)
-                    .println("The supported java types are: " + Strings.concatWithSeparator(", ", Column.JAVA_TYPES));
+                    .println("The supported java types are: "
+                            + Strings.concatWithSeparator(", ", Column.SUPPORTED_JAVA_TYPES));
             return true;
         }
 
@@ -202,17 +203,6 @@ class CommandHelper {
                 .print("No option has been provided. Configuration unchanged. To see the current configuration use the ")
                 .print("bean show", Console.COMMAND_STYLE)
                 .println(" command.");
-    }
-
-    static boolean unsupportedJavaType(String javaType, Console msg) {
-        if (!Column.JAVA_TYPES.contains(javaType)) {
-            msg.error("Type " + javaType + " is not supported.");
-            msg.status(Status.WARNING)
-                    .println("Allowed java types are: " + String.join(", ", Column.JAVA_TYPES));
-            return true;
-        }
-
-        return false;
     }
 
 }

@@ -122,7 +122,7 @@ class BeanFieldCommand implements Callable<Integer> {
         boolean configChanged = false;
 
         if (javaType != null) {
-            if (CommandHelper.unknownJavaType(javaType, msg))
+            if (CommandHelper.unsupportedJavaType(javaType, msg))
                 return ReturnCode.USER_ERROR.code();
             configChanged = fieldConfig.changeJavaType(javaType);
         }
